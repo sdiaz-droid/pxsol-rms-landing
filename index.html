@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>RMS · PXSOL — Pricing inteligente para tu hotel</title>
+<meta name="description" content="El sistema de gestión de ingresos que evalúa demanda, set competitivo y pickup todos los días, y ajusta tus tarifas automáticamente." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="landing-styles.css">
+<link rel="stylesheet" href="landing-scenes.css">
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="landing-scenes.jsx"></script>
+
+<script type="text/babel">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "dark": false,
+  "speed": 1
+}/*EDITMODE-END*/;
+
+const DEMO_URL = "https://www.pxsol.com/contacto";
+const HUB_URL  = "https://www.pxsol.com/rms";
+
+function App() {
+  const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakToggle } = window;
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', t.dark ? 'dark' : 'light');
+  }, [t.dark]);
+
+  const speed = t.speed === 'slow' ? 0.5 : t.speed === 'fast' ? 1.6 : 1;
+
+  return (
+    <div className="landing">
+      {/* ─── Top nav ─── */}
+      <nav className="land-nav">
+        <div className="land-nav-brand">
+          <div className="land-nav-brand-mark">P</div>
+          <span>PXSOL</span>
+          <span className="land-nav-brand-sub">RMS</span>
+        </div>
+        <div className="land-nav-links">
+          <span>Producto</span>
+          <span>Precio</span>
+          <span>Casos</span>
+          <span>Contacto</span>
+        </div>
+        <a className="land-nav-cta" href={DEMO_URL} target="_blank" rel="noopener">Agendar demo →</a>
+      </nav>
+
+      {/* ─── Scene 1 · Hero ─── */}
+      <section className="scene scene-hero" data-screen-label="01 Hero">
+        <div>
+          <span className="scene-eyebrow">RMS · revenue management para hoteles</span>
+          <h1 className="hero-headline">
+            Precios que se mueven<br />
+            <em>a la velocidad del mercado.</em>
+          </h1>
+          <p className="hero-tagline">
+            Un sistema de pricing siempre activo. Evalúa demanda, set competitivo y pickup
+            todos los días, y ajusta tus tarifas sin que tengas que abrir una planilla.
+          </p>
+          <div className="hero-ctas">
+            <a className="hero-cta primary" href={DEMO_URL} target="_blank" rel="noopener">Agendar demo →</a>
+            <a className="hero-cta ghost" href="mailto:sdiaz@pxsol.com">Hablar con un experto</a>
+          </div>
+          <window.HeroTicker speed={speed} />
+        </div>
+      </section>
+
+      {/* ─── Scene 2 · Calendar ─── */}
+      <section className="scene" data-screen-label="02 Calendar">
+        <div className="scene-copy">
+          <span className="scene-eyebrow">diario de precios</span>
+          <h2 className="scene-title">
+            Una tarifa por día. <em>Cada día.</em>
+          </h2>
+          <p className="scene-lede">
+            Tu calendario se llena solo. Vendimia, fin de semana largo, mid-week flojo —
+            el sistema lo detecta antes que vos y propone una tarifa con su justificación.
+          </p>
+          <div className="scene-foot">
+            <span>1658 tarifas/mes</span>
+            <span className="scene-foot-dot"></span>
+            <span>30d forecast</span>
+            <span className="scene-foot-dot"></span>
+            <span>0 planillas</span>
+          </div>
+        </div>
+        <window.CalendarScene speed={speed} />
+      </section>
+
+      {/* ─── Scene 3 · Agent IA ─── */}
+      <div className="scene-ai-wrap">
+      <section className="scene alt" data-screen-label="03 Agent">
+        <window.AgentScene speed={speed} />
+        <div className="scene-copy">
+          <span className="scene-eyebrow">agente ia</span>
+          <h2 className="scene-title">
+            Un revenue manager que <em>nunca duerme.</em>
+          </h2>
+          <p className="scene-lede">
+            Detecta el evento, evalúa tres escenarios, te propone el cambio con su razonamiento
+            completo. Cuando confías, lo aplica solo dentro de los bordes que vos definiste.
+          </p>
+          <div className="scene-foot">
+            <span>94% precisión</span>
+            <span className="scene-foot-dot"></span>
+            <span>Bordes editables</span>
+            <span className="scene-foot-dot"></span>
+            <span>Auditable</span>
+          </div>
+        </div>
+      </section>
+      </div>
+
+      {/* ─── Scene 4 · Rate line chart ─── */}
+      <section className="scene" data-screen-label="04 Rate forecast">
+        <div className="scene-copy">
+          <span className="scene-eyebrow">forecast de tarifas</span>
+          <h2 className="scene-title">
+            La curva que <em>se adelanta</em> al pickup.
+          </h2>
+          <p className="scene-lede">
+            Comparamos tu tarifa con el set competitivo día a día y marcamos en naranja los días
+            donde el modelo recomienda actuar. Cuando aceptás, la proyección se vuelve realidad.
+          </p>
+          <div className="scene-foot">
+            <span>vs set comp</span>
+            <span className="scene-foot-dot"></span>
+            <span>30d ahead</span>
+            <span className="scene-foot-dot"></span>
+            <span>pickup-aware</span>
+          </div>
+        </div>
+        <window.RateLineScene speed={speed} />
+      </section>
+
+      {/* ─── Scene 5 · Compset ─── */}
+      <section className="scene alt" data-screen-label="05 Compset">
+        <window.CompsetScene speed={speed} />
+        <div className="scene-copy">
+          <span className="scene-eyebrow">set competitivo</span>
+          <h2 className="scene-title">
+            Sabé dónde estás parado, <em>todos los días.</em>
+          </h2>
+          <p className="scene-lede">
+            Comparación tarifa por tarifa, día por día, contra los hoteles de tu set.
+            Sabés si sos el más caro, el más barato, o si quedaste fuera del rango — y qué precio
+            aplicar para ganar la posición que querés.
+          </p>
+          <div className="scene-foot">
+            <span>Hasta 10 hoteles</span>
+            <span className="scene-foot-dot"></span>
+            <span>Ranking + posicionamiento</span>
+            <span className="scene-foot-dot"></span>
+            <span>Alertas en vivo</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Scene 6 · Rules ─── */}
+      <section className="scene" data-screen-label="06 Rules">
+        <div className="scene-copy">
+          <span className="scene-eyebrow">reglas automáticas</span>
+          <h2 className="scene-title">
+            Si esto pasa, <em>hacé esto otro.</em>
+          </h2>
+          <p className="scene-lede">
+            Encadená condiciones del mundo real: ocupación, pickup, set comp, eventos. Las
+            reglas corren cada hora y dejan un registro auditable de cada acción.
+          </p>
+          <div className="scene-foot">
+            <span>25 reglas</span>
+            <span className="scene-foot-dot"></span>
+            <span>Cada hora</span>
+            <span className="scene-foot-dot"></span>
+            <span>Reversibles</span>
+          </div>
+        </div>
+        <window.RulesScene speed={speed} />
+      </section>
+
+      {/* ─── Scene 7 · Scenarios ─── */}
+      <section className="scene alt" data-screen-label="07 Scenarios">
+        <window.ScenariosScene speed={speed} />
+        <div className="scene-copy">
+          <span className="scene-eyebrow">escenarios what-if</span>
+          <h2 className="scene-title">
+            Probá antes de <em>tocar tarifas reales.</em>
+          </h2>
+          <p className="scene-lede">
+            Aislá un periodo, aplicale un cambio porcentual o absoluto y mirá qué hubiera pasado
+            con tu revenue, ocupación y ADR. Si te gusta, lo aplicás de un clic.
+          </p>
+          <div className="scene-foot">
+            <span>Sandbox</span>
+            <span className="scene-foot-dot"></span>
+            <span>Backtest</span>
+            <span className="scene-foot-dot"></span>
+            <span>Apply en 1 clic</span>
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Scene 8 · Pickup ─── */}
+      <section className="scene" data-screen-label="08 Pickup">
+        <div className="scene-copy">
+          <span className="scene-eyebrow">pickup en vivo</span>
+          <h2 className="scene-title">
+            Las reservas <em>cuando todavía importan.</em>
+          </h2>
+          <p className="scene-lede">
+            Pickup de 24h y 72h con cada rango afectado y el revenue que entró. Si una fecha
+            se cae, lo ves antes de que el problema se vuelva una alerta.
+          </p>
+          <div className="scene-foot">
+            <span>24 / 72 h</span>
+            <span className="scene-foot-dot"></span>
+            <span>Por rango</span>
+            <span className="scene-foot-dot"></span>
+            <span>Tiempo real</span>
+          </div>
+        </div>
+        <window.PickupScene speed={speed} />
+      </section>
+
+      {/* ─── Final stats reveal ─── */}
+      <section className="scene scene-stats" data-screen-label="09 Stats">
+        <div style={{ maxWidth: 720 }}>
+          <span className="scene-eyebrow">resultados</span>
+          <h2 className="scene-title" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', maxWidth: '18ch' }}>
+            Lo que el modelo hace mientras vos hacés <em>otra cosa.</em>
+          </h2>
+          <p className="scene-lede" style={{ fontSize: 17, maxWidth: '56ch' }}>
+            Datos reales del Hotel Andina Mendoza (80 habitaciones · plan Enterprise) en los
+            últimos 30 días.
+          </p>
+        </div>
+        <window.FinalStats speed={speed} />
+
+        <div style={{ marginTop: 80, display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
+          <a className="hero-cta primary" href={DEMO_URL} target="_blank" rel="noopener">Agendar demo de 20 min →</a>
+          <a className="hero-cta ghost" href="mailto:sdiaz@pxsol.com">Contactar a Sofía</a>
+          <span className="hero-mark" style={{ marginLeft: 16 }}>PXSOL RMS · {new Date().toLocaleDateString('es-AR')}</span>
+        </div>
+      </section>
+
+      {/* ─── Tweaks bar ─── */}
+      <div className="land-tweaks">
+        <span className="land-tweaks-label">velocidad</span>
+        <button className={t.speed === 'slow' ? 'on' : ''} onClick={() => setTweak('speed', 'slow')}>0.5×</button>
+        <button className={(!t.speed || t.speed === 1 || t.speed === 'normal') ? 'on' : ''} onClick={() => setTweak('speed', 'normal')}>1×</button>
+        <button className={t.speed === 'fast' ? 'on' : ''} onClick={() => setTweak('speed', 'fast')}>1.6×</button>
+        <span className="land-tweaks-divider" />
+        <span className="land-tweaks-label">tema</span>
+        <button className={!t.dark ? 'on' : ''} onClick={() => setTweak('dark', false)}>Light</button>
+        <button className={t.dark ? 'on' : ''} onClick={() => setTweak('dark', true)}>Dark</button>
+      </div>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Animaciones">
+          <TweakRadio
+            label="Velocidad global"
+            value={t.speed === 1 || t.speed === 'normal' || !t.speed ? 'normal' : t.speed}
+            options={[
+              {value: 'slow', label: '0.5×'},
+              {value: 'normal', label: '1×'},
+              {value: 'fast', label: '1.6×'},
+            ]}
+            onChange={v => setTweak('speed', v)}
+          />
+        </TweakSection>
+        <TweakSection title="Apariencia">
+          <TweakToggle label="Modo oscuro" value={t.dark} onChange={v => setTweak('dark', v)} />
+        </TweakSection>
+      </TweaksPanel>
+    </div>
+  );
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(<App />);
+</script>
+</body>
+</html>
