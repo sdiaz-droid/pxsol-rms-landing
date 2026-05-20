@@ -3,7 +3,7 @@
 /* ─── Calendar scene ─── */
 .cal {
   position: absolute;
-  inset: 28px;
+  inset: 36px 14px 14px 14px;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
   grid-auto-rows: 1fr;
@@ -107,8 +107,8 @@
 /* ─── Agent scene ─── */
 .agent-canvas {
   display: flex; flex-direction: column;
-  padding: 20px 28px 28px;
-  gap: 14px;
+  padding: 40px 22px 22px;
+  gap: 12px;
   justify-content: flex-start;
 }
 .agent-trigger {
@@ -284,196 +284,62 @@
 .pickup-legend { display: flex; gap: 16px; font-size: 10.5px; color: var(--land-fg-3); font-family: var(--land-mono); letter-spacing: 0.04em; text-transform: uppercase; }
 .pickup-legend-dot { display: inline-block; width: 8px; height: 8px; border-radius: 999px; margin-right: 5px; vertical-align: middle; }
 
-/* ─── Compset heat-map scene ─── */
-.cmap-canvas {
-  padding: 22px 18px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.cmap-wrap {
-  display: flex;
-  flex-direction: column;
-  gap: 3px;
-  flex: 1;
-  min-height: 0;
-}
-.cmap-head-row {
+/* ─── Compset scene ─── */
+.compset-canvas { padding: 28px; display: flex; flex-direction: column; gap: 14px; justify-content: center; }
+.comp-row {
   display: grid;
-  grid-template-columns: 46px repeat(5, 1fr);
-  gap: 3px;
-  margin-bottom: 3px;
+  grid-template-columns: 110px 1fr 90px;
+  align-items: center;
+  gap: 12px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: opacity 360ms ease, transform 360ms cubic-bezier(0.22,1,0.36,1);
 }
-.cmap-col-head {
-  font-family: var(--land-mono);
-  font-size: 8.5px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--land-fg-4);
-  text-align: center;
-  padding-bottom: 2px;
+.comp-row.in { opacity: 1; transform: translateX(0); }
+.comp-name {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--land-fg-2);
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.cmap-col-head.mine { color: var(--land-primary-text); font-weight: 700; }
-.cmap-row {
-  display: grid;
-  grid-template-columns: 46px repeat(5, 1fr);
-  gap: 3px;
-  opacity: 0;
-  transform: translateY(5px);
-  transition: opacity 200ms ease, transform 220ms cubic-bezier(0.22,1,0.36,1);
-}
-.cmap-row.in { opacity: 1; transform: translateY(0); }
-.cmap-date {
-  font-family: var(--land-mono);
-  font-size: 8.5px;
-  color: var(--land-fg-4);
-  letter-spacing: 0.03em;
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  text-transform: lowercase;
-}
-.cmap-wknd {
-  font-size: 7px;
-  color: var(--land-primary);
-  background: var(--land-primary-soft);
-  padding: 1px 4px;
-  border-radius: 3px;
-  font-weight: 700;
-  letter-spacing: 0;
-}
-.cmap-cell {
+.comp-row.me .comp-name { color: var(--land-fg); font-weight: 700; }
+.comp-bar-track {
+  position: relative;
+  height: 26px;
   background: var(--land-muted);
-  border: 1px solid var(--land-border);
-  border-radius: 5px;
-  font-family: var(--land-mono);
-  font-size: 10px;
-  font-weight: 500;
-  text-align: center;
-  padding: 4px 2px;
-  color: var(--land-fg-3);
-  font-variant-numeric: tabular-nums;
-  transition: background 350ms ease, border-color 350ms ease, color 350ms ease;
+  border-radius: 6px;
+  overflow: hidden;
 }
-.cmap-cell.mine {
-  background: var(--land-primary-soft);
-  border-color: color-mix(in oklch, var(--land-primary) 30%, transparent);
-  color: var(--land-primary-text);
-  font-weight: 700;
-}
-.cmap-cell.cheap {
-  background: var(--land-green-soft);
-  border-color: color-mix(in oklch, var(--land-green) 25%, transparent);
-  color: var(--land-green);
-}
-.cmap-cell.pricey {
-  background: var(--land-red-soft);
-  border-color: color-mix(in oklch, var(--land-red) 18%, transparent);
-  color: var(--land-red);
-}
-.cmap-bottom {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-.cmap-rank {
-  display: flex;
-  align-items: baseline;
-  gap: 6px;
-  padding: 6px 12px;
-  background: var(--land-primary-soft);
-  border: 1px solid color-mix(in oklch, var(--land-primary) 22%, transparent);
-  border-radius: 8px;
-  flex-shrink: 0;
-}
-.cmap-rank-label {
-  font-family: var(--land-mono);
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--land-fg-3);
-  font-weight: 600;
-}
-.cmap-rank-num {
-  font-size: 21px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  font-variant-numeric: tabular-nums;
-  transition: color 400ms ease;
-}
-.cmap-rank-sub {
-  font-size: 10px;
-  color: var(--land-fg-4);
-  font-family: var(--land-mono);
-}
-.cmap-rank-up {
-  font-size: 9.5px;
-  font-weight: 700;
-  color: var(--land-green);
-  font-family: var(--land-mono);
-  letter-spacing: 0.04em;
-}
-.cmap-legend {
-  display: flex;
-  gap: 10px;
-  font-family: var(--land-mono);
-  font-size: 9px;
-  color: var(--land-fg-4);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-.cmap-sw {
-  display: inline-block;
-  width: 7px; height: 7px;
-  border-radius: 2px;
-  margin-right: 3px;
-  vertical-align: middle;
-}
-.cmap-sw.teal { background: var(--land-green); opacity: 0.7; }
-.cmap-sw.pink { background: var(--land-red);   opacity: 0.7; }
-.cmap-sw.me   { background: var(--land-primary); opacity: 0.85; }
-.cmap-sugg {
+.comp-bar-fill {
   position: absolute;
-  bottom: 16px; left: 16px; right: 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 9px 12px;
-  background: var(--land-surface);
-  border: 1px solid var(--land-border-strong);
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.10);
-  z-index: 10;
+  left: 0; top: 0; bottom: 0;
+  width: var(--w, 0%);
+  background: var(--land-fg-4);
+  border-radius: 6px;
+  transition: width 720ms cubic-bezier(0.22,1,0.36,1);
 }
-.cmap-sugg-badge {
+.comp-row.me .comp-bar-fill {
+  background: var(--land-primary);
+}
+.comp-rate {
+  font-size: 12.5px;
+  font-weight: 600;
+  text-align: right;
   font-family: var(--land-mono);
-  font-size: 9px;
-  font-weight: 800;
-  color: var(--land-primary);
-  background: var(--land-primary-soft);
-  border: 1px solid color-mix(in oklch, var(--land-primary) 25%, transparent);
-  padding: 2px 8px;
-  border-radius: 999px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  flex-shrink: 0;
 }
-.cmap-sugg-text {
-  font-size: 12px;
-  color: var(--land-fg);
-  flex: 1;
-  font-variant-numeric: tabular-nums;
-}
-.cmap-sugg-result {
+.comp-row.me .comp-rate { color: var(--land-primary-text); }
+.comp-rank {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
   font-family: var(--land-mono);
   font-size: 10px;
-  font-weight: 700;
-  color: var(--land-green);
-  white-space: nowrap;
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
   letter-spacing: 0.04em;
 }
 
@@ -691,7 +557,7 @@
 }
 .res-bar-fill {
   position: absolute; left: 0; top: 0; bottom: 0;
-  background: linear-gradient(90deg, var(--land-primary) 0%, oklch(0.65 0.21 28) 100%);
+  background: linear-gradient(90deg, var(--land-primary) 0%, #5147c1 100%);
   border-radius: 999px;
   width: 0%;
   transition: width 720ms cubic-bezier(0.22,1,0.36,1);

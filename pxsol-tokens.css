@@ -1,0 +1,82 @@
+/* ============================================
+   PXSOL Web Design System — Official Tokens
+   Mirrors /variables/_colors.css + _typography.css
+   ============================================ */
+
+:root {
+  /* ── Brand core ────────────────────────────────── */
+  --red: #C00001;
+  --blue: #1C1183;
+  --dark-blue: #000246;
+  --black-pxsol: #000017;
+
+  /* ── Neutros ───────────────────────────────────── */
+  --black: #0d0d0d;
+  --white: #F7F7F7;
+  --dark-gray: #262728;
+  --dark-gray2: #7a7a7b;
+  --light-gray: #74777A;
+  --gray: #c6c6c6;
+  --gray-opacity: rgba(116, 119, 122, 0.2);
+
+  /* ── Semánticos ────────────────────────────────── */
+  --green: #005028;
+  --light-blue: #E7F1FA;
+
+  /* ── Product color system ──────────────────────── */
+  --product-pms-color: #4AB29C;
+  --product-motor-de-reservas-color: #FF2A3A;
+  --product-channel-manager-color: #FF6700;
+  --product-sistema-distribucion-color: #492598;
+  --product-pagina-web-color: #89C350;
+  --product-crm-color: #f1c200;
+  --product-reportes-analiticas-color: #876061;
+  --product-erp-color: #876061;
+  --product-pos-color: #D12277;
+  --product-publicidad-google-color: #59b9eb;
+  --product-asistente-virtual-color: #236c5a;
+  --product-chat-bot-color: #9b6dce;
+
+  /* RMS no tiene color oficial en v1.3. Usamos el blue corporativo
+     como acento del producto (rationale: tech/confianza, sin chocar
+     con Motor de Reservas rojo ni con CRM amarillo). */
+  --product-rms-color: var(--blue);
+
+  /* ── Tipografía ────────────────────────────────── */
+  --typography: 'Work Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  --tipography-square: 'Square Peg', cursive;
+
+  /* ── Radius scale ──────────────────────────────── */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 50px;
+  --radius-pill: 100px;
+  --px-border-radius: 50px;
+
+  /* ── Shadows ───────────────────────────────────── */
+  --shadow-signature: 2px 2px 12px 0 rgba(1, 14, 61, 0.10);
+  --shadow-glow-blue: 0 0 20px 0 rgba(28, 17, 131, 0.30);
+  --shadow-dark-elev: 0 20px 60px 0 rgba(0, 0, 0, 0.30);
+
+  /* ── Gradient signatures ───────────────────────── */
+  --gradient-border-wb: linear-gradient(
+    268.24deg,
+    rgba(255, 255, 255, 0.20) -39.21%,
+    rgba(28, 17, 131, 0.20) 87.23%
+  );
+  --gradient-warm: linear-gradient(268.24deg, #DC0001 -39.21%, #1C1183 87.23%);
+}
+
+/* Body baseline */
+html, body {
+  background-color: var(--white);
+  color: var(--dark-gray);
+  font-family: var(--typography);
+  font-size: 16px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

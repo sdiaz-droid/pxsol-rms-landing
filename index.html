@@ -3,13 +3,19 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>RMS · PXSOL — Pricing inteligente para tu hotel</title>
-<meta name="description" content="El sistema de gestión de ingresos que evalúa demanda, set competitivo y pickup todos los días, y ajusta tus tarifas automáticamente." />
+<title>RMS · Pxsol — Pricing inteligente para tu hotel</title>
+<meta name="description" content="El Revenue Management System de Pxsol evalúa demanda, set competitivo y pickup todos los días, y ajusta tus tarifas sin abrir una planilla." />
+<meta property="og:title" content="RMS · Pxsol — Pricing inteligente para tu hotel" />
+<meta property="og:description" content="Pricing dinámico para hoteles. Siempre a la velocidad del mercado." />
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Square+Peg&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="pxsol-tokens.css">
 <link rel="stylesheet" href="landing-styles.css">
 <link rel="stylesheet" href="landing-scenes.css">
+<link rel="stylesheet" href="rms-pxsol.css">
 </head>
 <body>
 <div id="root"></div>
@@ -27,59 +33,181 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
   "speed": 1
 }/*EDITMODE-END*/;
 
-const DEMO_URL = "https://www.pxsol.com/contacto";
-const HUB_URL  = "https://www.pxsol.com/rms";
+const DEMO_URL  = "https://www.pxsol.com/es/demos";
+const PXSOL_URL = "https://www.pxsol.com/es-ar/precios";
 
-function App() {
-  const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakToggle } = window;
-  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
-
-  React.useEffect(() => {
-    document.documentElement.setAttribute('data-theme', t.dark ? 'dark' : 'light');
-  }, [t.dark]);
-
-  const speed = t.speed === 'slow' ? 0.5 : t.speed === 'fast' ? 1.6 : 1;
-
+// ─── Pxsol navbar ──────────────────────────────────────────────────────
+function PxNavbar() {
   return (
-    <div className="landing">
-      {/* ─── Top nav ─── */}
-      <nav className="land-nav">
-        <div className="land-nav-brand">
-          <div className="land-nav-brand-mark">P</div>
-          <span>PXSOL</span>
-          <span className="land-nav-brand-sub">RMS</span>
+    <nav className="px-nav" data-screen-label="00 Nav">
+      <div className="px-nav__inner">
+        <a href="https://www.pxsol.com" className="px-nav__brand">
+          <span className="px-nav__brand-dot"></span>
+          <span>pxsol</span>
+          <span className="px-nav__brand-sub">RMS</span>
+        </a>
+        <ul className="px-nav__links">
+          <li><a href="#features">Software hotelero</a></li>
+          <li><a href="#beneficios">Recursos</a></li>
+          <li><a href="#faq">Preguntas</a></li>
+          <li><a href="#footer">Nosotros</a></li>
+        </ul>
+        <div className="px-nav__actions">
+          <a className="px-nav__link" href="https://app.pxsol.com">Iniciar sesión</a>
+          <a className="px-btn --primary px-nav__cta" href={DEMO_URL}>
+            <span>Cotizar</span>
+          </a>
         </div>
-        <div className="land-nav-links">
-          <span>Producto</span>
-          <span>Precio</span>
-          <span>Casos</span>
-          <span>Contacto</span>
-        </div>
-        <a className="land-nav-cta" href={DEMO_URL} target="_blank" rel="noopener">Agendar demo →</a>
-      </nav>
+      </div>
+    </nav>
+  );
+}
 
-      {/* ─── Scene 1 · Hero ─── */}
-      <section className="scene scene-hero" data-screen-label="01 Hero">
-        <div>
-          <span className="scene-eyebrow">RMS · revenue management para hoteles</span>
-          <h1 className="hero-headline">
-            Precios que se mueven<br />
-            <em>a la velocidad del mercado.</em>
-          </h1>
-          <p className="hero-tagline">
-            Un sistema de pricing siempre activo. Evalúa demanda, set competitivo y pickup
-            todos los días, y ajusta tus tarifas sin que tengas que abrir una planilla.
-          </p>
-          <div className="hero-ctas">
-            <a className="hero-cta primary" href={DEMO_URL} target="_blank" rel="noopener">Agendar demo →</a>
-            <a className="hero-cta ghost" href="mailto:sdiaz@pxsol.com">Hablar con un experto</a>
+// ─── Page header (canonical .px-pageHeader pattern) ────────────────────
+function PxPageHeader({ speed }) {
+  return (
+    <section
+      className="px-pageHeader"
+      style={{ '--product-color': 'var(--product-rms-color)' }}
+      data-screen-label="01 Page header"
+    >
+      <div className="px-pageHeader__inner">
+        <div className="px-pageHeader__top">
+
+          {/* IZQUIERDA — texto + CTA */}
+          <div className="px-pageHeader__content">
+            <div className="px-pageHeader__epigraph">
+              <span className="px-pageHeader__epigraphIcon">↑</span>
+              <span>+ Revenue Management Inteligente</span>
+            </div>
+
+            <h1 className="px-pageHeader__title">
+              Pricing dinámico para hoteles <em>siempre</em> a la velocidad del mercado.
+            </h1>
+
+            <p className="px-pageHeader__subtitle">
+              Tu RMS evalúa demanda, set competitivo y pickup todos los días, y ajusta tus tarifas sin abrir una planilla.
+            </p>
+
+            <div className="px-pageHeader__ctas">
+              <a className="px-btn --primary" href={DEMO_URL}><span>Probar ahora</span></a>
+              <a className="px-btn" href="#features"><span>Ver tour en 90s</span></a>
+            </div>
+
+            <div className="px-pageHeader__proof">
+              <strong>+1500 hoteles</strong> sumando más revenue
+              <span className="px-pageHeader__proof-divider"></span>
+              <span className="px-pageHeader__proof-stars">★★★★★</span>
+              <span>4.8 / 5</span>
+            </div>
           </div>
+
+          {/* DERECHA — descripción larga */}
+          <div className="px-pageHeader__description">
+            <p>
+              Con el RMS de Pxsol, tu hotel puede tomar decisiones de pricing
+              basadas en datos reales y no en intuición. Centralizá tu set
+              competitivo, entendé el pickup en tiempo real y dejá que un
+              agente IA proponga tarifas cada mañana — siempre dentro de
+              los bordes que vos definís.
+            </p>
+            <p>
+              Integrado de forma nativa con tu ecosistema Pxsol (<strong>PMS,
+              Motor de Reservas, POS, Channel Manager</strong>), para que la
+              tarifa correcta llegue a todos tus canales al mismo tiempo.
+            </p>
+          </div>
+        </div>
+
+        {/* MEDIA full-width: KPI strip animado */}
+        <div className="px-pageHeader__media" style={{ padding: '32px 28px' }}>
           <window.HeroTicker speed={speed} />
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* ─── Scene 2 · Calendar ─── */}
-      <section className="scene" data-screen-label="02 Calendar">
+// ─── "Funcionalidades clave" — 3-card feature grid ─────────────────────
+function PxFeatures() {
+  const cards = [
+    {
+      n: '01',
+      title: 'Pricing diario con justificación',
+      desc: 'Una tarifa por día con su razonamiento. Vendimia, mid-week flojo, fin de semana largo — el sistema lo detecta antes que vos.',
+    },
+    {
+      n: '02',
+      title: 'Set competitivo siempre vivo',
+      desc: 'Ranking diario contra cuatro hoteles que vos elegís. Alertas cuando te alejás más de la cuenta del precio target.',
+    },
+    {
+      n: '03',
+      title: 'Agente IA con bordes editables',
+      desc: 'Recomienda, explica y aplica cambios solo dentro de los límites que vos definiste. Cada acción queda auditada.',
+    },
+  ];
+  return (
+    <section className="px-section" id="features" data-screen-label="02 Features">
+      <div className="px-section__head">
+        <div className="px-section__eyebrow">Funcionalidades clave</div>
+        <h2 className="px-section__title">
+          Todo lo que hace tu revenue manager, <em>automatizado.</em>
+        </h2>
+        <p className="px-section__lede">
+          Diseñado con dueños y revenue managers de hoteles independientes de 30 a 200 habitaciones.
+          Empezás a verlo trabajar el primer día.
+        </p>
+      </div>
+      <div className="px-features__grid">
+        {cards.map(c => (
+          <article className="px-card" key={c.n}>
+            <span className="px-card__num">{c.n}</span>
+            <h3 className="px-card__title">{c.title}</h3>
+            <p className="px-card__desc">{c.desc}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── "¿Qué es un RMS?" definition strip ───────────────────────────────
+function PxWhatIs() {
+  return (
+    <section className="px-section" data-screen-label="03 What is RMS">
+      <div className="px-whatIs">
+        <div>
+          <div className="px-whatIs__eyebrow">¿Qué es un RMS?</div>
+          <h2 className="px-whatIs__title">
+            Conocé el mercado mejor que nadie.
+          </h2>
+        </div>
+        <div className="px-whatIs__body">
+          <p>
+            Un <strong>RMS (Revenue Management System)</strong> es una plataforma
+            tecnológica diseñada para que los hoteles tomen decisiones de pricing
+            basadas en datos: demanda real, set competitivo, pickup y eventos.
+          </p>
+          <p>
+            Su objetivo es <strong>maximizar RevPAR</strong> ajustando tarifas
+            día a día y canal a canal, sin depender de planillas ni de la
+            intuición del que esté ese turno detrás del PMS.
+          </p>
+        </div>
+      </div>
+    </section>
+  );
+}
+</script>
+
+<script type="text/babel">
+// ─── Animated scenes section (existing show-reel) ──────────────────────
+function PxScenes({ speed }) {
+  return (
+    <div className="px-scenesWrap">
+      {/* 04 Calendar */}
+      <section className="scene" data-screen-label="04 Calendar">
         <div className="scene-copy">
           <span className="scene-eyebrow">diario de precios</span>
           <h2 className="scene-title">
@@ -100,9 +228,8 @@ function App() {
         <window.CalendarScene speed={speed} />
       </section>
 
-      {/* ─── Scene 3 · Agent IA ─── */}
-      <div className="scene-ai-wrap">
-      <section className="scene alt" data-screen-label="03 Agent">
+      {/* 05 Agent IA */}
+      <section className="scene alt scene-dark" data-screen-label="05 Agent">
         <window.AgentScene speed={speed} />
         <div className="scene-copy">
           <span className="scene-eyebrow">agente ia</span>
@@ -122,17 +249,16 @@ function App() {
           </div>
         </div>
       </section>
-      </div>
 
-      {/* ─── Scene 4 · Rate line chart ─── */}
-      <section className="scene" data-screen-label="04 Rate forecast">
+      {/* 06 Rate forecast */}
+      <section className="scene" data-screen-label="06 Rate forecast">
         <div className="scene-copy">
           <span className="scene-eyebrow">forecast de tarifas</span>
           <h2 className="scene-title">
             La curva que <em>se adelanta</em> al pickup.
           </h2>
           <p className="scene-lede">
-            Comparamos tu tarifa con el set competitivo día a día y marcamos en naranja los días
+            Comparamos tu tarifa con el set competitivo día a día y marcamos los días
             donde el modelo recomienda actuar. Cuando aceptás, la proyección se vuelve realidad.
           </p>
           <div className="scene-foot">
@@ -146,8 +272,8 @@ function App() {
         <window.RateLineScene speed={speed} />
       </section>
 
-      {/* ─── Scene 5 · Compset ─── */}
-      <section className="scene alt" data-screen-label="05 Compset">
+      {/* 07 Compset */}
+      <section className="scene alt scene-dark" data-screen-label="07 Compset">
         <window.CompsetScene speed={speed} />
         <div className="scene-copy">
           <span className="scene-eyebrow">set competitivo</span>
@@ -155,22 +281,21 @@ function App() {
             Sabé dónde estás parado, <em>todos los días.</em>
           </h2>
           <p className="scene-lede">
-            Comparación tarifa por tarifa, día por día, contra los hoteles de tu set.
-            Sabés si sos el más caro, el más barato, o si quedaste fuera del rango — y qué precio
-            aplicar para ganar la posición que querés.
+            Rankeamos tu tarifa contra cuatro competidores que vos elegís. Si te quedaste 12%
+            arriba del más caro durante seis días, te avisamos antes de que el pickup se caiga.
           </p>
           <div className="scene-foot">
-            <span>Hasta 10 hoteles</span>
+            <span>4 hoteles</span>
             <span className="scene-foot-dot"></span>
-            <span>Ranking + posicionamiento</span>
+            <span>Ranking diario</span>
             <span className="scene-foot-dot"></span>
             <span>Alertas en vivo</span>
           </div>
         </div>
       </section>
 
-      {/* ─── Scene 6 · Rules ─── */}
-      <section className="scene" data-screen-label="06 Rules">
+      {/* 08 Rules */}
+      <section className="scene" data-screen-label="08 Rules">
         <div className="scene-copy">
           <span className="scene-eyebrow">reglas automáticas</span>
           <h2 className="scene-title">
@@ -191,8 +316,8 @@ function App() {
         <window.RulesScene speed={speed} />
       </section>
 
-      {/* ─── Scene 7 · Scenarios ─── */}
-      <section className="scene alt" data-screen-label="07 Scenarios">
+      {/* 09 Scenarios */}
+      <section className="scene alt scene-dark" data-screen-label="09 Scenarios">
         <window.ScenariosScene speed={speed} />
         <div className="scene-copy">
           <span className="scene-eyebrow">escenarios what-if</span>
@@ -213,8 +338,8 @@ function App() {
         </div>
       </section>
 
-      {/* ─── Scene 8 · Pickup ─── */}
-      <section className="scene" data-screen-label="08 Pickup">
+      {/* 10 Pickup */}
+      <section className="scene" data-screen-label="10 Pickup">
         <div className="scene-copy">
           <span className="scene-eyebrow">pickup en vivo</span>
           <h2 className="scene-title">
@@ -234,35 +359,285 @@ function App() {
         </div>
         <window.PickupScene speed={speed} />
       </section>
+    </div>
+  );
+}
 
-      {/* ─── Final stats reveal ─── */}
-      <section className="scene scene-stats" data-screen-label="09 Stats">
-        <div style={{ maxWidth: 720 }}>
-          <span className="scene-eyebrow">resultados</span>
-          <h2 className="scene-title" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', maxWidth: '18ch' }}>
-            Lo que el modelo hace mientras vos hacés <em>otra cosa.</em>
-          </h2>
-          <p className="scene-lede" style={{ fontSize: 17, maxWidth: '56ch' }}>
-            Datos reales del Hotel Andina Mendoza (80 habitaciones · plan Enterprise) en los
-            últimos 30 días.
+window.PxScenes = PxScenes;
+</script>
+
+<script type="text/babel">
+// ─── Beneficios para tu hotel — 6 cards grid ───────────────────────────
+function PxBenefits() {
+  const items = [
+    { i: '◐', t: 'Centralización automática', d: 'Integra datos del PMS, Motor de Reservas, POS y set competitivo.' },
+    { i: '↗', t: 'Más reservas directas', d: 'Pricing competitivo en cada canal directo, menos comisiones.' },
+    { i: '◇', t: 'Distribución coordinada', d: 'Una tarifa, todos los canales — sin desincronizaciones.' },
+    { i: '◯', t: 'Cero riesgo de overselling', d: 'Bordes y reglas reversibles antes de que el modelo aplique.' },
+    { i: '⌁', t: 'Decisiones explicables', d: 'Cada cambio guarda su razonamiento y se puede auditar.' },
+    { i: '★', t: 'Optimización del ROI', d: 'Pricing dirigido al canal correcto en el momento correcto.' },
+  ];
+  return (
+    <section className="px-section" id="beneficios" data-screen-label="11 Beneficios">
+      <div className="px-section__head">
+        <div className="px-section__eyebrow">Beneficios para tu hotel</div>
+        <h2 className="px-section__title">
+          El poder de los datos, <em>centralizados.</em>
+        </h2>
+        <p className="px-section__lede">
+          Pxsol RMS consolida toda tu información dispersa en un solo lugar. Desde tu pickup hasta
+          tu set competitivo, una vista única para entender el mercado y anticiparte a él.
+        </p>
+      </div>
+      <div className="px-benefits__grid">
+        {items.map((it, idx) => (
+          <article className="px-benefit" key={idx}>
+            <div className="px-benefit__icon" aria-hidden="true">{it.i}</div>
+            <h3 className="px-benefit__title">{it.t}</h3>
+            <p className="px-benefit__desc">{it.d}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Final stats reveal (existing FinalStats wrapped in Pxsol head) ────
+function PxStats({ speed }) {
+  return (
+    <section className="scene scene-stats" data-screen-label="12 Stats">
+      <div style={{ maxWidth: 720 }}>
+        <span className="scene-eyebrow">resultados</span>
+        <h2 className="scene-title" style={{ fontSize: 'clamp(36px, 4.5vw, 60px)', maxWidth: '18ch' }}>
+          Lo que el modelo hace mientras vos hacés <em>otra cosa.</em>
+        </h2>
+        <p className="scene-lede" style={{ fontSize: 17, maxWidth: '56ch' }}>
+          Datos reales del Hotel Andina Mendoza (80 habitaciones · plan Enterprise) en los
+          últimos 30 días.
+        </p>
+      </div>
+      <window.FinalStats speed={speed} />
+    </section>
+  );
+}
+
+// ─── Testimonio ────────────────────────────────────────────────────────
+function PxTestimonial() {
+  return (
+    <section className="px-section" data-screen-label="13 Testimonio">
+      <div className="px-testimonial">
+        <div className="px-testimonial__hotel">
+          <div className="px-testimonial__hotelName">Hotel Andina</div>
+          <div className="px-testimonial__hotelLoc">Mendoza, Argentina · 80 hab.</div>
+          <div className="px-testimonial__stars">★★★★★</div>
+        </div>
+        <div>
+          <p className="px-testimonial__quote">
+            "Implementar el RMS de Pxsol mejoró notablemente nuestra eficiencia operativa
+            y la satisfacción de nuestros huéspedes. Los resultados superaron nuestras expectativas."
           </p>
+          <div className="px-testimonial__person">
+            <strong>María Fernández</strong> — Gerente de Operaciones
+          </div>
         </div>
-        <window.FinalStats speed={speed} />
+      </div>
+    </section>
+  );
+}
 
-        <div style={{ marginTop: 80, display: 'flex', gap: 14, alignItems: 'center', flexWrap: 'wrap' }}>
-          <a className="hero-cta primary" href={DEMO_URL} target="_blank" rel="noopener">Agendar demo de 20 min →</a>
-          <a className="hero-cta ghost" href="mailto:sdiaz@pxsol.com">Contactar a Sofía</a>
-          <span className="hero-mark" style={{ marginLeft: 16 }}>PXSOL RMS · {new Date().toLocaleDateString('es-AR')}</span>
+window.PxBenefits = PxBenefits;
+window.PxStats = PxStats;
+window.PxTestimonial = PxTestimonial;
+</script>
+
+<script type="text/babel">
+// ─── FAQ accordion ─────────────────────────────────────────────────────
+function PxFAQ() {
+  const [open, setOpen] = React.useState(0);
+  const items = [
+    {
+      q: '¿Qué es un RMS y por qué es crucial para mi hotel?',
+      a: 'Un RMS (Revenue Management System) es una plataforma que combina demanda histórica, pickup en vivo, set competitivo y eventos del mercado para recomendarte una tarifa por día y por canal. Es crucial porque te permite tomar decisiones de pricing basadas en datos y no en intuición, maximizando tu RevPAR sin sobrecargar al equipo.',
+    },
+    {
+      q: '¿Cómo funciona el RMS de Pxsol?',
+      a: 'Se conecta de forma nativa con tu PMS y Motor de Reservas, lee el pickup en tiempo real, escanea tu set competitivo todos los días, y un agente IA propone cambios de tarifa con su razonamiento completo. Vos definís los bordes — el sistema aplica solo dentro de esos límites.',
+    },
+    {
+      q: '¿Qué beneficios concretos me aporta Pxsol RMS?',
+      a: 'Hoteles que adoptan el RMS de Pxsol reportan en promedio +12% de RevPAR y 6h semanales ahorradas al equipo de revenue. Cada decisión queda auditada, y los cambios son siempre reversibles.',
+    },
+    {
+      q: '¿Pxsol RMS cumple con las normativas de protección de datos (GDPR)?',
+      a: 'Sí. El RMS de Pxsol cumple con GDPR y con la Ley 25.326 de Protección de Datos Personales (Argentina). Los datos del huésped nunca se comparten con terceros sin consentimiento explícito.',
+    },
+    {
+      q: '¿Qué tipo de datos gestiona Pxsol RMS?',
+      a: 'Pickup, ADR, RevPAR, ocupación por tipo de habitación, tarifas históricas y actuales del set competitivo, calendario de eventos locales, y reservas canceladas. Todo se centraliza en una vista única por día y por canal.',
+    },
+    {
+      q: '¿Cómo me ayuda Pxsol a implementar y usar el RMS?',
+      a: 'Onboarding guiado en menos de 14 días. Un consultor de revenue te ayuda a definir tus bordes iniciales, configurar el set competitivo y entrenar al modelo con tu data histórica. Después, soporte humano + chat 24/7.',
+    },
+  ];
+  return (
+    <section className="px-section" id="faq" data-screen-label="14 FAQ">
+      <div className="px-section__head">
+        <div className="px-section__eyebrow">Preguntas frecuentes</div>
+        <h2 className="px-section__title">
+          Lo que <em>preguntan</em> antes de probar.
+        </h2>
+        <p className="px-section__lede">
+          ¿Algo que no encontrás? Hablá con ventas y te contestamos en menos de 30 minutos en horario hábil.
+        </p>
+      </div>
+      <div className="px-faq__list">
+        {items.map((it, i) => (
+          <div className={`px-faq__item ${open === i ? 'is-open' : ''}`} key={i}>
+            <button className="px-faq__btn" onClick={() => setOpen(open === i ? -1 : i)} aria-expanded={open === i}>
+              <span>{it.q}</span>
+              <span className="px-faq__icon" aria-hidden="true">+</span>
+            </button>
+            <div className="px-faq__body">
+              <div className="px-faq__bodyInner">{it.a}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+// ─── Bottom big CTA card ───────────────────────────────────────────────
+function PxCTA() {
+  return (
+    <section className="px-cta" data-screen-label="15 CTA final">
+      <div className="px-cta__card">
+        <div className="px-cta__eyebrow">prueba gratis · 14 días</div>
+        <h2 className="px-cta__title">
+          Estás a punto de generar <em>más y mejores</em> reservas para tu hotel.
+        </h2>
+        <p className="px-cta__sub">
+          Activá el RMS de Pxsol y dejá que el mercado, el pickup y el set competitivo
+          trabajen por vos. Sin tarjeta. Sin compromiso.
+        </p>
+        <div className="px-cta__btns">
+          <a className="px-btn --secondary" href={DEMO_URL}><span>Agendar demo de 20 min</span></a>
+          <a className="px-btn --primary" href={PXSOL_URL}><span>Ver precios</span></a>
         </div>
-      </section>
+      </div>
+    </section>
+  );
+}
 
-      {/* ─── Tweaks bar ─── */}
+// ─── Footer ─────────────────────────────────────────────────────────────
+function PxFooter() {
+  return (
+    <footer className="px-footer" id="footer" data-screen-label="16 Footer">
+      <div className="px-footer__inner">
+        <div className="px-footer__top">
+          <div className="px-footer__brand">
+            <div className="px-footer__brandMark">
+              <span className="dot"></span>
+              <span>pxsol</span>
+            </div>
+            <div className="px-footer__brandTag">
+              Software hotelero all-in-one. PMS, Motor de Reservas, Channel Manager, CRM y RMS — todo en una sola plataforma.
+            </div>
+            <div className="px-footer__locale">
+              <div className="px-footer__pill"><span>🇦🇷</span><span>Argentina</span></div>
+              <div className="px-footer__pill"><span>ARS</span></div>
+            </div>
+          </div>
+
+          <div className="px-footer__col">
+            <h4>Productos</h4>
+            <ul>
+              <li><a href="https://www.pxsol.com/es-ar/producto/motor-de-reservas-hoteles">Motor de reservas</a></li>
+              <li><a href="https://www.pxsol.com/es-ar/producto/channel-manager-hoteles">Channel Manager</a></li>
+              <li><a href="https://www.pxsol.com/es-ar/producto/pms-para-hoteles">PMS</a></li>
+              <li><a href="https://www.pxsol.com/es-ar/producto/crm-hoteles">CRM &amp; Email Marketing</a></li>
+              <li><a href="#">RMS</a></li>
+              <li><a href="https://www.pxsol.com/es-ar/producto/hotel-ads">Pxsol ADS</a></li>
+              <li><a href="https://www.pxsol.com/es-ar/producto/reputacion-online-para-hoteles">Gestor de Reputación</a></li>
+              <li><a href="https://www.pxsol.com/es-ar/producto/aplicacion-conversaciones">App Conversaciones</a></li>
+            </ul>
+          </div>
+
+          <div className="px-footer__col">
+            <h4>Recursos</h4>
+            <ul>
+              <li><a href="https://www.pxsol.com/blog">Blog hotelero</a></li>
+              <li><a href="https://lp.pxsol.com/ebook-benchmark-2025">E-books y guías</a></li>
+              <li><a href="https://www.pxsol.com/es/demos">Demos grabadas</a></li>
+              <li><a href="https://www.pxsol.com/es/eventos-pxsol">Hotel Summit</a></li>
+              <li><a href="https://www.pxsol.com/actualizaciones-de-sistema-q2-2025">Actualizaciones</a></li>
+              <li><a href="https://www.pxsol.com/integraciones-ota">Integraciones OTA</a></li>
+            </ul>
+          </div>
+
+          <div className="px-footer__col">
+            <h4>Empresa</h4>
+            <ul>
+              <li><a href="https://www.pxsol.com/es/clientes">Clientes</a></li>
+              <li><a href="https://www.pxsol.com/embajadores-de-pxsol">Embajadores</a></li>
+              <li><a href="https://www.pxsol.com/es/programa-de-referidos">Programa de referidos</a></li>
+              <li><a href="https://www.pxsol.com/es-ar/precios">Precios</a></li>
+              <li><a href="https://www.pxsol.com/es/demos">Contacto</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="px-footer__bottom">
+          <div>Todos los derechos reservados © Pxsol</div>
+          <div>
+            <a href="#">Términos y condiciones</a>
+            <a href="#">Políticas de privacidad</a>
+            <a href="#">Cookies</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+window.PxFAQ = PxFAQ;
+window.PxCTA = PxCTA;
+window.PxFooter = PxFooter;
+</script>
+
+<script type="text/babel">
+function App() {
+  const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakToggle } = window;
+  const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
+
+  React.useEffect(() => {
+    document.documentElement.setAttribute('data-theme', t.dark ? 'dark' : 'light');
+  }, [t.dark]);
+
+  const speed = t.speed === 'slow' ? 0.5 : t.speed === 'fast' ? 1.6 : 1;
+
+  return (
+    <div className="landing">
+      <PxNavbar />
+      <PxPageHeader speed={speed} />
+      <PxFeatures />
+      <PxWhatIs />
+      <window.PxScenes speed={speed} />
+      <window.PxBenefits />
+      <window.PxStats speed={speed} />
+      <window.PxTestimonial />
+      <window.PxFAQ />
+      <window.PxCTA />
+      <window.PxFooter />
+
+      {/* ─── Speed/theme tweaks bar ─── */}
       <div className="land-tweaks">
         <span className="land-tweaks-label">velocidad</span>
         <button className={t.speed === 'slow' ? 'on' : ''} onClick={() => setTweak('speed', 'slow')}>0.5×</button>
         <button className={(!t.speed || t.speed === 1 || t.speed === 'normal') ? 'on' : ''} onClick={() => setTweak('speed', 'normal')}>1×</button>
         <button className={t.speed === 'fast' ? 'on' : ''} onClick={() => setTweak('speed', 'fast')}>1.6×</button>
-        <span className="land-tweaks-divider" />
+        <span className="land-tweaks-divider"></span>
         <span className="land-tweaks-label">tema</span>
         <button className={!t.dark ? 'on' : ''} onClick={() => setTweak('dark', false)}>Light</button>
         <button className={t.dark ? 'on' : ''} onClick={() => setTweak('dark', true)}>Dark</button>

@@ -4,20 +4,24 @@
 const { useState, useEffect, useRef, useMemo, useLayoutEffect } = React;
 
 // ─── Hook: scene-local timeline driven by rAF (always-on) ────────────────────
+// If `externalTime` is provided, the hook bypasses its own rAF and returns
+// the external time (after loop/speed normalization). This lets the scenes
+// be driven by an outer Stage clock when embedded in a video.
 function useSceneTime(duration = 6, opts = {}) {
-  const { loop = true, speed = 1, autoplay = true } = opts;
+  const { loop = true, speed = 1, autoplay = true, externalTime = null } = opts;
   const ref = useRef(null);
-  const [time, setTime] = useState(0);
+  const [internalTime, setInternalTime] = useState(0);
   const lastTsRef = useRef(null);
   const rafRef = useRef(null);
+  const useExt = externalTime != null;
 
   useEffect(() => {
-    if (!autoplay) { lastTsRef.current = null; return; }
+    if (useExt || !autoplay) { lastTsRef.current = null; return; }
     const step = (ts) => {
       if (lastTsRef.current == null) lastTsRef.current = ts;
       const dt = (ts - lastTsRef.current) / 1000;
       lastTsRef.current = ts;
-      setTime((t) => {
+      setInternalTime((t) => {
         let next = t + dt * speed;
         if (next >= duration) {
           if (loop) next = next % duration;
@@ -32,8 +36,17 @@ function useSceneTime(duration = 6, opts = {}) {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
       lastTsRef.current = null;
     };
-  }, [duration, loop, speed, autoplay]);
+  }, [duration, loop, speed, autoplay, useExt]);
 
+  let time;
+  if (useExt) {
+    let t = externalTime * speed;
+    if (loop) t = ((t % duration) + duration) % duration;
+    else t = Math.max(0, Math.min(duration, t));
+    time = t;
+  } else {
+    time = internalTime;
+  }
   return { ref, time, active: true };
 }
 
@@ -54,8 +67,8 @@ const fmtMoneyK = (n) => 'ARS ' + (Math.round(n / 1000)).toLocaleString('es-AR')
 // ============================================================================
 // SCENE 1 — HERO  (Ticker strip with live numbers)
 // ============================================================================
-function HeroTicker({ speed }) {
-  const { ref, time } = useSceneTime(10, { loop: true, speed });
+function HeroTicker({ speed, extTime }) {
+  const { ref, time } = useSceneTime(10, { loop: true, speed, externalTime: extTime });
 
   // each metric cycles between two value sets to feel "live"
   const phase = (time % 10) / 10;
@@ -127,8 +140,8 @@ function Sparkline({ phase }) {
 // ============================================================================
 // SCENE 2 — CALENDAR  (Days populate, cursor moves, color-coded demand)
 // ============================================================================
-function CalendarScene({ speed }) {
-  const { ref, time } = useSceneTime(9, { loop: true, speed });
+function CalendarScene({ speed, extTime }) {
+  const { ref, time } = useSceneTime(9, { loop: true, speed, externalTime: extTime });
 
   // 28 days (4 weeks × 7)
   const days = useMemo(() => {
@@ -175,13 +188,19 @@ function CalendarScene({ speed }) {
     if (!showCursor || !containerRef.current) { setCursorRect(null); return; }
     const cell = containerRef.current.querySelector(`[data-day="${targetDay}"]`);
     if (!cell) return;
-    const c = containerRef.current.getBoundingClientRect();
-    const r = cell.getBoundingClientRect();
-    setCursorRect({ x: r.left - c.left, y: r.top - c.top, w: r.width, h: r.height });
+    // Use offset coords (local, unscaled) — NOT getBoundingClientRect, which
+    // would return screen-scaled values that mismatch when the Stage applies
+    // a transform: scale() to its canvas.
+    setCursorRect({
+      x: cell.offsetLeft,
+      y: cell.offsetTop,
+      w: cell.offsetWidth,
+      h: cell.offsetHeight,
+    });
   }, [targetDay, showCursor, populated]);
 
   return (
-    <div ref={ref} className="canvas canvas-grid">
+    <div ref={ref} className="canvas">
       <span className="canvas-corner">may 2026</span>
       <span className="canvas-corner r">80 rooms · ars</span>
       <div ref={containerRef} className="cal">
@@ -219,74 +238,11 @@ function CalendarScene({ speed }) {
   );
 }
 
-// ─── AI Agent scene helpers ──────────────────────────────────────────────────
-
-function RobotIcon({ size = 20 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none">
-      <rect x="3" y="8" width="18" height="13" rx="3" stroke="currentColor" strokeWidth="1.5"/>
-      <circle cx="9" cy="14" r="2.2" fill="currentColor"/>
-      <circle cx="15" cy="14" r="2.2" fill="currentColor"/>
-      <circle cx="9" cy="14" r="0.85" fill="white" opacity="0.9"/>
-      <circle cx="15" cy="14" r="0.85" fill="white" opacity="0.9"/>
-      <rect x="9.5" y="17.5" width="5" height="1.5" rx="0.75" fill="currentColor" opacity="0.55"/>
-      <line x1="12" y1="8" x2="12" y2="4" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
-      <circle cx="12" cy="3" r="1.5" fill="currentColor"/>
-      <rect x="0.5" y="11" width="2.5" height="5" rx="1.25" fill="currentColor" opacity="0.5"/>
-      <rect x="21" y="11" width="2.5" height="5" rx="1.25" fill="currentColor" opacity="0.5"/>
-    </svg>
-  );
-}
-
-function SparkleIcon({ size = 10 }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 10 10" fill="currentColor">
-      <path d="M5 0 L5.75 3.8 L10 5 L5.75 6.2 L5 10 L4.25 6.2 L0 5 L4.25 3.8 Z"/>
-    </svg>
-  );
-}
-
-function AIParticles({ time }) {
-  const particles = [
-    { x: 8,  y: 14, delay: 0,   size: 9 },
-    { x: 87, y: 9,  delay: 1.2, size: 6 },
-    { x: 74, y: 81, delay: 2.5, size: 8 },
-    { x: 13, y: 79, delay: 0.7, size: 7 },
-    { x: 92, y: 50, delay: 1.9, size: 6 },
-    { x: 52, y: 93, delay: 3.3, size: 7 },
-    { x: 30, y: 6,  delay: 2.8, size: 5 },
-    { x: 65, y: 22, delay: 0.4, size: 6 },
-  ];
-  return (
-    <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', overflow: 'hidden', zIndex: 0 }}>
-      {particles.map((p, i) => {
-        const cycle = 3.6;
-        const t = ((time + p.delay) % cycle) / cycle;
-        const opacity = Math.max(0, Math.sin(t * Math.PI) * 0.52);
-        const scale = 0.35 + Math.sin(t * Math.PI) * 0.65;
-        const rotate = t * 90;
-        return (
-          <div key={i} style={{
-            position: 'absolute',
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            color: 'var(--land-primary)',
-            opacity,
-            transform: `translate(-50%, -50%) scale(${scale}) rotate(${rotate}deg)`,
-          }}>
-            <SparkleIcon size={p.size} />
-          </div>
-        );
-      })}
-    </div>
-  );
-}
-
 // ============================================================================
 // SCENE 3 — AGENT IA  (Trigger → think → suggest → apply)
 // ============================================================================
-function AgentScene({ speed }) {
-  const { ref, time } = useSceneTime(8, { loop: true, speed });
+function AgentScene({ speed, extTime }) {
+  const { ref, time } = useSceneTime(8, { loop: true, speed, externalTime: extTime });
 
   const showTrigger = time > 0.4;
   const showThink = time > 1.4 && time < 3.4;
@@ -294,21 +250,13 @@ function AgentScene({ speed }) {
   const showReason = time > 4.6;
   const showApplied = time > 6.4;
 
+  // Rate animates from 96000 → 108000 between t=3.0 and t=4.0
   const rate = Math.round(lerp(96000, 108000, easeOutBack(between(time, 3.2, 4.6))) / 500) * 500;
   const pctNow = ((rate - 96000) / 96000 * 100);
-  const pulse = (Math.sin(time * 1.8) + 1) / 2;
 
   return (
     <div ref={ref} className="canvas agent-canvas">
-      <AIParticles time={time} />
-
-      <div className="agent-header">
-        <div className="agent-robot-icon" style={{ '--pulse': pulse }}>
-          <RobotIcon size={18} />
-        </div>
-        <span className="canvas-corner-label">agente · 15 — 17 may</span>
-        <span className="agent-header-badge">IA</span>
-      </div>
+      <span className="canvas-corner">agente · 15 — 17 may</span>
 
       <div className={`agent-trigger ${showTrigger ? 'in' : ''}`}>
         <div className="agent-trigger-icon">⚡</div>
@@ -462,120 +410,44 @@ function RateLineScene({ speed }) {
 }
 
 // ============================================================================
-// SCENE 5 — COMPSET  (Rate heat-map · ranking badge · actionable suggestion)
+// SCENE 5 — COMPSET  (Bars rise; my hotel slides into ranking)
 // ============================================================================
-function CompsetScene({ speed }) {
-  const { ref, time } = useSceneTime(10, { loop: true, speed });
+function CompsetScene({ speed, hotels: hotelsProp, extTime }) {
+  const { ref, time } = useSceneTime(7, { loop: true, speed, externalTime: extTime });
 
-  const hotels = [
-    { id: 'me', short: 'Andina ★', isMe: true },
-    { id: 'c1', short: 'Casa Uco'  },
-    { id: 'c2', short: 'Hyatt'     },
-    { id: 'c3', short: 'Diplom.'   },
-    { id: 'c4', short: 'Sheraton'  },
+  const defaultHotels = [
+    { id: 'c2', name: 'Park Hyatt Mendoza',  rate: 128500, max: 130000 },
+    { id: 'c4', name: 'Sheraton Mendoza',    rate: 117800, max: 130000 },
+    { id: 'me', name: 'Hotel Andina',        rate: 102400, max: 130000, isMe: true },
+    { id: 'c1', name: 'Casa de Uco',         rate: 101900, max: 130000 },
+    { id: 'c3', name: 'Diplomatic Mendoza',  rate: 93600,  max: 130000 },
   ];
+  const hotels = useMemo(() => hotelsProp || defaultHotels, [hotelsProp]);
 
-  // Deterministic rate grid — same seed as Hub de RMS data.jsx
-  const rows = useMemo(() => {
-    let s = 73;
-    const rng = () => { s = (s * 9301 + 49297) % 233280; return s / 233280; };
-    const labels = ['8 may','9 may','10 may','11 may','12 may','13 may','14 may'];
-    return labels.map((label, i) => {
-      const isWknd = i === 3 || i === 4;
-      const boost = isWknd ? 1.18 : 1.0;
-      const base = 96000 * boost;
-      const rates = {
-        me: Math.round(base + (rng() - 0.5) * 8000),
-        c1: Math.round(base * 1.06 + (rng() - 0.5) * 8000),
-        c2: Math.round(base * 1.34 + (rng() - 0.5) * 10000),
-        c3: Math.round(base * 0.94 + (rng() - 0.5) * 7000),
-        c4: Math.round(base * 1.22 + (rng() - 0.5) * 9000),
-      };
-      const vals = Object.values(rates);
-      return { label, isWknd, rates, min: Math.min(...vals), max: Math.max(...vals) };
-    });
-  }, []);
-
-  // Phase 1 — grid populates row by row (0.3 → 3.2s)
-  const rowsIn = Math.min(7, Math.ceil(between(time, 0.3, 3.2) * 7));
-
-  // Phase 2 — ranking badge slides in and animates #3 → #2 (3.4 → 5.4s)
-  const rankOpacity = clamp01((time - 3.4) / 0.45);
-  const rankPos = Math.round(lerp(3, 2, easeOut(between(time, 3.9, 5.3))));
-
-  // Phase 3 — actionable suggestion card slides up (5.8 → 10s)
-  const suggT = clamp01((time - 5.8) / 0.55);
-  const showSugg = time > 5.8;
-
+  // each row appears 0.25s apart, bar fills shortly after
   return (
-    <div ref={ref} className="canvas cmap-canvas">
-      <span className="canvas-corner">set competitivo · 8 – 14 may</span>
-      <span className="canvas-corner r">5 hoteles · ars</span>
-
-      {/* Heat-map grid */}
-      <div className="cmap-wrap">
-        <div className="cmap-head-row">
-          <div className="cmap-date" />
-          {hotels.map(h => (
-            <div key={h.id} className={`cmap-col-head ${h.isMe ? 'mine' : ''}`}>{h.short}</div>
-          ))}
-        </div>
-        {rows.map((row, ri) => (
-          <div key={ri} className={`cmap-row ${ri < rowsIn ? 'in' : ''}`}
-               style={{ transitionDelay: `${ri * 30}ms` }}>
-            <div className="cmap-date">
-              {row.label}
-              {row.isWknd && <span className="cmap-wknd">fds</span>}
+    <div ref={ref} className="canvas compset-canvas">
+      <span className="canvas-corner">set competitivo · 15 may</span>
+      {hotels.map((h, i) => {
+        const inT = time > 0.3 + i * 0.18;
+        const widthT = time > 0.55 + i * 0.18 ? clamp01((time - 0.55 - i * 0.18) / 0.7) : 0;
+        const w = `${(h.rate / h.max) * 100 * widthT}%`;
+        const rank = i + 1;
+        return (
+          <div key={h.id} className={`comp-row ${h.isMe ? 'me' : ''} ${inT ? 'in' : ''}`}>
+            <div className="comp-name">
+              <span style={{ color: 'var(--land-fg-4)', marginRight: 6, fontFamily: 'var(--land-mono)' }}>{`#${rank}`}</span>
+              {h.name}
             </div>
-            {hotels.map(h => {
-              const v = row.rates[h.id];
-              const cheap  = v === row.min;
-              const pricey = v === row.max;
-              return (
-                <div key={h.id}
-                     className={`cmap-cell ${h.isMe ? 'mine' : ''} ${cheap ? 'cheap' : ''} ${pricey ? 'pricey' : ''}`}>
-                  {ri < rowsIn ? Math.round(v / 1000) + 'k' : ''}
-                </div>
-              );
-            })}
+            <div className="comp-bar-track">
+              <div className="comp-bar-fill" style={{ '--w': w, width: w }} />
+            </div>
+            <div className="comp-rate">
+              ARS {(h.rate / 1000).toFixed(1)}k
+            </div>
           </div>
-        ))}
-      </div>
-
-      {/* Bottom row: ranking badge + legend */}
-      <div className="cmap-bottom">
-        <div className="cmap-rank" style={{ opacity: rankOpacity, transform: `translateY(${lerp(6, 0, rankOpacity)}px)` }}>
-          <span className="cmap-rank-label">Posición</span>
-          <span className="cmap-rank-num" style={{ color: rankPos <= 2 ? 'var(--land-green)' : 'var(--land-primary)' }}>
-            #{rankPos}
-          </span>
-          <span className="cmap-rank-sub">de 5</span>
-          {rankPos <= 2 && (
-            <span className="cmap-rank-up">↑ mejorando</span>
-          )}
-        </div>
-        <div className="cmap-legend">
-          <span><span className="cmap-sw teal" />+ barato</span>
-          <span><span className="cmap-sw pink" />+ caro</span>
-          <span><span className="cmap-sw me" />tu hotel</span>
-        </div>
-      </div>
-
-      {/* Actionable suggestion overlay */}
-      {showSugg && (
-        <div className="cmap-sugg" style={{
-          opacity: suggT,
-          transform: `translateY(${lerp(12, 0, easeOut(suggT))}px)`,
-        }}>
-          <span className="cmap-sugg-badge">Sugerencia IA</span>
-          <span className="cmap-sugg-text">
-            11 – 12 may &nbsp;·&nbsp;
-            <span style={{ textDecoration: 'line-through', opacity: 0.45 }}>96k</span>
-            {' → '}<strong>108k</strong>
-          </span>
-          <span className="cmap-sugg-result">Mantené posición #2</span>
-        </div>
-      )}
+        );
+      })}
     </div>
   );
 }
@@ -583,8 +455,8 @@ function CompsetScene({ speed }) {
 // ============================================================================
 // SCENE 6 — RULES FLOW  (If/then/result with animated arrows)
 // ============================================================================
-function RulesScene({ speed }) {
-  const { ref, time } = useSceneTime(7, { loop: true, speed });
+function RulesScene({ speed, extTime }) {
+  const { ref, time } = useSceneTime(7, { loop: true, speed, externalTime: extTime });
 
   const t1 = time > 0.4;
   const a1 = time > 1.4;
@@ -633,8 +505,8 @@ function RulesScene({ speed }) {
 // ============================================================================
 // SCENE 7 — SCENARIOS  (Base vs projected, delta counts up)
 // ============================================================================
-function ScenariosScene({ speed }) {
-  const { ref, time } = useSceneTime(7, { loop: true, speed });
+function ScenariosScene({ speed, extTime }) {
+  const { ref, time } = useSceneTime(7, { loop: true, speed, externalTime: extTime });
 
   const baseIn = time > 0.4;
   const projIn = time > 1.8;
