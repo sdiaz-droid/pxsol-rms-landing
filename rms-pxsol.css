@@ -4,6 +4,14 @@
    testimonial · FAQ · CTA bottom · footer
    ============================================ */
 
+/* ── RMS product color override ──
+   Scopes #492598 (purple) as the accent for this landing page,
+   replacing the corporate blue (#1C1183) everywhere var(--blue) is used. */
+.landing {
+  --blue: #492598;
+  --light-blue: #ece7f4;
+}
+
 /* ── Letter-spacing reset ──
    landing-styles.css applies -0.05em globally; new Pxsol blocks
    want the proper Work Sans letter-spacing. */
@@ -500,7 +508,7 @@
   transition: border-color 200ms ease, transform 200ms ease;
 }
 .px-benefit:hover {
-  border-color: rgba(28, 17, 131, 0.40);
+  border-color: rgba(73, 37, 152, 0.40);
   transform: translateY(-2px);
 }
 .px-benefit__icon {
@@ -666,7 +674,7 @@
 }
 .px-cta__card {
   background:
-    radial-gradient(circle at 25% 0%, rgba(28, 17, 131, 0.85) 0%, transparent 60%),
+    radial-gradient(circle at 25% 0%, rgba(73, 37, 152, 0.85) 0%, transparent 60%),
     linear-gradient(135deg, #000017 0%, #0a0a3a 100%);
   border-radius: var(--radius-xl);
   padding: 88px 64px;
@@ -970,7 +978,7 @@
   font-size: 4.5rem;
   font-weight: 900;
   letter-spacing: -0.04em;
-  color: rgba(28, 17, 131, 0.07);
+  color: rgba(73, 37, 152, 0.07);
   line-height: 1;
   margin-bottom: 8px;
   font-variant-numeric: tabular-nums;
@@ -981,7 +989,7 @@
   letter-spacing: 0.10em;
   text-transform: uppercase;
   color: var(--blue);
-  background: rgba(28, 17, 131, 0.07);
+  background: rgba(73, 37, 152, 0.07);
   padding: 4px 12px;
   border-radius: var(--radius-pill);
   display: inline-block;
@@ -1090,7 +1098,7 @@
   animation: sf-pulse 2s ease-in-out infinite;
 }
 @keyframes sf-pulse { 0%, 100% { opacity: 1; } 50% { opacity: .45; } }
-.sf-badge--auto { color: var(--blue); background: rgba(28, 17, 131, 0.08); }
+.sf-badge--auto { color: var(--blue); background: rgba(73, 37, 152, 0.08); }
 .sf-badge--cal  { color: #9e6010; background: rgba(200, 130, 0, 0.12); }
 
 /* ── Screen 0: Compset bars ── */
@@ -1140,8 +1148,8 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  background: rgba(28, 17, 131, 0.06);
-  border: 1px solid rgba(28, 17, 131, 0.12);
+  background: rgba(73, 37, 152, 0.06);
+  border: 1px solid rgba(73, 37, 152, 0.12);
   border-radius: var(--radius-md);
   padding: 14px 16px;
 }
@@ -1190,7 +1198,7 @@
 .cd-e  { background: transparent; animation: none !important; }
 .cd-lo { background: rgba(0, 80, 40, 0.12); color: #1a6e40; }
 .cd-mi { background: rgba(200, 130, 0, 0.14); color: #9e6010; }
-.cd-hi { background: rgba(28, 17, 131, 0.10); color: var(--blue); }
+.cd-hi { background: rgba(73, 37, 152, 0.10); color: var(--blue); }
 .cd-pk { background: var(--blue); color: #F7F7F7; }
 .cd-td { background: var(--red); color: #F7F7F7; }
 
@@ -1249,8 +1257,8 @@
 
 .sf-rules-footer {
   margin-top: 20px;
-  background: rgba(28, 17, 131, 0.06);
-  border: 1px solid rgba(28, 17, 131, 0.12);
+  background: rgba(73, 37, 152, 0.06);
+  border: 1px solid rgba(73, 37, 152, 0.12);
   border-radius: var(--radius-md);
   padding: 14px 16px;
   display: flex;

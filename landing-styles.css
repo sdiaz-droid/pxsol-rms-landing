@@ -13,9 +13,9 @@
   --land-border: rgba(116, 119, 122, 0.20);     /* gray-opacity */
   --land-border-strong: rgba(116, 119, 122, 0.36);
   --land-muted: #EFEFEE;
-  --land-primary: #1C1183;         /* --blue (RMS accent) */
-  --land-primary-soft: #E7E6F3;
-  --land-primary-text: #1C1183;
+  --land-primary: #492598;         /* RMS accent (purple) */
+  --land-primary-soft: #ECE7F4;
+  --land-primary-text: #492598;
   --land-green: #005028;
   --land-green-soft: #E2EFE7;
   --land-amber: #C8841A;
@@ -38,7 +38,7 @@
   --land-border: rgba(255, 255, 255, 0.12);
   --land-border-strong: rgba(255, 255, 255, 0.22);
   --land-muted: #131635;
-  --land-primary-soft: rgba(28, 17, 131, 0.30);
+  --land-primary-soft: rgba(73, 37, 152, 0.30);
   --land-primary-text: #b8b3e3;
   --land-green-soft: rgba(0, 80, 40, 0.30);
   --land-red-soft: rgba(192, 0, 1, 0.20);
