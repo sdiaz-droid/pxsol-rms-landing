@@ -416,11 +416,11 @@ function CompsetScene({ speed, hotels: hotelsProp, extTime }) {
   const { ref, time } = useSceneTime(7, { loop: true, speed, externalTime: extTime });
 
   const defaultHotels = [
-    { id: 'c2', name: 'Park Hyatt Mendoza',  rate: 128500, max: 130000 },
-    { id: 'c4', name: 'Sheraton Mendoza',    rate: 117800, max: 130000 },
-    { id: 'me', name: 'Hotel Andina',        rate: 102400, max: 130000, isMe: true },
-    { id: 'c1', name: 'Casa de Uco',         rate: 101900, max: 130000 },
-    { id: 'c3', name: 'Diplomatic Mendoza',  rate: 93600,  max: 130000 },
+    { id: 'c2', name: 'Competidor 1',  rate: 128500, max: 130000 },
+    { id: 'c4', name: 'Competidor 2',  rate: 117800, max: 130000 },
+    { id: 'me', name: 'Tu hotel',      rate: 102400, max: 130000, isMe: true },
+    { id: 'c1', name: 'Competidor 3',  rate: 101900, max: 130000 },
+    { id: 'c3', name: 'Competidor 4',  rate:  93600, max: 130000 },
   ];
   const hotels = useMemo(() => hotelsProp || defaultHotels, [hotelsProp]);
 
