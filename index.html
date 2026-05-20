@@ -440,28 +440,6 @@ function PxWhatIs() {
 function PxScenes({ speed }) {
   return (
     <div className="px-scenesWrap">
-      {/* 04 Calendar */}
-      <section className="scene" data-screen-label="04 Calendar">
-        <div className="scene-copy">
-          <span className="scene-eyebrow">diario de precios</span>
-          <h2 className="scene-title">
-            Una tarifa por día. <em>Cada día.</em>
-          </h2>
-          <p className="scene-lede">
-            Tu calendario se llena solo. Vendimia, fin de semana largo, mid-week flojo —
-            el sistema lo detecta antes que vos y propone una tarifa con su justificación.
-          </p>
-          <div className="scene-foot">
-            <span>1658 tarifas/mes</span>
-            <span className="scene-foot-dot"></span>
-            <span>30d forecast</span>
-            <span className="scene-foot-dot"></span>
-            <span>0 planillas</span>
-          </div>
-        </div>
-        <window.CalendarScene speed={speed} />
-      </section>
-
       {/* 05 Agent IA */}
       <section className="scene alt scene-dark" data-screen-label="05 Agent">
         <window.AgentScene speed={speed} />
@@ -504,50 +482,6 @@ function PxScenes({ speed }) {
           </div>
         </div>
         <window.RateLineScene speed={speed} />
-      </section>
-
-      {/* 07 Compset */}
-      <section className="scene alt scene-dark" data-screen-label="07 Compset">
-        <window.CompsetScene speed={speed} />
-        <div className="scene-copy">
-          <span className="scene-eyebrow">set competitivo</span>
-          <h2 className="scene-title">
-            Sabé dónde estás parado, <em>todos los días.</em>
-          </h2>
-          <p className="scene-lede">
-            Rankeamos tu tarifa contra cuatro competidores que vos elegís. Si te quedaste 12%
-            arriba del más caro durante seis días, te avisamos antes de que el pickup se caiga.
-          </p>
-          <div className="scene-foot">
-            <span>4 hoteles</span>
-            <span className="scene-foot-dot"></span>
-            <span>Ranking diario</span>
-            <span className="scene-foot-dot"></span>
-            <span>Alertas en vivo</span>
-          </div>
-        </div>
-      </section>
-
-      {/* 08 Rules */}
-      <section className="scene" data-screen-label="08 Rules">
-        <div className="scene-copy">
-          <span className="scene-eyebrow">reglas automáticas</span>
-          <h2 className="scene-title">
-            Si esto pasa, <em>hacé esto otro.</em>
-          </h2>
-          <p className="scene-lede">
-            Encadená condiciones del mundo real: ocupación, pickup, set comp, eventos. Las
-            reglas corren cada hora y dejan un registro auditable de cada acción.
-          </p>
-          <div className="scene-foot">
-            <span>25 reglas</span>
-            <span className="scene-foot-dot"></span>
-            <span>Cada hora</span>
-            <span className="scene-foot-dot"></span>
-            <span>Reversibles</span>
-          </div>
-        </div>
-        <window.RulesScene speed={speed} />
       </section>
 
       {/* 09 Scenarios */}
