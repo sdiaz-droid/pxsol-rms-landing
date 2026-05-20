@@ -884,3 +884,11 @@
   .px-stripStat:nth-child(odd) { border-right: 1px solid var(--gray-opacity); }
   .px-stripStat:nth-last-child(-n+2) { border-bottom: 0; }
 }
+
+
+/* =============== Navbar logo image =============== */
+.px-nav__logo {
+  height: 28px;
+  width: auto;
+  display: block;
+}
