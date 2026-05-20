@@ -621,35 +621,6 @@ function App() {
       <window.PxCTA />
       <window.PxFooter />
 
-      {/* ─── Speed/theme tweaks bar ─── */}
-      <div className="land-tweaks">
-        <span className="land-tweaks-label">velocidad</span>
-        <button className={t.speed === 'slow' ? 'on' : ''} onClick={() => setTweak('speed', 'slow')}>0.5×</button>
-        <button className={(!t.speed || t.speed === 1 || t.speed === 'normal') ? 'on' : ''} onClick={() => setTweak('speed', 'normal')}>1×</button>
-        <button className={t.speed === 'fast' ? 'on' : ''} onClick={() => setTweak('speed', 'fast')}>1.6×</button>
-        <span className="land-tweaks-divider"></span>
-        <span className="land-tweaks-label">tema</span>
-        <button className={!t.dark ? 'on' : ''} onClick={() => setTweak('dark', false)}>Light</button>
-        <button className={t.dark ? 'on' : ''} onClick={() => setTweak('dark', true)}>Dark</button>
-      </div>
-
-      <TweaksPanel title="Tweaks">
-        <TweakSection title="Animaciones">
-          <TweakRadio
-            label="Velocidad global"
-            value={t.speed === 1 || t.speed === 'normal' || !t.speed ? 'normal' : t.speed}
-            options={[
-              {value: 'slow', label: '0.5×'},
-              {value: 'normal', label: '1×'},
-              {value: 'fast', label: '1.6×'},
-            ]}
-            onChange={v => setTweak('speed', v)}
-          />
-        </TweakSection>
-        <TweakSection title="Apariencia">
-          <TweakToggle label="Modo oscuro" value={t.dark} onChange={v => setTweak('dark', v)} />
-        </TweakSection>
-      </TweaksPanel>
     </div>
   );
 }
