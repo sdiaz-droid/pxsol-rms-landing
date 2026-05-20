@@ -892,3 +892,11 @@
   width: auto;
   display: block;
 }
+
+/* =============== Footer logo image =============== */
+.px-footer__logo {
+  height: 32px;
+  width: auto;
+  display: block;
+  filter: brightness(0) invert(1);
+}
