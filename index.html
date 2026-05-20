@@ -127,6 +127,56 @@ function StickyFeatures() {
     const screens  = document.querySelectorAll('.sf-screen');
     const dots     = document.querySelectorAll('.sf-dot');
 
+    // ── Calendar cursor ──
+    const calTargets = [
+      { sel: '[data-sf-day="hi1"]',  label: 'alta demanda' },
+      { sel: '[data-sf-day="pk1"]',  label: 'pico' },
+      { sel: '[data-sf-day="td"]',   label: 'hoy · +11%' },
+      { sel: '[data-sf-day="pk2"]',  label: 'finde largo ↑' },
+    ];
+    let calIdx = 0;
+    let calTimer = null;
+
+    function moveCursor() {
+      const screen1 = document.getElementById('screen-1');
+      const cursor  = document.getElementById('sf-cal-cursor');
+      const lbl     = document.getElementById('sf-cal-cursor-lbl');
+      if (!screen1 || !cursor) return;
+      if (!screen1.classList.contains('active')) {
+        cursor.classList.remove('sf-cal-cursor--visible');
+        return;
+      }
+      const t    = calTargets[calIdx];
+      const cell = screen1.querySelector(t.sel);
+      const wrap = document.getElementById('sf-cal-grid-wrap');
+      if (cell && wrap) {
+        const wr = wrap.getBoundingClientRect();
+        const cr = cell.getBoundingClientRect();
+        cursor.style.left   = (cr.left - wr.left - 4) + 'px';
+        cursor.style.top    = (cr.top  - wr.top  - 4) + 'px';
+        cursor.style.width  = (cr.width  + 8) + 'px';
+        cursor.style.height = (cr.height + 8) + 'px';
+        if (lbl) lbl.textContent = t.label;
+        cursor.classList.add('sf-cal-cursor--visible');
+      }
+      calIdx = (calIdx + 1) % calTargets.length;
+    }
+
+    function startCalCursor() {
+      calIdx = 0;
+      clearInterval(calTimer);
+      setTimeout(() => {
+        moveCursor();
+        calTimer = setInterval(moveCursor, 1600);
+      }, 700);
+    }
+
+    function stopCalCursor() {
+      clearInterval(calTimer);
+      const cursor = document.getElementById('sf-cal-cursor');
+      if (cursor) cursor.classList.remove('sf-cal-cursor--visible');
+    }
+
     function activateFeature(i) {
       triggers.forEach((t, ti) => t.classList.toggle('active', ti === i));
       screens.forEach((s, si) => {
@@ -134,6 +184,8 @@ function StickyFeatures() {
         else          s.classList.remove('active');
       });
       dots.forEach((d, di) => d.classList.toggle('active', di === i));
+      if (i === 1) startCalCursor();
+      else         stopCalCursor();
     }
 
     activateFeature(0);
@@ -145,7 +197,7 @@ function StickyFeatures() {
     }, { threshold: .5 });
 
     triggers.forEach(t => obs.observe(t));
-    return () => obs.disconnect();
+    return () => { obs.disconnect(); clearInterval(calTimer); };
   }, []);
 
   return (
@@ -264,14 +316,19 @@ function StickyFeatures() {
                   <span className="sf-screen-title">Pricing Calendar</span>
                   <span className="sf-badge sf-badge--cal">Junio 2025</span>
                 </div>
-                <div className="sf-cal-grid">
-                  <div className="cd cd-h">Lu</div><div className="cd cd-h">Ma</div><div className="cd cd-h">Mi</div><div className="cd cd-h">Ju</div><div className="cd cd-h">Vi</div><div className="cd cd-h">Sa</div><div className="cd cd-h">Do</div>
-                  <div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div>
-                  <div className="cd cd-lo" style={{animationDelay:'.05s'}}>1</div><div className="cd cd-lo" style={{animationDelay:'.10s'}}>2</div>
-                  <div className="cd cd-lo" style={{animationDelay:'.15s'}}>3</div><div className="cd cd-mi" style={{animationDelay:'.20s'}}>4</div><div className="cd cd-mi" style={{animationDelay:'.25s'}}>5</div><div className="cd cd-mi" style={{animationDelay:'.30s'}}>6</div><div className="cd cd-mi" style={{animationDelay:'.35s'}}>7</div><div className="cd cd-hi" style={{animationDelay:'.40s'}}>8</div><div className="cd cd-hi" style={{animationDelay:'.45s'}}>9</div>
-                  <div className="cd cd-mi" style={{animationDelay:'.50s'}}>10</div><div className="cd cd-mi" style={{animationDelay:'.55s'}}>11</div><div className="cd cd-mi" style={{animationDelay:'.60s'}}>12</div><div className="cd cd-mi" style={{animationDelay:'.62s'}}>13</div><div className="cd cd-hi" style={{animationDelay:'.64s'}}>14</div><div className="cd cd-pk" style={{animationDelay:'.66s'}}>15</div><div className="cd cd-pk" style={{animationDelay:'.68s'}}>16</div>
-                  <div className="cd cd-hi" style={{animationDelay:'.70s'}}>17</div><div className="cd cd-hi" style={{animationDelay:'.72s'}}>18</div><div className="cd cd-mi" style={{animationDelay:'.74s'}}>19</div><div className="cd cd-lo" style={{animationDelay:'.76s'}}>20</div><div className="cd cd-td" style={{animationDelay:'.78s'}}>21</div><div className="cd cd-pk" style={{animationDelay:'.80s'}}>22</div><div className="cd cd-pk" style={{animationDelay:'.82s'}}>23</div>
-                  <div className="cd cd-hi" style={{animationDelay:'.84s'}}>24</div><div className="cd cd-hi" style={{animationDelay:'.86s'}}>25</div><div className="cd cd-mi" style={{animationDelay:'.88s'}}>26</div><div className="cd cd-mi" style={{animationDelay:'.90s'}}>27</div><div className="cd cd-mi" style={{animationDelay:'.92s'}}>28</div><div className="cd cd-lo" style={{animationDelay:'.94s'}}>29</div><div className="cd cd-lo" style={{animationDelay:'.96s'}}>30</div>
+                <div id="sf-cal-grid-wrap">
+                  <div className="sf-cal-grid">
+                    <div className="cd cd-h">Lu</div><div className="cd cd-h">Ma</div><div className="cd cd-h">Mi</div><div className="cd cd-h">Ju</div><div className="cd cd-h">Vi</div><div className="cd cd-h">Sa</div><div className="cd cd-h">Do</div>
+                    <div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div>
+                    <div className="cd cd-lo" style={{animationDelay:'.05s'}}>1</div><div className="cd cd-lo" style={{animationDelay:'.10s'}}>2</div>
+                    <div className="cd cd-lo" style={{animationDelay:'.15s'}}>3</div><div className="cd cd-mi" style={{animationDelay:'.20s'}}>4</div><div className="cd cd-mi" style={{animationDelay:'.25s'}}>5</div><div className="cd cd-mi" style={{animationDelay:'.30s'}}>6</div><div className="cd cd-mi" style={{animationDelay:'.35s'}}>7</div><div className="cd cd-hi" data-sf-day="hi1" style={{animationDelay:'.40s'}}>8</div><div className="cd cd-hi" style={{animationDelay:'.45s'}}>9</div>
+                    <div className="cd cd-mi" style={{animationDelay:'.50s'}}>10</div><div className="cd cd-mi" style={{animationDelay:'.55s'}}>11</div><div className="cd cd-mi" style={{animationDelay:'.60s'}}>12</div><div className="cd cd-mi" style={{animationDelay:'.62s'}}>13</div><div className="cd cd-hi" style={{animationDelay:'.64s'}}>14</div><div className="cd cd-pk" data-sf-day="pk1" style={{animationDelay:'.66s'}}>15</div><div className="cd cd-pk" style={{animationDelay:'.68s'}}>16</div>
+                    <div className="cd cd-hi" style={{animationDelay:'.70s'}}>17</div><div className="cd cd-hi" style={{animationDelay:'.72s'}}>18</div><div className="cd cd-mi" style={{animationDelay:'.74s'}}>19</div><div className="cd cd-lo" style={{animationDelay:'.76s'}}>20</div><div className="cd cd-td" data-sf-day="td" style={{animationDelay:'.78s'}}>21</div><div className="cd cd-pk" data-sf-day="pk2" style={{animationDelay:'.80s'}}>22</div><div className="cd cd-pk" style={{animationDelay:'.82s'}}>23</div>
+                    <div className="cd cd-hi" style={{animationDelay:'.84s'}}>24</div><div className="cd cd-hi" style={{animationDelay:'.86s'}}>25</div><div className="cd cd-mi" style={{animationDelay:'.88s'}}>26</div><div className="cd cd-mi" style={{animationDelay:'.90s'}}>27</div><div className="cd cd-mi" style={{animationDelay:'.92s'}}>28</div><div className="cd cd-lo" style={{animationDelay:'.94s'}}>29</div><div className="cd cd-lo" style={{animationDelay:'.96s'}}>30</div>
+                  </div>
+                  <div className="sf-cal-cursor" id="sf-cal-cursor">
+                    <span className="sf-cal-cursor-lbl" id="sf-cal-cursor-lbl">pico</span>
+                  </div>
                 </div>
                 <div className="sf-cal-info">
                   <div>
