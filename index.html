@@ -120,47 +120,232 @@ function PxPageHeader({ speed }) {
   );
 }
 
-// ─── "Funcionalidades clave" — 3-card feature grid ─────────────────────
-function PxFeatures() {
-  const cards = [
-    {
-      n: '01',
-      title: 'Pricing diario con justificación',
-      desc: 'Una tarifa por día con su razonamiento. Vendimia, mid-week flojo, fin de semana largo — el sistema lo detecta antes que vos.',
-    },
-    {
-      n: '02',
-      title: 'Set competitivo siempre vivo',
-      desc: 'Ranking diario contra cuatro hoteles que vos elegís. Alertas cuando te alejás más de la cuenta del precio target.',
-    },
-    {
-      n: '03',
-      title: 'Agente IA con bordes editables',
-      desc: 'Recomienda, explica y aplica cambios solo dentro de los límites que vos definiste. Cada acción queda auditada.',
-    },
-  ];
+// ─── Sticky features — ClickUp-style scroll effect ──────────────────────
+function StickyFeatures() {
+  React.useEffect(() => {
+    const triggers = document.querySelectorAll('.sf-trigger');
+    const screens  = document.querySelectorAll('.sf-screen');
+    const dots     = document.querySelectorAll('.sf-dot');
+
+    function activateFeature(i) {
+      triggers.forEach((t, ti) => t.classList.toggle('active', ti === i));
+      screens.forEach((s, si) => {
+        if (si === i) s.classList.add('active');
+        else          s.classList.remove('active');
+      });
+      dots.forEach((d, di) => d.classList.toggle('active', di === i));
+    }
+
+    activateFeature(0);
+
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) activateFeature(+e.target.dataset.index);
+      });
+    }, { threshold: .5 });
+
+    triggers.forEach(t => obs.observe(t));
+    return () => obs.disconnect();
+  }, []);
+
   return (
-    <section className="px-section" id="features" data-screen-label="02 Features">
-      <div className="px-section__head">
-        <div className="px-section__eyebrow">Funcionalidades clave</div>
-        <h2 className="px-section__title">
-          Todo lo que hace tu revenue manager, <em>automatizado.</em>
-        </h2>
-        <p className="px-section__lede">
-          Diseñado con dueños y revenue managers de hoteles independientes de 30 a 200 habitaciones.
-          Empezás a verlo trabajar el primer día.
-        </p>
+    <React.Fragment>
+      {/* ── Intro heading ── */}
+      <div className="sf-intro-wrap" data-screen-label="02 Features">
+        <div className="sf-intro-inner">
+          <div className="px-section__eyebrow" style={{ justifyContent: 'center' }}>Funcionalidades</div>
+          <h2 className="sf-intro-title">
+            Todo lo que necesitás para <em>optimizar</em> tus ingresos
+          </h2>
+        </div>
       </div>
-      <div className="px-features__grid">
-        {cards.map(c => (
-          <article className="px-card" key={c.n}>
-            <span className="px-card__num">{c.n}</span>
-            <h3 className="px-card__title">{c.title}</h3>
-            <p className="px-card__desc">{c.desc}</p>
-          </article>
-        ))}
+
+      {/* ── Desktop sticky layout ── */}
+      <div className="sf-section" id="sf-section">
+
+        {/* Left: scroll triggers */}
+        <div className="sf-left">
+          <div className="sf-trigger" data-index="0">
+            <div>
+              <div className="sf-num">01</div>
+              <span className="sf-tag">Inteligencia competitiva</span>
+              <h3 className="sf-title">Compset en <em>tiempo real</em></h3>
+              <p className="sf-desc">Sabés exactamente a qué precio están tus competidores en cada fecha, sin entrar a Booking ni abrir una pestaña extra.</p>
+              <a href={DEMO_URL} className="px-btn --primary sf-trigger-cta">
+                <span>Ver demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+              </a>
+            </div>
+          </div>
+          <div className="sf-trigger" data-index="1">
+            <div>
+              <div className="sf-num">02</div>
+              <span className="sf-tag">Calendario dinámico</span>
+              <h3 className="sf-title">Precios por fecha, <em>siempre al día</em></h3>
+              <p className="sf-desc">Vista mensual con color por nivel de demanda. Los ajustes se propagan a todos tus canales en tiempo real, sin intervención manual.</p>
+              <a href={DEMO_URL} className="px-btn --primary sf-trigger-cta">
+                <span>Ver demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+              </a>
+            </div>
+          </div>
+          <div className="sf-trigger" data-index="2">
+            <div>
+              <div className="sf-num">03</div>
+              <span className="sf-tag">Automatización</span>
+              <h3 className="sf-title">Reglas que trabajan <em>mientras dormís</em></h3>
+              <p className="sf-desc">Configurás una vez: si la ocupación supera X%, la tarifa sube automáticamente. Podés definir reglas por fecha, evento o umbral de pickup.</p>
+              <a href={DEMO_URL} className="px-btn --primary sf-trigger-cta">
+                <span>Ver demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        {/* Right: sticky panel */}
+        <div className="sf-right" id="sf-right">
+          <div className="sf-panel" id="sf-panel">
+
+            {/* Progress dots */}
+            <div className="sf-dots">
+              <div className="sf-dot active" data-for="0"></div>
+              <div className="sf-dot" data-for="1"></div>
+              <div className="sf-dot" data-for="2"></div>
+            </div>
+
+            {/* Screen 0: Compset */}
+            <div className="sf-screen active" id="screen-0">
+              <div className="sf-screen-card">
+                <div className="sf-screen-hdr">
+                  <span className="sf-screen-title">Compset Analysis</span>
+                  <span className="sf-badge sf-badge--live">En vivo</span>
+                </div>
+                <div>
+                  <div className="sf-bar-row">
+                    <span className="sf-bar-name">Competidor 1</span>
+                    <div className="sf-bar-wrap"><div className="sf-bar-inner" style={{width:'98%'}}></div></div>
+                    <span className="sf-bar-price">$128.500</span>
+                  </div>
+                  <div className="sf-bar-row">
+                    <span className="sf-bar-name">Competidor 2</span>
+                    <div className="sf-bar-wrap"><div className="sf-bar-inner" style={{width:'91%'}}></div></div>
+                    <span className="sf-bar-price">$117.800</span>
+                  </div>
+                  <div className="sf-bar-row">
+                    <span className="sf-bar-name sf-bar-name--mine">Tu hotel</span>
+                    <div className="sf-bar-wrap"><div className="sf-bar-inner sf-bar-inner--mine" style={{width:'79%'}}></div></div>
+                    <span className="sf-bar-price sf-bar-price--mine">$102.400</span>
+                  </div>
+                  <div className="sf-bar-row">
+                    <span className="sf-bar-name">Competidor 3</span>
+                    <div className="sf-bar-wrap"><div className="sf-bar-inner" style={{width:'78%'}}></div></div>
+                    <span className="sf-bar-price">$101.900</span>
+                  </div>
+                  <div className="sf-bar-row">
+                    <span className="sf-bar-name">Competidor 4</span>
+                    <div className="sf-bar-wrap"><div className="sf-bar-inner" style={{width:'72%'}}></div></div>
+                    <span className="sf-bar-price">$93.600</span>
+                  </div>
+                </div>
+                <div className="sf-suggestion">
+                  <div className="sf-sug-icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2m8 0h2M3.05 3.05l1.41 1.41m4.97 4.97 1.41 1.41M3.05 10.95l1.41-1.41m4.97-4.97 1.41-1.41" stroke="white" strokeWidth="1.4" strokeLinecap="round"/></svg>
+                  </div>
+                  <div>
+                    <div className="sf-sug-label">Sugerencia IA · Finde largo</div>
+                    <div className="sf-sug-val">$102.400 → <span>$114.000</span> &thinsp;(+11.3%)</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Screen 1: Calendar */}
+            <div className="sf-screen" id="screen-1">
+              <div className="sf-screen-card">
+                <div className="sf-screen-hdr">
+                  <span className="sf-screen-title">Pricing Calendar</span>
+                  <span className="sf-badge sf-badge--cal">Junio 2025</span>
+                </div>
+                <div className="sf-cal-grid">
+                  <div className="cd cd-h">Lu</div><div className="cd cd-h">Ma</div><div className="cd cd-h">Mi</div><div className="cd cd-h">Ju</div><div className="cd cd-h">Vi</div><div className="cd cd-h">Sa</div><div className="cd cd-h">Do</div>
+                  <div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div><div className="cd cd-e"></div>
+                  <div className="cd cd-lo" style={{animationDelay:'.05s'}}>1</div><div className="cd cd-lo" style={{animationDelay:'.10s'}}>2</div>
+                  <div className="cd cd-lo" style={{animationDelay:'.15s'}}>3</div><div className="cd cd-mi" style={{animationDelay:'.20s'}}>4</div><div className="cd cd-mi" style={{animationDelay:'.25s'}}>5</div><div className="cd cd-mi" style={{animationDelay:'.30s'}}>6</div><div className="cd cd-mi" style={{animationDelay:'.35s'}}>7</div><div className="cd cd-hi" style={{animationDelay:'.40s'}}>8</div><div className="cd cd-hi" style={{animationDelay:'.45s'}}>9</div>
+                  <div className="cd cd-mi" style={{animationDelay:'.50s'}}>10</div><div className="cd cd-mi" style={{animationDelay:'.55s'}}>11</div><div className="cd cd-mi" style={{animationDelay:'.60s'}}>12</div><div className="cd cd-mi" style={{animationDelay:'.62s'}}>13</div><div className="cd cd-hi" style={{animationDelay:'.64s'}}>14</div><div className="cd cd-pk" style={{animationDelay:'.66s'}}>15</div><div className="cd cd-pk" style={{animationDelay:'.68s'}}>16</div>
+                  <div className="cd cd-hi" style={{animationDelay:'.70s'}}>17</div><div className="cd cd-hi" style={{animationDelay:'.72s'}}>18</div><div className="cd cd-mi" style={{animationDelay:'.74s'}}>19</div><div className="cd cd-lo" style={{animationDelay:'.76s'}}>20</div><div className="cd cd-td" style={{animationDelay:'.78s'}}>21</div><div className="cd cd-pk" style={{animationDelay:'.80s'}}>22</div><div className="cd cd-pk" style={{animationDelay:'.82s'}}>23</div>
+                  <div className="cd cd-hi" style={{animationDelay:'.84s'}}>24</div><div className="cd cd-hi" style={{animationDelay:'.86s'}}>25</div><div className="cd cd-mi" style={{animationDelay:'.88s'}}>26</div><div className="cd cd-mi" style={{animationDelay:'.90s'}}>27</div><div className="cd cd-mi" style={{animationDelay:'.92s'}}>28</div><div className="cd cd-lo" style={{animationDelay:'.94s'}}>29</div><div className="cd cd-lo" style={{animationDelay:'.96s'}}>30</div>
+                </div>
+                <div className="sf-cal-info">
+                  <div>
+                    <div className="sf-cal-info-l">22 de junio · Finde largo</div>
+                    <div className="sf-cal-info-r">$148.000 <span className="sf-cal-info-peak">↑ pico</span></div>
+                  </div>
+                  <div style={{display:'flex',gap:'8px',flexWrap:'wrap'}}>
+                    <span style={{display:'flex',alignItems:'center',gap:'4px',fontSize:'10px',color:'var(--light-gray)'}}>
+                      <span style={{width:'8px',height:'8px',borderRadius:'3px',background:'rgba(0,80,40,0.2)'}}></span>Baja
+                    </span>
+                    <span style={{display:'flex',alignItems:'center',gap:'4px',fontSize:'10px',color:'var(--light-gray)'}}>
+                      <span style={{width:'8px',height:'8px',borderRadius:'3px',background:'var(--blue)'}}></span>Pico
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Screen 2: Rules */}
+            <div className="sf-screen" id="screen-2">
+              <div className="sf-screen-card">
+                <div className="sf-screen-hdr">
+                  <span className="sf-screen-title">Reglas Activas</span>
+                  <span className="sf-badge sf-badge--auto">Automático</span>
+                </div>
+                <div className="sf-rules">
+                  <div className="sf-rule">
+                    <div className="sf-rule-dot sf-rule-dot--g"></div>
+                    <span className="sf-rule-text">Ocupación &gt; 80% → +15% tarifa base</span>
+                    <span className="sf-rule-tag sf-rule-tag--on">Activa</span>
+                  </div>
+                  <div className="sf-rule">
+                    <div className="sf-rule-dot sf-rule-dot--b"></div>
+                    <span className="sf-rule-text">Feriado + finde → precio pico automático</span>
+                    <span className="sf-rule-tag sf-rule-tag--on">Activa</span>
+                  </div>
+                  <div className="sf-rule">
+                    <div className="sf-rule-dot sf-rule-dot--a"></div>
+                    <span className="sf-rule-text">Pickup lento 7d antes → descuento 10%</span>
+                    <span className="sf-rule-tag sf-rule-tag--off">En pausa</span>
+                  </div>
+                </div>
+                <div className="sf-rules-footer">
+                  <div className="sf-rules-footer-icon" aria-hidden="true">
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2m8 0h2" stroke="white" strokeWidth="1.4" strokeLinecap="round"/><circle cx="7" cy="7" r="2" stroke="white" strokeWidth="1.4"/></svg>
+                  </div>
+                  <span className="sf-rules-footer-text"><strong>2 reglas disparadas hoy</strong> · Última: hace 3 horas</span>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
       </div>
-    </section>
+
+      {/* ── Mobile fallback ── */}
+      <div className="sf-mobile">
+        <div className="sf-mobile-card">
+          <span className="sf-tag">Inteligencia competitiva</span>
+          <h3 className="sf-title" style={{fontSize:'1.125rem',marginBottom:'8px'}}>Compset en tiempo real</h3>
+          <p style={{fontSize:'14px',color:'var(--light-gray)',lineHeight:'1.6'}}>Sabés exactamente a qué precio están tus competidores en cada fecha, sin entrar a Booking.</p>
+        </div>
+        <div className="sf-mobile-card">
+          <span className="sf-tag">Calendario dinámico</span>
+          <h3 className="sf-title" style={{fontSize:'1.125rem',marginBottom:'8px'}}>Precios por fecha, siempre al día</h3>
+          <p style={{fontSize:'14px',color:'var(--light-gray)',lineHeight:'1.6'}}>Vista mensual con color por nivel de demanda. Los ajustes se propagan a todos tus canales.</p>
+        </div>
+        <div className="sf-mobile-card">
+          <span className="sf-tag">Automatización</span>
+          <h3 className="sf-title" style={{fontSize:'1.125rem',marginBottom:'8px'}}>Reglas que trabajan mientras dormís</h3>
+          <p style={{fontSize:'14px',color:'var(--light-gray)',lineHeight:'1.6'}}>Configurás una vez: si la ocupación supera X%, la tarifa sube automáticamente.</p>
+        </div>
+      </div>
+    </React.Fragment>
   );
 }
 
@@ -612,7 +797,7 @@ function App() {
     <div className="landing">
       <PxNavbar />
       <PxPageHeader speed={speed} />
-      <PxFeatures />
+      <StickyFeatures />
       <PxWhatIs />
       <window.PxScenes speed={speed} />
       <window.PxBenefits />
