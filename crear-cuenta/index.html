@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pxsol — Crear cuenta</title>
+<link rel="shortcut icon" href="../favicon.ico" />
+<link rel="icon" href="../favicon.ico" sizes="any" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet" />
+<style>
+:root{
+  --pxs-red:#D20A11; --pxs-red-600:#B40911;
+  --pxs-yellow:#F1C200; --pxs-yellow-200:rgba(241,194,0,.20);
+  --pxs-ink:#000017; --ink-700:#262728; --ink-500:#666;
+  --ink-400:#999; --ink-300:#D1D1D1; --paper:#fff; --paper-2:#F7F7F7;
+  --success:#2ECC71; --success-bg:#E6F8EE;
+  --font:"Work Sans","Helvetica Neue",Arial,sans-serif;
+  --radius-card:20px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:var(--font);
+  background:var(--paper-2);
+  color:var(--pxs-ink);
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+.page{
+  width:1440px;
+  max-width:100%;
+  margin:0 auto;
+  padding:24px 0 0;
+}
+a{color:inherit;text-decoration:none;}
+.lucide{stroke-width:1.6;}
+
+/* ───────── HERO ───────── */
+.hero{
+  position:relative;
+  margin:0 24px;
+  border-radius:var(--radius-card);
+  overflow:hidden;
+  isolation:isolate;
+}
+.hero::before{
+  content:"";
+  position:absolute; inset:0;
+  background:linear-gradient(rgba(0,0,23,.7),rgba(0,0,23,.7)), url(assets/hero-bg.png) center/cover no-repeat;
+  z-index:-1;
+}
+.menu{
+  height:80px;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 48px;
+  margin:7px 0;
+}
+.menu-left{display:flex; align-items:center; gap:48px;}
+.logo{font-weight:800; font-size:26px; letter-spacing:-.02em; color:#fff; display:inline-flex; align-items:center; line-height:1;}
+.logo .x{color:var(--pxs-red);}
+.nav{display:flex; align-items:center; gap:4px;}
+.nav a{
+  display:flex; align-items:center; gap:6px;
+  padding:12px 16px; border-radius:100px;
+  font-size:16px; font-weight:400; color:#fff;
+  transition:background .2s cubic-bezier(.22,.61,.36,1);
+}
+.nav a:hover{background:rgba(255,255,255,.08);}
+.nav a .lucide{width:18px;height:18px;opacity:.85;}
+.menu-right{display:flex; align-items:center; gap:12px;}
+.icon-btn{
+  width:48px;height:48px;border-radius:100px;
+  display:flex;align-items:center;justify-content:center;
+  color:#fff; cursor:pointer; transition:background .2s;
+}
+.icon-btn:hover{background:rgba(255,255,255,.08);}
+.btn{
+  border:none; cursor:pointer; font-family:var(--font);
+  font-weight:500; font-size:16px; border-radius:100px;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
+  transition:transform .2s cubic-bezier(.22,.61,.36,1), box-shadow .2s, background .2s;
+}
+.btn:active{transform:scale(.97);}
+.btn-light{background:#fff; color:var(--pxs-ink); padding:13px 28px;}
+.btn-light:hover{box-shadow:0 6px 18px rgba(0,0,0,.25); transform:scale(1.02);}
+.btn-ghost{background:transparent; color:#fff; padding:13px 22px;}
+.btn-ghost:hover{background:rgba(255,255,255,.08);}
+
+.hero-body{
+  display:flex; align-items:flex-start; gap:48px;
+  padding:64px 60px 56px;
+  position:relative;
+}
+.hero-left{
+  flex:1; min-width:0; align-self:stretch;
+  display:flex; flex-direction:column;
+  padding-top:36px;
+}
+.countdown-label{font-size:14px; color:#fff; letter-spacing:.02em; margin-bottom:10px;}
+.countdown{display:flex; gap:10px; margin-bottom:34px;}
+.countdown .cd{
+  font-size:16px; color:#fff; padding:8px 14px;
+  border-radius:20px; background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12); min-width:60px; text-align:center;
+}
+.countdown .cd b{font-weight:700;}
+.hero-h2{
+  font-weight:500; font-size:52px; line-height:62px; letter-spacing:-.02em;
+  color:#fff; max-width:660px; margin:0 0 24px;
+}
+.hero-sub{
+  font-size:16px; line-height:1.5; color:rgba(255,255,255,.92);
+  max-width:571px; margin:0 0 24px;
+}
+.ia-pill{
+  display:inline-flex; align-items:center; gap:10px;
+  background:rgba(255,255,255,.05); border-radius:8px;
+  padding:8px 14px; align-self:flex-start; margin-bottom:auto;
+}
+.ia-pill .chip{
+  width:34px;height:34px;border-radius:50%;
+  background:rgba(231,241,250,.12); display:flex;align-items:center;justify-content:center;
+}
+.ia-pill .chip .lucide{width:20px;height:20px;color:#E7F1FA;}
+.ia-pill span{font-weight:500; font-size:16px; color:#fff;}
+.hero-stats{display:flex; align-items:center; gap:30px; margin-top:48px;}
+.avatars{display:flex;}
+.avatars .av{
+  width:60px;height:60px;border-radius:50%;
+  background-size:cover; background-position:center; background-color:#fff;
+  margin-left:-18px; box-shadow:0 0 0 2px rgba(132,111,63,.6);
+}
+.avatars .av:first-child{margin-left:0;}
+.hero-stats p{font-size:16px; line-height:1.4; color:#fff; max-width:300px; margin:0;}
+
+/* form card */
+.form-card{
+  width:526px; flex:none;
+  background:#fff; border-radius:20px;
+  box-shadow:-2px -2px 12px rgba(1,14,61,.10), 0 18px 50px rgba(0,0,23,.25);
+  padding:32px;
+  margin-top:0;
+}
+.form-row{display:flex; gap:16px;}
+.field{display:flex; flex-direction:column; gap:8px; margin-bottom:20px; flex:1;}
+.field label{font-size:18px; color:var(--ink-700); font-weight:400;}
+.field input, .field select{
+  font-family:var(--font); font-size:17px; color:var(--pxs-ink);
+  background:#F8F9FB; border:1px solid #E4E7EC; border-radius:10px;
+  padding:14px 16px; outline:none; width:100%;
+  transition:border-color .2s, box-shadow .2s;
+}
+.field input::placeholder{color:#98A2B3;}
+.field input:focus, .field select:focus{
+  border-color:var(--pxs-red); box-shadow:0 0 0 3px rgba(210,10,17,.08);
+}
+.field.invalid input{border-color:var(--pxs-red); box-shadow:0 0 0 3px rgba(210,10,17,.12);}
+.toggle-q{font-size:18px; color:var(--ink-700); margin:0 0 8px;}
+.toggle-row{display:flex; gap:16px; margin-bottom:20px;}
+.toggle{
+  flex:1; cursor:pointer; background:#fff;
+  border:1px solid #D9DEE5; border-radius:14px;
+  padding:20px 12px; display:flex; flex-direction:column; align-items:center; gap:12px;
+  text-align:center; transition:border-color .2s, box-shadow .2s, background .2s;
+}
+.toggle .tic{
+  width:54px;height:54px;border-radius:50%;
+  background:#EFEFEF; display:flex;align-items:center;justify-content:center; color:#444;
+  transition:background .2s,color .2s;
+}
+.toggle .tic .lucide{width:24px;height:24px;}
+.toggle span{font-size:19px; color:var(--pxs-ink); line-height:1.25;}
+.toggle:hover{border-color:#b8c0cc;}
+.toggle.active{
+  border-color:var(--success); box-shadow:0 4px 14px rgba(46,204,113,.18);
+}
+.toggle.active .tic{background:var(--success-bg); color:var(--success);}
+.phone-row{display:flex; gap:12px;}
+.phone-row .country{flex:0 0 165px;}
+.phone-row .num{flex:1;}
+.select-wrap{position:relative;}
+.select-wrap select{appearance:none; padding-right:40px; cursor:pointer;}
+.select-wrap .lucide{position:absolute; right:14px; top:50%; transform:translateY(-50%); width:20px;height:20px; color:#475467; pointer-events:none;}
+.btn-submit{
+  width:100%; background:var(--pxs-red); color:#fff;
+  font-size:18px; font-weight:500; border:none; border-radius:100px;
+  padding:16px; cursor:pointer; margin-top:8px;
+  transition:background .2s, transform .2s, box-shadow .2s;
+}
+.btn-submit:hover{background:var(--pxs-red-600); box-shadow:0 8px 22px rgba(210,10,17,.28);}
+.btn-submit:active{transform:scale(.98);}
+.form-success{
+  display:none; text-align:center; padding:32px 8px;
+}
+.form-success.show{display:block;}
+.form-success .ok{width:72px;height:72px;border-radius:50%;background:var(--success-bg);color:var(--success);display:flex;align-items:center;justify-content:center;margin:0 auto 18px;}
+.form-success .ok .lucide{width:36px;height:36px;}
+.form-success h3{font-size:26px;font-weight:600;margin:0 0 10px;}
+.form-success p{font-size:16px;color:var(--ink-500);margin:0;}
+
+/* ───────── MAS PRODUCTOS ───────── */
+.section-head{text-align:center; padding:56px 24px 0;}
+.section-head h2{font-weight:500; font-size:32px; letter-spacing:-.02em; color:var(--ink-700); margin:0 0 12px;}
+.section-head p{font-size:18px; color:#000; margin:0;}
+.products{
+  display:flex; gap:24px; justify-content:center;
+  padding:40px 130px;
+}
+.prod-col{display:flex; flex-direction:column; gap:24px; flex:1; min-width:0;}
+.prod-card{
+  position:relative; height:157px; border-radius:10px; overflow:hidden;
+  padding:24px; display:flex; flex-direction:column; justify-content:flex-end;
+  color:#fff; cursor:pointer; transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s;
+}
+.prod-card::before{content:""; position:absolute; inset:0; background:rgba(0,0,0,.55); z-index:0;}
+.prod-card>*{position:relative; z-index:1;}
+.prod-card:hover{transform:translateY(-4px); box-shadow:0 14px 30px rgba(0,0,23,.28);}
+.prod-card .chip{
+  position:absolute; top:24px; left:24px; z-index:1;
+  width:48px;height:48px;border-radius:50%; background:#fff;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 2px 4px -2px rgba(0,0,0,.1),0 4px 6px -1px rgba(0,0,0,.1);
+}
+.prod-card .chip .lucide{width:24px;height:24px;}
+.prod-card .title{font-weight:700; font-size:18px; line-height:1.4; margin:0;}
+.prod-card .sub{font-size:16px; line-height:1.3; color:#E7F1FA; margin:6px 0 0;}
+
+/* product modal */
+.prod-modal{
+  position:fixed; inset:0; z-index:100;
+  background:rgba(0,0,23,.55); backdrop-filter:blur(4px);
+  display:flex; align-items:center; justify-content:center; padding:24px;
+  opacity:0; visibility:hidden; transition:opacity .25s ease;
+}
+.prod-modal.open{opacity:1; visibility:visible;}
+.prod-modal__box{
+  width:760px; max-width:100%; max-height:90vh; overflow:auto;
+  background:#fff; border-radius:20px; position:relative;
+  box-shadow:0 30px 80px rgba(0,0,23,.45);
+  transform:translateY(16px) scale(.98); transition:transform .28s cubic-bezier(.22,.61,.36,1);
+}
+.prod-modal.open .prod-modal__box{transform:none;}
+.prod-modal__close{
+  position:absolute; top:16px; right:16px; z-index:2;
+  width:40px;height:40px;border-radius:50%; border:none; cursor:pointer;
+  background:rgba(255,255,255,.9); color:var(--pxs-ink);
+  display:flex;align-items:center;justify-content:center; transition:background .2s;
+}
+.prod-modal__close:hover{background:#fff;}
+.prod-modal__close .lucide{width:22px;height:22px;}
+.prod-modal__media{
+  height:240px; background-size:cover; background-position:center;
+  border-radius:20px 20px 0 0;
+}
+.prod-modal__body{padding:32px 40px 40px; position:relative;}
+.prod-modal__chip{
+  width:64px;height:64px;border-radius:50%; background:#fff;
+  box-shadow:0 4px 14px rgba(0,0,23,.18);
+  display:flex;align-items:center;justify-content:center;
+  position:absolute; top:-32px; left:40px;
+}
+.prod-modal__chip .lucide{width:30px;height:30px;}
+.prod-modal__sub{margin:8px 0 0; font-size:15px; font-weight:500; color:var(--ink-400); letter-spacing:.01em;}
+.prod-modal__title{margin:6px 0 16px; font-weight:700; font-size:34px; letter-spacing:-.02em; color:var(--pxs-ink); line-height:1.15;}
+.prod-modal__desc{margin:0; font-size:18px; line-height:1.6; color:var(--ink-500);}
+.prod-modal__cta{width:auto; padding:14px 36px;}
+
+/* ───────── CLIENTES ───────── */
+.clients{
+  display:flex; align-items:center; gap:24px;
+  padding:48px 33px; max-width:1374px; margin:0 auto;
+}
+.clients-rev{display:flex; align-items:center; gap:16px; flex:none;}
+.rev-avatars{display:flex;}
+.rev-avatars .av{width:60px;height:60px;border-radius:50%;background-size:cover;background-position:center;background-color:#dfe4ea; margin-left:-26px; border:3px solid var(--paper-2);}
+.rev-avatars .av:first-child{margin-left:0;}
+.clients-rev p{font-size:18px; line-height:1.4; color:var(--ink-700); margin:0; max-width:210px;}
+.clients-divider{width:1px; height:98px; background:rgba(0,0,0,.12);}
+.logos{
+  position:relative; flex:1; overflow:hidden;
+  display:flex; align-items:center; gap:64px; padding:0 8px;
+}
+.logos img{height:64px; width:auto; object-fit:contain; border-radius:8px; flex:none;}
+.logos .fade-l,.logos .fade-r{position:absolute; top:0; bottom:0; width:80px; z-index:2; pointer-events:none;}
+.logos .fade-l{left:0; background:linear-gradient(90deg,var(--paper-2),rgba(247,247,247,0));}
+.logos .fade-r{right:0; background:linear-gradient(270deg,var(--paper-2),rgba(247,247,247,0));}
+
+/* ───────── FAQ ───────── */
+.faq{
+  margin:0 24px; border-radius:48px; background:var(--paper-2);
+  padding:80px 48px;
+  display:flex; gap:24px; align-items:flex-start;
+}
+.faq-title{flex:0 0 484px;}
+.faq-title h2{font-weight:700; font-size:46px; line-height:62px; letter-spacing:-.02em; color:var(--pxs-ink); margin:0;}
+.faq-list{flex:1; display:flex; flex-direction:column; gap:20px;}
+.faq-item{
+  border:1px solid var(--ink-300); border-radius:16px;
+  background:linear-gradient(rgba(255,255,255,.5),rgba(231,241,250,.25));
+  overflow:hidden; transition:border-color .2s;
+}
+.faq-item:hover{border-color:#b8c0cc;}
+.faq-q{
+  width:100%; background:none; border:none; cursor:pointer; font-family:var(--font);
+  display:flex; align-items:center; justify-content:space-between; gap:16px;
+  padding:20px 24px 20px 30px; text-align:left;
+}
+.faq-q span{font-weight:500; font-size:24px; line-height:1.4; color:var(--ink-700);}
+.faq-q .lucide{width:24px;height:24px; color:var(--ink-500); flex:none; transition:transform .25s;}
+.faq-item.open .faq-q .lucide{transform:rotate(180deg);}
+.faq-a{
+  max-height:0; overflow:hidden; transition:max-height .3s cubic-bezier(.22,.61,.36,1);
+}
+.faq-a p{padding:0 30px 22px; font-size:17px; line-height:1.6; color:var(--ink-500); margin:0;}
+
+/* ───────── FOOTER ───────── */
+.footer{background:var(--pxs-ink); color:#fff; margin-top:80px;}
+.f-top{
+  display:flex; align-items:center; justify-content:space-between; gap:32px;
+  padding:48px 90px; border-bottom:1px solid rgba(255,255,255,.2);
+}
+.f-brand{display:flex; flex-direction:column; gap:12px; max-width:300px;}
+.f-brand .logo{font-size:24px;}
+.f-brand p{font-size:18px; line-height:1.35; color:#fff; margin:0;}
+.f-social{display:flex; gap:16px; margin-top:4px;}
+.f-social a{width:33px;height:33px;display:flex;align-items:center;justify-content:center;color:#fff;opacity:.9;transition:opacity .2s,transform .2s;}
+.f-social a:hover{opacity:1; transform:translateY(-2px);}
+.f-social .lucide{width:26px;height:26px;}
+.f-badges{display:flex; align-items:center; gap:28px;}
+.f-badges img{height:50px; width:auto; object-fit:contain;}
+.badge-capterra{
+  display:flex; align-items:center; gap:8px; background:#1A2A3A; border-radius:6px; padding:8px 12px;
+}
+.badge-capterra .bt{font-weight:700; font-size:15px; color:#fff;}
+.badge-capterra .stars{color:#FF9D28; font-size:13px; letter-spacing:1px;}
+.badge-capterra .rt{font-weight:700; font-size:18px; color:#fff;}
+.f-selects{display:flex; flex-direction:column; gap:12px; flex:none;}
+.f-select{
+  width:246px; border:1px solid rgba(255,255,255,.2); border-radius:12px;
+  padding:13px 12px; display:flex; align-items:center; justify-content:space-between;
+  cursor:pointer; transition:background .2s;
+}
+.f-select:hover{background:rgba(255,255,255,.06);}
+.f-select .l{display:flex; align-items:center; gap:12px; font-size:18px; color:#fff;}
+.f-select .lucide{width:22px;height:22px;}
+.f-cols{
+  display:flex; gap:60px; justify-content:center;
+  padding:48px 90px;
+}
+.f-col{display:flex; flex-direction:column; gap:0; flex:1; max-width:380px;}
+.f-col h4{text-align:center; font-weight:700; font-size:24px; color:#fff; margin:0 0 12px; padding:10px 0;}
+.f-col.right{max-width:380px;}
+.f-col a{font-size:16px; color:rgba(255,255,255,.85); padding:13px 16px; border-radius:8px; transition:background .2s,color .2s;}
+.f-col a:hover{background:rgba(255,255,255,.06); color:#fff;}
+.f-col .group{display:flex; flex-direction:column; margin-bottom:44px;}
+.f-bottom{
+  border-top:1px solid rgba(255,255,255,.2);
+  padding:24px 90px; text-align:center;
+}
+.f-bottom p{font-size:14px; color:rgba(255,255,255,.5); margin:0;}
+
+@media (max-width:1024px){
+  .hero-body{flex-direction:column;}
+  .form-card{width:100%;}
+  .products{padding:40px 24px; flex-direction:column;}
+  .faq{flex-direction:column;}
+  .faq-title{flex:none;}
+  .f-top,.f-cols{flex-wrap:wrap;}
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- ════════ HERO ════════ -->
+  <section class="hero" data-screen-label="Hero / Crear cuenta">
+    <div class="hero-body">
+      <div class="hero-left">
+        <div class="countdown-label">TU OPORTUNIDAD TERMINA EN:</div>
+        <div class="countdown">
+          <div class="cd"><b id="cd-d">200</b> días</div>
+          <div class="cd"><b id="cd-h">0</b> h</div>
+          <div class="cd"><b id="cd-m">30</b> m</div>
+        </div>
+        <h1 class="hero-h2">¡Mas y mejores reservas para tu Alojamiento!</h1>
+        <p class="hero-sub">La plataforma hotelera all-in-one de Pxsol centraliza tu PMS, Motor de Reservas y las herramientas de comunicación con el huésped.</p>
+        <div class="ia-pill">
+          <span class="chip"><i data-lucide="sparkles" class="lucide"></i></span>
+          <span>Incluye IA gratuita y 15 días sin cargo</span>
+        </div>
+        <div class="hero-stats">
+          <div class="avatars">
+            <div class="av" style="background-image:url('assets/coin-1.png')"></div>
+            <div class="av" style="background-image:url('assets/coin-2.png')"></div>
+            <div class="av" style="background-image:url('assets/coin-3.png')"></div>
+            <div class="av" style="background-image:url('assets/coin-4.png')"></div>
+            <div class="av" style="background-image:url('assets/coin-5.png')"></div>
+          </div>
+          <p>+1500 hoteles ya optimizan su rentabilidad con nosotros</p>
+        </div>
+      </div>
+
+      <!-- FORM CARD -->
+      <div class="form-card">
+        <form id="signup-form" novalidate>
+          <div class="form-row">
+            <div class="field">
+              <label for="nombre">Nombre</label>
+              <input type="text" id="nombre" name="nombre" autocomplete="given-name" />
+            </div>
+            <div class="field">
+              <label for="apellido">Apellido</label>
+              <input type="text" id="apellido" name="apellido" autocomplete="family-name" />
+            </div>
+          </div>
+
+          <p class="toggle-q">¿Trabajas en un Hotel o establecimiento turístico?</p>
+          <div class="toggle-row" id="toggle-row">
+            <div class="toggle" data-val="hotelero">
+              <span class="tic"><i data-lucide="search" class="lucide"></i></span>
+              <span>Si, soy hotelero</span>
+            </div>
+            <div class="toggle active" data-val="curioso">
+              <span class="tic"><i data-lucide="user" class="lucide"></i></span>
+              <span>No, soy curioso o estudiante</span>
+            </div>
+          </div>
+
+          <div class="field" style="margin-bottom:24px;">
+            <label for="email">Tu email</label>
+            <input type="email" id="email" name="email" autocomplete="email" />
+          </div>
+
+          <div class="field" style="margin-bottom:28px;">
+            <label>Número de teléfono</label>
+            <div class="phone-row">
+              <div class="select-wrap country">
+                <select id="country">
+                  <option>Argentina</option>
+                  <option>Uruguay</option>
+                  <option>Chile</option>
+                  <option>Brasil</option>
+                  <option>México</option>
+                  <option>Colombia</option>
+                  <option>Perú</option>
+                  <option>España</option>
+                </select>
+                <i data-lucide="chevron-down" class="lucide"></i>
+              </div>
+              <div class="num">
+                <input type="tel" id="phone" value="+54" />
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn-submit">Solicitar una demo gratuita</button>
+        </form>
+
+        <div class="form-success" id="form-success">
+          <div class="ok"><i data-lucide="check" class="lucide"></i></div>
+          <h3>¡Gracias!</h3>
+          <p>Recibimos tu solicitud. Nuestro equipo se pondrá en contacto con vos a la brevedad.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════ MAS PRODUCTOS ════════ -->
+  <section class="section-head" data-screen-label="Más Productos">
+    <h2>Más Productos</h2>
+    <p>Soluciones integrales para potenciar tu negocio hotelero y turístico</p>
+  </section>
+  <section class="products" id="products"></section>
+
+  <!-- ════════ CLIENTES ════════ -->
+  <section class="clients" data-screen-label="Clientes">
+    <div class="clients-rev">
+      <div class="rev-avatars">
+        <div class="av" style="background-image:url('assets/rev-1.png')"></div>
+        <div class="av" style="background-image:url('assets/rev-2.png')"></div>
+        <div class="av" style="background-image:url('assets/rev-3.png')"></div>
+        <div class="av" style="background-image:url('assets/rev-4.png')"></div>
+      </div>
+      <p>+1500 hoteles sumando huéspedes felices</p>
+    </div>
+    <div class="clients-divider"></div>
+    <div class="logos">
+      <div class="fade-l"></div>
+      <img src="assets/logo-1.png" alt="San Remo Hoteles Resort" />
+      <img src="assets/logo-2.png" alt="DH Hoteles" />
+      <img src="assets/logo-3.png" alt="Quinto Centenario Hotel" />
+      <img src="assets/logo-4.png" alt="Amérian Hoteles" />
+      <img src="assets/logo-5.png" alt="Pristine Salinas Grandes" />
+      <img src="assets/logo-1.png" alt="San Remo Hoteles Resort" />
+      <img src="assets/logo-3.png" alt="Quinto Centenario Hotel" />
+      <div class="fade-r"></div>
+    </div>
+  </section>
+
+  <!-- ════════ FAQ ════════ -->
+  <section class="faq" data-screen-label="Preguntas frecuentes">
+    <div class="faq-title"><h2>Preguntas frecuentes</h2></div>
+    <div class="faq-list" id="faq-list"></div>
+  </section>
+
+  <!-- ════════ FOOTER ════════ -->
+  <footer class="footer" data-screen-label="Footer">
+    <div class="f-top">
+      <div class="f-brand">
+        <a href="#" class="logo">P<span class="x">X</span>SOL</a>
+        <p>Software para hoteles all-in-one</p>
+        <div class="f-social">
+          <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin" class="lucide"></i></a>
+          <a href="#" aria-label="YouTube"><i data-lucide="youtube" class="lucide"></i></a>
+          <a href="#" aria-label="Facebook"><i data-lucide="facebook" class="lucide"></i></a>
+          <a href="#" aria-label="Instagram"><i data-lucide="instagram" class="lucide"></i></a>
+        </div>
+      </div>
+      <div class="f-badges">
+        <div class="badge-capterra">
+          <span class="bt">Capterra</span>
+          <span class="stars">★★★★★</span>
+          <span class="rt">4.9</span>
+        </div>
+        <img src="assets/badge-getapp.png" alt="GetApp" />
+        <img src="assets/badge-softwareadvice.png" alt="Software Advice" />
+      </div>
+      <div class="f-selects">
+        <div class="f-select">
+          <div class="l">
+            <svg width="22" height="16" viewBox="0 0 22 16" aria-hidden="true"><rect width="22" height="16" rx="2" fill="#74ACDF"/><rect y="5.33" width="22" height="5.33" fill="#fff"/><circle cx="11" cy="8" r="2.1" fill="#F6B40E"/></svg>
+            Cambiar país
+          </div>
+          <i data-lucide="chevron-down" class="lucide"></i>
+        </div>
+        <div class="f-select">
+          <div class="l"><i data-lucide="coins" class="lucide"></i> Cambiar moneda</div>
+          <i data-lucide="chevron-down" class="lucide"></i>
+        </div>
+      </div>
+    </div>
+
+    <div class="f-cols">
+      <div class="f-col" id="f-productos"><h4>Productos</h4></div>
+      <div class="f-col" id="f-recursos"><h4>Recursos</h4></div>
+      <div class="f-col right" id="f-equipo"></div>
+    </div>
+
+    <div class="f-bottom">
+      <p>Todos los derechos reservados © PXSOL | Política de Privacidad | Al utilizar este sitio web, acepta el uso de cookies.</p>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<script src="page.js"></script>
+</body>
+</html>

@@ -12,7 +12,7 @@
 <link rel="icon" href="favicon.ico" sizes="any">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Square+Peg&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 
 <link rel="stylesheet" href="pxsol-tokens.css">
 <link rel="stylesheet" href="landing-styles.css">
@@ -25,6 +25,8 @@
 <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
 <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script>window.react = window.React;</script>
+<script src="https://unpkg.com/lucide-react@0.488.0/dist/umd/lucide-react.js" crossorigin="anonymous"></script>
 
 <script type="text/babel" src="tweaks-panel.jsx"></script>
 <script type="text/babel" src="landing-scenes.jsx"></script>
@@ -37,6 +39,9 @@ const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
 
 const DEMO_URL  = "https://nexus.getpxsol.com/reuniones/cynthia-maciel-presentacion-pxsol";
 const PXSOL_URL = "https://nexus.getpxsol.com/reuniones/cynthia-maciel-presentacion-pxsol";
+const CREAR_CUENTA_URL = "crear-cuenta/";
+
+const { X, Check, ArrowRight, Sparkles, Sun, TrendingUp } = window.LucideReact;
 
 // ─── Pxsol navbar ──────────────────────────────────────────────────────
 function PxNavbar() {
@@ -56,36 +61,78 @@ function PxNavbar() {
   );
 }
 
-// ─── Page header (canonical .px-pageHeader pattern) ────────────────────
+// ─── Page header — Device variant (browser mock + AgentScene) ──────────
 function PxPageHeader({ speed }) {
+  const wideRef   = React.useRef(null);
+  const deviceRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const wide   = wideRef.current;
+    const device = deviceRef.current;
+    if (!wide || !device) return;
+    let raf = 0;
+    const onScroll = () => {
+      if (raf) return;
+      raf = requestAnimationFrame(() => {
+        raf = 0;
+        const rect  = wide.getBoundingClientRect();
+        const vh    = window.innerHeight || 1;
+        const total = vh + rect.height;
+        const t     = 1 - Math.max(0, Math.min(1, rect.bottom / total));
+        device.style.transform    = `translateY(${(1-t)*28}px) scale(${0.92 + t*0.14})`;
+        device.style.borderRadius = `${26 - t*14}px`;
+      });
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      window.removeEventListener('resize', onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, []);
+
   return (
     <section
-      className="px-pageHeader"
+      className="px-pageHeader px-pageHeader--device"
       style={{ '--product-color': 'var(--product-rms-color)' }}
-      data-screen-label="01 Page header"
+      data-screen-label="01 Hero · device"
     >
       <div className="px-pageHeader__inner">
-        <div className="px-pageHeader__top">
 
-          {/* IZQUIERDA — texto + CTA */}
+        {/* TOP — copy left / description right */}
+        <div className="px-pageHeader__top">
           <div className="px-pageHeader__content">
             <div className="px-pageHeader__epigraph">
-              <span className="px-pageHeader__epigraphIcon">↑</span>
-              <span>+ Revenue Management Inteligente</span>
+              <span className="px-pageHeader__epigraphIcon" aria-hidden="true">
+                <TrendingUp size={18} strokeWidth={2.25} />
+              </span>
+              <span>Revenue Management Inteligente</span>
             </div>
-
             <h1 className="px-pageHeader__title">
-              Pricing dinámico para hoteles <em>siempre</em> a la velocidad del mercado.
+              Pricing dinámico para hoteles, a la velocidad del mercado.
             </h1>
-
             <p className="px-pageHeader__subtitle">
-              Tu RMS evalúa demanda, set competitivo y pickup todos los días, y ajusta tus tarifas sin abrir una planilla.
+              Evalúa demanda, set competitivo y pickup todos los días.
             </p>
-
             <div className="px-pageHeader__ctas">
               <a className="px-btn --primary" href={DEMO_URL}><span>Probar ahora</span></a>
             </div>
+          </div>
 
+          <div className="px-pageHeader__description">
+            <p>
+              Con el RMS de Pxsol, tu hotel toma decisiones de pricing basadas en datos
+              reales y no en intuición. Centralizá tu set competitivo, entendé el pickup
+              en tiempo real y dejá que un agente IA proponga tarifas cada mañana, siempre
+              dentro de los bordes que vos definís.
+            </p>
+            <p>
+              Integrado de forma nativa con tu ecosistema Pxsol (<strong>PMS,
+              Motor de Reservas, POS, Channel Manager</strong>), para que la
+              tarifa correcta llegue a todos tus canales al mismo tiempo.
+            </p>
             <div className="px-pageHeader__proof">
               <strong>+1500 hoteles</strong> sumando más revenue
               <span className="px-pageHeader__proof-divider"></span>
@@ -93,27 +140,177 @@ function PxPageHeader({ speed }) {
               <span>4.8 / 5</span>
             </div>
           </div>
+        </div>
 
-          {/* DERECHA — descripción larga */}
-          <div className="px-pageHeader__description">
-            <p>
-              Con el RMS de Pxsol, tu hotel puede tomar decisiones de pricing
-              basadas en datos reales y no en intuición. Centralizá tu set
-              competitivo, entendé el pickup en tiempo real y dejá que un
-              agente IA proponga tarifas cada mañana — siempre dentro de
-              los bordes que vos definís.
-            </p>
-            <p>
-              Integrado de forma nativa con tu ecosistema Pxsol (<strong>PMS,
-              Motor de Reservas, POS, Channel Manager</strong>), para que la
-              tarifa correcta llegue a todos tus canales al mismo tiempo.
-            </p>
+        {/* BOTTOM — full-width browser mock */}
+        <div className="px-hero-wide" ref={wideRef}>
+          <div className="px-hero-wide__device" ref={deviceRef}>
+            {/* Chrome bar */}
+            <div className="px-hero-wide__chrome">
+              <span className="px-hero-wide__dots">
+                <span></span><span></span><span></span>
+              </span>
+              <span className="px-hero-wide__url">
+                <span className="px-hero-wide__lock">●</span>
+                <span>pms.pxsol.com / rms</span>
+              </span>
+              <span className="px-hero-wide__live">
+                <span className="dot"></span>
+                en vivo
+              </span>
+            </div>
+
+            {/* Screen — Hub UI mock */}
+            <div className="px-hero-wide__screen">
+              <div className="px-hub-mock">
+                {/* Left rail */}
+                <aside className="px-hub-mock__rail">
+                  <div className="px-hub-mock__rail-logo">PX</div>
+                  <div className="px-hub-mock__rail-items">
+                    {[
+                      { i: '◐', label: 'Diario' },
+                      { i: '✦', label: 'Agente', active: true },
+                      { i: '▦', label: 'Reglas' },
+                      { i: '◇', label: 'Set comp.' },
+                      { i: '◯', label: 'Escenarios' },
+                      { i: '↗', label: 'Pickup' },
+                    ].map((m, i) => (
+                      <div key={i} className={`px-hub-mock__rail-item ${m.active ? 'is-active' : ''}`}>
+                        <span className="px-hub-mock__rail-icon">{m.i}</span>
+                        <span className="px-hub-mock__rail-label">{m.label}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="px-hub-mock__rail-foot">
+                    <div className="px-hub-mock__rail-avatar">HA</div>
+                  </div>
+                </aside>
+
+                {/* Main */}
+                <div className="px-hub-mock__main">
+                  <header className="px-hub-mock__header">
+                    <div className="px-hub-mock__hotel">
+                      <div className="px-hub-mock__hotel-mark">HA</div>
+                      <div className="px-hub-mock__hotel-meta">
+                        <div className="px-hub-mock__hotel-name">Hotel Andina</div>
+                        <div className="px-hub-mock__hotel-sub">Mendoza · 80 hab.</div>
+                      </div>
+                    </div>
+                    <span className="px-hub-mock__plan">★ Enterprise</span>
+                    <div style={{ flex: 1 }}></div>
+                    <div className="px-hub-mock__crumbs">
+                      <span>RMS</span>
+                      <span className="sep">›</span>
+                      <span className="current">Agente IA</span>
+                    </div>
+                  </header>
+                  <div className="px-hub-mock__content">
+                    <window.AgentScene speed={speed} />
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
-        {/* MEDIA full-width: KPI strip animado */}
-        <div className="px-pageHeader__media" style={{ padding: '32px 28px' }}>
-          <window.HeroTicker speed={speed} />
+      </div>
+    </section>
+  );
+}
+
+// ─── El Problema — Sin RMS vs Con RMS ─────────────────────────────────
+function PxProblem() {
+  const sin = [
+    'Tarifas actualizadas 1 vez por semana',
+    'Competencia vista "cuando hay tiempo"',
+    'Eventos y feriados ajustados tarde',
+    'Pickup analizado en Excel una vez al mes',
+  ];
+  const con = [
+    'Tarifas revisadas todos los días',
+    'Compset monitoreado en tiempo real',
+    'Reglas automáticas para fechas clave',
+    'Pickup y proyección automáticos',
+  ];
+  return (
+    <section className="px-problem" data-screen-label="El problema">
+      <div className="px-problem__inner">
+        <div className="px-problem__copy">
+          <span className="px-problem__eyebrow">El problema</span>
+          <h2 className="px-problem__title">
+            La planilla no es una <em>estrategia de pricing.</em>
+          </h2>
+          <p className="px-problem__lede">
+            Actualizar tarifas a mano lleva horas, depende de quién esté en turno y siempre llega tarde.
+            Mientras revisás la competencia, ya perdiste la reserva.
+          </p>
+        </div>
+
+        <div className="px-problem__compare">
+          <article className="px-problem__card px-problem__card--neg">
+            <div className="px-problem__cardHead">Sin RMS</div>
+            <ul className="px-problem__list">
+              {sin.map((t, i) => (
+                <li key={i}>
+                  <span className="px-problem__mark px-problem__mark--x" aria-hidden="true">
+                    <X size={14} strokeWidth={2} />
+                  </span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+
+          <div className="px-problem__vs" aria-hidden="true">vs</div>
+
+          <article className="px-problem__card px-problem__card--pos">
+            <div className="px-problem__cardHead">Con RMS Pxsol</div>
+            <ul className="px-problem__list">
+              {con.map((t, i) => (
+                <li key={i}>
+                  <span className="px-problem__mark px-problem__mark--check" aria-hidden="true">
+                    <Check size={14} strokeWidth={2} />
+                  </span>
+                  <span>{t}</span>
+                </li>
+              ))}
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Social proof logo carousel ─────────────────────────────────────────
+function PxSocialProof() {
+  const logos = [
+    { src: 'logo-diplomatic.png',           alt: 'Hotel Diplomatic' },
+    { src: 'logo-estancia-mantilla.png',    alt: 'Estancia La Mantilla' },
+    { src: 'logo-andesmar.webp',            alt: 'Andesmar Hotel & Convention Center' },
+    { src: 'logo-radisson-blu.webp',        alt: 'Radisson Blu Acqua Concón' },
+    { src: 'logo-amerian.png',              alt: 'Amérian Hotel Casino Gala' },
+    { src: 'logo-riviera-caribe-maya.webp', alt: 'Hotel Riviera Caribe Maya' },
+  ];
+  const rail = [...logos, ...logos];
+  return (
+    <section className="px-clients" data-screen-label="Prueba social" aria-label="Hoteles que confían en Pxsol">
+      <div className="px-clients__inner">
+        <div className="px-clients__hero">
+          <img className="px-clients__avatars" src="clientes-avatars.png" alt="Huéspedes felices en hoteles Pxsol" />
+          <div className="px-clients__copy">
+            +1500 hoteles sumando
+            <span className="em">huéspedes felices</span>
+          </div>
+        </div>
+        <div className="px-clients__track" aria-hidden="true">
+          <div className="px-clients__rail">
+            {rail.map((logo, i) => (
+              <div key={i} className="px-clients__logo">
+                <img src={logo.src} alt={i < logos.length ? logo.alt : ''} loading="lazy" />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -224,7 +421,7 @@ function StickyFeatures() {
               <h3 className="sf-title">Compset en <em>tiempo real</em></h3>
               <p className="sf-desc">Sabés exactamente a qué precio están tus competidores en cada fecha, sin entrar a Booking ni abrir una pestaña extra.</p>
               <a href={DEMO_URL} className="px-btn --primary sf-trigger-cta">
-                <span>Ver demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+                <span>Ver demo <ArrowRight size={14} strokeWidth={1.75} aria-hidden="true" /></span>
               </a>
             </div>
           </div>
@@ -235,7 +432,7 @@ function StickyFeatures() {
               <h3 className="sf-title">Precios por fecha, <em>siempre al día</em></h3>
               <p className="sf-desc">Vista mensual con color por nivel de demanda. Los ajustes se propagan a todos tus canales en tiempo real, sin intervención manual.</p>
               <a href={DEMO_URL} className="px-btn --primary sf-trigger-cta">
-                <span>Ver demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+                <span>Ver demo <ArrowRight size={14} strokeWidth={1.75} aria-hidden="true" /></span>
               </a>
             </div>
           </div>
@@ -246,7 +443,7 @@ function StickyFeatures() {
               <h3 className="sf-title">Reglas que trabajan <em>mientras dormís</em></h3>
               <p className="sf-desc">Configurás una vez: si la ocupación supera X%, la tarifa sube automáticamente. Podés definir reglas por fecha, evento o umbral de pickup.</p>
               <a href={DEMO_URL} className="px-btn --primary sf-trigger-cta">
-                <span>Ver demo <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 7h10m-4-4 4 4-4 4" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round"/></svg></span>
+                <span>Ver demo <ArrowRight size={14} strokeWidth={1.75} aria-hidden="true" /></span>
               </a>
             </div>
           </div>
@@ -299,7 +496,7 @@ function StickyFeatures() {
                 </div>
                 <div className="sf-suggestion">
                   <div className="sf-sug-icon" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2m8 0h2M3.05 3.05l1.41 1.41m4.97 4.97 1.41 1.41M3.05 10.95l1.41-1.41m4.97-4.97 1.41-1.41" stroke="white" strokeWidth="1.4" strokeLinecap="round"/></svg>
+                    <Sparkles size={14} strokeWidth={1.4} color="white" />
                   </div>
                   <div>
                     <div className="sf-sug-label">Sugerencia IA · Finde largo</div>
@@ -373,7 +570,7 @@ function StickyFeatures() {
                 </div>
                 <div className="sf-rules-footer">
                   <div className="sf-rules-footer-icon" aria-hidden="true">
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1v2M7 11v2M1 7h2m8 0h2" stroke="white" strokeWidth="1.4" strokeLinecap="round"/><circle cx="7" cy="7" r="2" stroke="white" strokeWidth="1.4"/></svg>
+                    <Sun size={14} strokeWidth={1.4} color="white" />
                   </div>
                   <span className="sf-rules-footer-text"><strong>2 reglas disparadas hoy</strong> · Última: hace 3 horas</span>
                 </div>
@@ -436,97 +633,106 @@ function PxWhatIs() {
 </script>
 
 <script type="text/babel">
-// ─── Animated scenes section (existing show-reel) ──────────────────────
+// ─── Animated scenes section — redesigned modules ──────────────────────
+const { Check: LCheck } = window.LucideReact;
 function PxScenes({ speed }) {
   return (
     <div className="px-scenesWrap">
-      {/* 05 Agent IA */}
-      <section className="scene alt scene-dark" data-screen-label="05 Agent">
-        <window.AgentScene speed={speed} />
-        <div className="scene-copy">
-          <span className="scene-eyebrow">agente ia</span>
-          <h2 className="scene-title">
-            Un revenue manager que <em>nunca duerme.</em>
-          </h2>
-          <p className="scene-lede">
-            Detecta el evento, evalúa tres escenarios, te propone el cambio con su razonamiento
-            completo. Cuando confías, lo aplica solo dentro de los bordes que vos definiste.
-          </p>
-          <div className="scene-foot">
-            <span>94% precisión</span>
-            <span className="scene-foot-dot"></span>
-            <span>Bordes editables</span>
-            <span className="scene-foot-dot"></span>
-            <span>Auditable</span>
-          </div>
-        </div>
-      </section>
 
-      {/* 06 Rate forecast */}
-      <section className="scene" data-screen-label="06 Rate forecast">
-        <div className="scene-copy">
+      {/* 06 Rate Forecast — full-width chart hero */}
+      <section className="pxs-rate" data-screen-label="06 Rate forecast">
+        <div className="pxs-rate__head">
           <span className="scene-eyebrow">forecast de tarifas</span>
-          <h2 className="scene-title">
+          <h2 className="pxs-rate__title">
             La curva que <em>se adelanta</em> al pickup.
           </h2>
-          <p className="scene-lede">
+          <p className="pxs-rate__sub">
             Comparamos tu tarifa con el set competitivo día a día y marcamos los días
             donde el modelo recomienda actuar. Cuando aceptás, la proyección se vuelve realidad.
           </p>
-          <div className="scene-foot">
-            <span>vs set comp</span>
-            <span className="scene-foot-dot"></span>
-            <span>30d ahead</span>
-            <span className="scene-foot-dot"></span>
-            <span>pickup-aware</span>
-          </div>
         </div>
-        <window.RateLineScene speed={speed} />
-      </section>
-
-      {/* 09 Scenarios */}
-      <section className="scene alt scene-dark" data-screen-label="09 Scenarios">
-        <window.ScenariosScene speed={speed} />
-        <div className="scene-copy">
-          <span className="scene-eyebrow">escenarios what-if</span>
-          <h2 className="scene-title">
-            Probá antes de <em>tocar tarifas reales.</em>
-          </h2>
-          <p className="scene-lede">
-            Aislá un periodo, aplicale un cambio porcentual o absoluto y mirá qué hubiera pasado
-            con tu revenue, ocupación y ADR. Si te gusta, lo aplicás de un clic.
-          </p>
-          <div className="scene-foot">
-            <span>Sandbox</span>
-            <span className="scene-foot-dot"></span>
-            <span>Backtest</span>
-            <span className="scene-foot-dot"></span>
-            <span>Apply en 1 clic</span>
-          </div>
+        <div className="pxs-rate__card">
+          <window.RateLineScene speed={speed} />
+        </div>
+        <div className="pxs-rate__tags">
+          <span className="pxs-tag">vs set competitivo</span>
+          <span className="pxs-tag-dot">·</span>
+          <span className="pxs-tag">30 días adelante</span>
+          <span className="pxs-tag-dot">·</span>
+          <span className="pxs-tag">pickup-aware</span>
         </div>
       </section>
 
-      {/* 10 Pickup */}
-      <section className="scene" data-screen-label="10 Pickup">
-        <div className="scene-copy">
+      {/* 09 Scenarios — dark sandbox, asymmetric layout */}
+      <section className="pxs-scen" data-screen-label="09 Scenarios">
+        <div className="pxs-scen__glow-l" />
+        <div className="pxs-scen__glow-r" />
+        <div className="pxs-scen__inner">
+          <div className="pxs-scen__copy">
+            <span className="pxs-scen__eyebrow">escenarios what-if</span>
+            <h2 className="pxs-scen__title">
+              Probá antes de <em>tocar tarifas reales.</em>
+            </h2>
+            <p className="pxs-scen__lede">
+              Aislá un periodo, aplicale un cambio porcentual o absoluto y mirá qué hubiera
+              pasado con tu revenue, ocupación y ADR. Si te gusta, lo aplicás de un clic.
+            </p>
+            <ul className="pxs-scen__bullets">
+              <li>
+                <LCheck size={16} strokeWidth={2} color="#7c13cd" />
+                Modo sandbox aislado — sin riesgo real
+              </li>
+              <li>
+                <LCheck size={16} strokeWidth={2} color="#7c13cd" />
+                Backtest sobre datos históricos reales
+              </li>
+              <li>
+                <LCheck size={16} strokeWidth={2} color="#7c13cd" />
+                Aplicar el escenario en un clic si convence
+              </li>
+            </ul>
+          </div>
+          <div className="pxs-scen__sandbox">
+            <div className="pxs-scen__chip">
+              <span className="pxs-scen__chip-dot"></span>
+              Simulación en curso
+            </div>
+            <window.ScenariosScene speed={speed} />
+          </div>
+        </div>
+      </section>
+
+      {/* 10 Pickup — centered headline + full card + KPI strip */}
+      <section className="pxs-pickup" data-screen-label="10 Pickup">
+        <div className="pxs-pickup__copy">
           <span className="scene-eyebrow">pickup en vivo</span>
-          <h2 className="scene-title">
+          <h2 className="pxs-pickup__title">
             Las reservas <em>cuando todavía importan.</em>
           </h2>
-          <p className="scene-lede">
-            Pickup de 24h y 72h con cada rango afectado y el revenue que entró. Si una fecha
-            se cae, lo ves antes de que el problema se vuelva una alerta.
+          <p className="pxs-pickup__sub">
+            Pickup de 24h y 72h con cada rango afectado y el revenue que entró. Si una
+            fecha se cae, lo ves antes de que el problema se vuelva una alerta.
           </p>
-          <div className="scene-foot">
-            <span>24 / 72 h</span>
-            <span className="scene-foot-dot"></span>
-            <span>Por rango</span>
-            <span className="scene-foot-dot"></span>
-            <span>Tiempo real</span>
+        </div>
+        <div className="pxs-pickup__card">
+          <window.PickupScene speed={speed} />
+        </div>
+        <div className="pxs-pickup__kpis">
+          <div className="pxs-kpi">
+            <span className="pxs-kpi__num">72 h</span>
+            <span className="pxs-kpi__label">ventana de alerta</span>
+          </div>
+          <div className="pxs-kpi">
+            <span className="pxs-kpi__num">31</span>
+            <span className="pxs-kpi__label">reservas detectadas</span>
+          </div>
+          <div className="pxs-kpi">
+            <span className="pxs-kpi__num">ARS 2.8M</span>
+            <span className="pxs-kpi__label">revenue en tránsito</span>
           </div>
         </div>
-        <window.PickupScene speed={speed} />
       </section>
+
     </div>
   );
 }
@@ -536,14 +742,15 @@ window.PxScenes = PxScenes;
 
 <script type="text/babel">
 // ─── Beneficios para tu hotel — 6 cards grid ───────────────────────────
+const { Database, TrendingUp, Globe, ShieldCheck, ScrollText, Target } = window.LucideReact;
 function PxBenefits() {
   const items = [
-    { i: '◐', t: 'Centralización automática', d: 'Integra datos del PMS, Motor de Reservas, POS y set competitivo.' },
-    { i: '↗', t: 'Más reservas directas', d: 'Pricing competitivo en cada canal directo, menos comisiones.' },
-    { i: '◇', t: 'Distribución coordinada', d: 'Una tarifa, todos los canales — sin desincronizaciones.' },
-    { i: '◯', t: 'Cero riesgo de overselling', d: 'Bordes y reglas reversibles antes de que el modelo aplique.' },
-    { i: '⌁', t: 'Decisiones explicables', d: 'Cada cambio guarda su razonamiento y se puede auditar.' },
-    { i: '★', t: 'Optimización del ROI', d: 'Pricing dirigido al canal correcto en el momento correcto.' },
+    { i: <Database size={22} strokeWidth={1.5} />, t: 'Centralización automática', d: 'Integra datos del PMS, Motor de Reservas, POS y set competitivo.' },
+    { i: <TrendingUp size={22} strokeWidth={1.5} />, t: 'Más reservas directas', d: 'Pricing competitivo en cada canal directo, menos comisiones.' },
+    { i: <Globe size={22} strokeWidth={1.5} />, t: 'Distribución coordinada', d: 'Una tarifa, todos los canales — sin desincronizaciones.' },
+    { i: <ShieldCheck size={22} strokeWidth={1.5} />, t: 'Cero riesgo de overselling', d: 'Bordes y reglas reversibles antes de que el modelo aplique.' },
+    { i: <ScrollText size={22} strokeWidth={1.5} />, t: 'Decisiones explicables', d: 'Cada cambio guarda su razonamiento y se puede auditar.' },
+    { i: <Target size={22} strokeWidth={1.5} />, t: 'Optimización del ROI', d: 'Pricing dirigido al canal correcto en el momento correcto.' },
   ];
   return (
     <section className="px-section" id="beneficios" data-screen-label="11 Beneficios">
@@ -774,6 +981,296 @@ window.PxFooter = PxFooter;
 </script>
 
 <script type="text/babel">
+// ─── Agent IA Dark Hero Section ──────────────────────────────────────────────
+const { Check: AgdCheck, Clock: AgdClock, Bot: AgdBot } = window.LucideReact;
+const AGD_RESPONSES = {
+  '¿Qué fechas tocás esta semana?': 'Planeo ajustar 8 fechas entre el 22 y 30 de mayo. El finde largo 24–25 tiene demanda 2.3× el histórico — ahí sugiero subir de ARS 84k a ARS 96k. Los martes y miércoles están bajo el histórico y van a bajar ARS 4–6k para recuperar ocupación.',
+  '¿Por qué bajaste el martes?': 'El martes 20 tenía ocupación proyectada del 48% y el set comp. promediaba ARS 82k (yo estaba en ARS 96k). Bajé a ARS 89k para alinearme al mercado. Resultado: +4 reservas en 24h — recuperó la noche.',
+  'Mostrame el último mes': 'En los últimos 30 días apliqué 47 cambios: 31 subas y 16 bajas. RevPAR mejoró +19.4% vs STLY. Los cambios más impactantes fueron en 3 findies donde subí entre +12% y +18%. Asertividad del período: 94.2%.',
+  '¿Qué eventos detectás para junio?': 'Detecté 3 eventos: Festival de Jazz 6–8 jun (demanda alta), feriado nacional 20 jun, y Congreso de Turismo 25–27 jun. Para los 3 ya tengo sugerencias preparadas. ¿Querés que te las muestre ahora?',
+  '¿Cuál fue tu mejor decisión?': 'El 10 de mayo, con 9 días de anticipación, subí a ARS 108k para el finde 17–18. El set comp. tardó 2 días en seguirme. Esas 2 noches generaron ARS 384k extra — 19% sobre lo proyectado. Una de las mejores ventanas del mes.',
+  '¿Cuándo necesito aprobar algo?': 'Ahora mismo hay 3 sugerencias esperando tu aprobación: 2 para el finde del 24–25 (Alta confianza, dentro de tus bordes) y 1 para el 1–2 jun (Confianza media — esta te la mando para que decidas vos).',
+};
+
+const AGD_INITIAL_MESSAGES = [
+  { type: 'agent', text: '¡Hola! Soy el Agente RMS de Hotel Andina. Esta semana apliqué 12 cambios de tarifa — ¿en qué puedo ayudarte?' }
+];
+
+function AgentIADark() {
+  const [step, setStep] = React.useState(0);
+  const [messages, setMessages] = React.useState(AGD_INITIAL_MESSAGES);
+  const [isTyping, setIsTyping] = React.useState(false);
+  const [reasonStep, setReasonStep] = React.useState(0);
+  const chatFeedRef = React.useRef(null);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => setStep(s => (s + 1) % 3), 3600);
+    return () => clearInterval(timer);
+  }, []);
+
+  React.useEffect(() => {
+    const timers = [0,1,2,3,4].map(i => setTimeout(() => setReasonStep(s => Math.max(s, i+1)), 600 + i*500));
+    return () => timers.forEach(clearTimeout);
+  }, []);
+
+  React.useEffect(() => {
+    if (chatFeedRef.current) {
+      chatFeedRef.current.scrollTop = chatFeedRef.current.scrollHeight;
+    }
+  }, [messages, isTyping]);
+
+  function handleChip(question) {
+    if (isTyping) return;
+    setMessages(m => [...m, { type: 'user', text: question }]);
+    setIsTyping(true);
+    setTimeout(() => {
+      setIsTyping(false);
+      setMessages(m => [...m, { type: 'agent', text: AGD_RESPONSES[question] || 'Déjame analizar eso...' }]);
+    }, 900);
+  }
+
+  const suggestions = [
+    { from: 'ARS 96.000', to: 'ARS 108.000', pct: '+12.5%', range: '15–17 may', rationale: 'Pickup +25% sobre histórico. Set comp. subió 8% ayer. Finde largo detectado.', impact: '+ARS 192.000', up: true },
+    { from: 'ARS 84.000', to: 'ARS 96.000', pct: '+14.3%', range: '22–24 may', rationale: 'Finde largo confirmado. Demanda 2.3× histórico. 4 competidores ya ajustaron al alza.', impact: '+ARS 216.000', up: true },
+    { from: 'ARS 102.000', to: 'ARS 118.000', pct: '+15.7%', range: '6–8 jun', rationale: 'Festival Regional. Demanda 3× histórico. Set comp. promedia ARS 124k.', impact: '+ARS 384.000', up: true },
+  ];
+
+  const activityLog = [
+    { time: '04:23', icon: '↑', text: 'Subió 22–24 may · ARS 84k → 96k', badge: 'Aplicado', color: 'green' },
+    { time: '03:47', icon: '⚡', text: 'Finde largo detectado · 15–17 may', badge: 'Detectado', color: 'purple' },
+    { time: '02:15', icon: '🔍', text: '4 competidores escaneados · +8% promedio', badge: 'Analizado', color: 'blue' },
+    { time: '01:58', icon: '↑', text: 'Ajustó 3 fechas de junio', badge: '+ARS 192k', color: 'green' },
+    { time: '00:30', icon: '✓', text: 'Revisión nocturna · Sin alertas críticas', badge: 'OK', color: 'gray' },
+  ];
+
+  const reasoningSteps = [
+    { icon: '📊', label: 'Pickup 24h', value: '+31%', sub: 'sobre histórico', color: '#4ade80' },
+    { icon: '🏨', label: 'Set comp.', value: '+9%', sub: 'promedio subió', color: '#60a5fa' },
+    { icon: '📅', label: 'Finde largo', value: '24–25 may', sub: 'confirmado', color: '#7c13cd' },
+    { icon: '🎯', label: 'Asertividad', value: '94%', sub: '1.247 casos', color: '#fb923c' },
+    { icon: '↗', label: 'Sugerencia', value: '+14.3%', sub: 'ARS 84k → 96k', color: '#4ade80', final: true },
+  ];
+
+  const s = suggestions[step];
+
+  return (
+    <section className="agd-section" data-screen-label="05 Agent">
+      <div className="agd-glow agd-glow--1" aria-hidden="true" />
+      <div className="agd-glow agd-glow--2" aria-hidden="true" />
+      <div className="agd-glow agd-glow--3" aria-hidden="true" />
+
+      <div className="agd-inner">
+
+        {/* Header */}
+        <div className="agd-header">
+          <div className="agd-eyebrow-row">
+            <span className="agd-eyebrow">Agente IA</span>
+            <span className="agd-pill">● Enterprise</span>
+          </div>
+          <h2 className="agd-title">
+            Un revenue manager<br/>que <em>nunca duerme.</em>
+          </h2>
+          <p className="agd-lede">
+            Detecta el evento, evalúa tres escenarios y propone el cambio con su razonamiento completo.
+            Cuando confías, lo aplica solo — dentro de los bordes que vos definiste.
+          </p>
+        </div>
+
+        {/* Bento grid — 5 cells */}
+        <div className="agd-bento">
+
+          {/* Cell 1: Hub screenshot */}
+          <div className="agd-bento-cell agd-bento-cell--hub">
+            <div className="agd-cell-label agd-cell-label--over">Dashboard diario · Vista real</div>
+            <img src="rms-agente-dashboard.png" alt="Dashboard diario de RMS" className="agd-hub-img" />
+            <div className="agd-hub-overlay">
+              <span className="agd-live-dot" />
+              <span>78.4% ocupación · ARS 96k ADR · 94% asertividad</span>
+            </div>
+          </div>
+
+          {/* Cell 2: Stats + bullets */}
+          <div className="agd-bento-cell agd-bento-cell--stats">
+            <div className="agd-cell-label">Esta semana el agente</div>
+            <div className="agd-mini-stats">
+              <div className="agd-mini-stat">
+                <div className="agd-mini-n agd-count" data-target="12">0</div>
+                <div className="agd-mini-l">cambios aplicados</div>
+              </div>
+              <div className="agd-mini-divider" />
+              <div className="agd-mini-stat">
+                <div className="agd-mini-n agd-mini-n--green">+ARS 340k</div>
+                <div className="agd-mini-l">ingresos estimados</div>
+              </div>
+              <div className="agd-mini-divider" />
+              <div className="agd-mini-stat">
+                <div className="agd-mini-n">~6 h</div>
+                <div className="agd-mini-l">horas ahorradas</div>
+              </div>
+            </div>
+            <ul className="agd-bullets">
+              {[
+                ['Razonamiento completo', 'Cada cambio incluye motivo y evidencia.'],
+                ['Bordes inviolables', 'Min/max y variación diaria — el agente nunca se sale.'],
+                ['Aprende de tus decisiones', 'Mejora con cada aprobación y rechazo.'],
+                ['Inteligencia colectiva', 'Se entrena también con patrones de hoteles similares.'],
+              ].map(([t, d], i) => (
+                <li key={i} className="agd-bullet">
+                  <span className="agd-check" aria-hidden="true">
+                    <AgdCheck size={10} strokeWidth={1.8} />
+                  </span>
+                  <div><strong>{t}</strong><span>{d}</span></div>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          {/* Cell 3: Live suggestion (cycling) */}
+          <div className="agd-bento-cell agd-bento-cell--suggest">
+            <div className="agd-cell-label-row">
+              <span className="agd-cell-label">Sugerencia activa</span>
+              <span className="agd-cycle-dots" aria-hidden="true">
+                {[0,1,2].map(i => <span key={i} className={`agd-cycle-dot${i===step?' active':''}`} />)}
+              </span>
+            </div>
+            <div className="agd-suggest-card" key={step}>
+              <div className="agd-suggest-top">
+                <div className="agd-suggest-rate">
+                  <span className={`agd-arrow${s.up?' up':' down'}`}>{s.up?'↑':'↓'}</span>
+                  {s.from} → <strong>{s.to}</strong>
+                  <span className={`agd-pct${s.up?' up':' down'}`}>{s.pct}</span>
+                </div>
+                <span className="agd-range-tag">· {s.range}</span>
+              </div>
+              <div className="agd-rationale">{s.rationale}</div>
+              <div className="agd-suggest-foot">
+                <span className="agd-impact-line">Impacto est. <strong>{s.impact}</strong></span>
+                <div className="agd-suggest-btns">
+                  <button className="agd-btn agd-btn--ghost">Rechazar</button>
+                  <button className="agd-btn agd-btn--primary">Aprobar</button>
+                </div>
+              </div>
+            </div>
+            <div className="agd-conf-row">
+              <span className="agd-conf-badge">
+                <AgdClock size={9} strokeWidth={1} />
+                Confianza Alta
+              </span>
+              <span className="agd-conf-text">Basado en 1.247 evaluaciones</span>
+            </div>
+          </div>
+
+          {/* Cell 4: Activity log */}
+          <div className="agd-bento-cell agd-bento-cell--activity">
+            <div className="agd-cell-label">Registro de actividad · últimas 8 h</div>
+            <div className="agd-activity-feed">
+              {activityLog.map((item, i) => (
+                <div key={i} className="agd-activity-item" style={{animationDelay: `${i * 120}ms`}}>
+                  <div className="agd-activity-left">
+                    <div className={`agd-activity-dot agd-activity-dot--${item.color}`} />
+                    <div className="agd-activity-connector" />
+                  </div>
+                  <div className="agd-activity-body">
+                    <div className="agd-activity-time">{item.time} AM</div>
+                    <div className="agd-activity-text">{item.text}</div>
+                  </div>
+                  <span className={`agd-activity-badge agd-activity-badge--${item.color}`}>{item.badge}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Cell 5: AI Reasoning flow */}
+          <div className="agd-bento-cell agd-bento-cell--reason">
+            <div className="agd-cell-label">Cómo llegó a esta decisión</div>
+            <div className="agd-reason-flow">
+              {reasoningSteps.map((r, i) => (
+                <div key={i} className={`agd-reason-step${reasonStep > i ? ' visible' : ''}${r.final ? ' agd-reason-step--final' : ''}`} style={{transitionDelay: `${i*80}ms`}}>
+                  {!r.final && i > 0 && <div className="agd-reason-arrow">→</div>}
+                  <div className="agd-reason-card" style={r.final ? {borderColor: 'rgba(73,37,152,0.5)', background: 'rgba(73,37,152,0.1)'} : {}}>
+                    <div className="agd-reason-icon">{r.icon}</div>
+                    <div className="agd-reason-value" style={{color: r.color}}>{r.value}</div>
+                    <div className="agd-reason-label">{r.label}</div>
+                    <div className="agd-reason-sub">{r.sub}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Cell 6: Interactive chat — full width */}
+          <div className="agd-bento-cell agd-bento-cell--chat">
+            <div className="agd-chat-header">
+              <div className="agd-chat-title">
+                <span className="agd-chat-bot-avatar" aria-hidden="true">
+                  <AgdBot size={14} strokeWidth={1.6} />
+                </span>
+                Modo conversacional
+                <span className="agd-chat-status">● Online</span>
+              </div>
+              <span className="agd-chat-hint">Hacé click en una pregunta para probar</span>
+            </div>
+            <div className="agd-chat-body">
+              <div className="agd-chat-feed" ref={chatFeedRef}>
+                {messages.map((m, i) => (
+                  <div key={i} className={`agd-chat-msg agd-chat-msg--${m.type} visible`}>
+                    {m.type === 'agent' && (
+                      <span className="agd-bot-icon" aria-hidden="true">
+                        <AgdBot size={11} strokeWidth={1.6} />
+                      </span>
+                    )}
+                    <span>{m.text}</span>
+                  </div>
+                ))}
+                {isTyping && (
+                  <div className="agd-chat-msg agd-chat-msg--agent visible agd-typing-indicator">
+                    <span className="agd-bot-icon" aria-hidden="true">
+                      <AgdBot size={11} strokeWidth={1.6} />
+                    </span>
+                    <span className="agd-typing-dots">
+                      <span /><span /><span />
+                    </span>
+                  </div>
+                )}
+              </div>
+              <div className="agd-chat-sidebar">
+                <div className="agd-chip-label">Preguntas frecuentes</div>
+                <div className="agd-chip-list">
+                  {Object.keys(AGD_RESPONSES).map(q => (
+                    <button key={q} className={`agd-chip${isTyping?' agd-chip--disabled':''}`} onClick={() => handleChip(q)}>
+                      {q}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        {/* Stats strip */}
+        <div className="agd-stats-strip">
+          {[
+            ['1.658', 'actualizaciones / mes'],
+            ['94%', 'precisión en sugerencias'],
+            ['+18.7%', 'RevPAR promedio vs sin RMS'],
+            ['24/7', 'monitoreo continuo'],
+          ].map(([n, l]) => (
+            <div className="agd-stat" key={n}>
+              <div className="agd-stat-n">{n}</div>
+              <div className="agd-stat-l">{l}</div>
+            </div>
+          ))}
+        </div>
+
+      </div>
+    </section>
+  );
+}
+window.AgentIADark = AgentIADark;
+</script>
+
+<script type="text/babel">
 function App() {
   const { useTweaks, TweaksPanel, TweakSection, TweakRadio, TweakToggle } = window;
   const [t, setTweak] = useTweaks(TWEAK_DEFAULTS);
@@ -787,12 +1284,16 @@ function App() {
   return (
     <div className="landing">
       <PxNavbar />
-      <PxPageHeader speed={speed} />
+      <div className="px-hero-problem-wrap">
+        <PxPageHeader speed={speed} />
+        <PxProblem />
+        <PxSocialProof />
+      </div>
       <StickyFeatures />
       <PxWhatIs />
+      <window.AgentIADark />
       <window.PxScenes speed={speed} />
       <window.PxBenefits />
-      <window.PxStats speed={speed} />
       <window.PxFAQ />
       <window.PxCTA />
       <window.PxFooter />

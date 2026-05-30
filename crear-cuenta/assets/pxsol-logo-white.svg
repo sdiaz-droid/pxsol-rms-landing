@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 96" width="320" height="96" role="img" aria-label="Pxsol">
+  
+  <text x="0" y="80" class="px-mark" font-size="100" fill="#FFFFFF">P</text>
+  <text x="130" y="80" class="px-mark" font-size="100" fill="#FFFFFF">S</text>
+  <text x="195" y="80" class="px-mark" font-size="100" fill="#FFFFFF">O</text>
+  <text x="270" y="80" class="px-mark" font-size="100" fill="#FFFFFF">L</text>
+  <g fill="#D20A11">
+    <path d="M 58 14 L 82 14 L 102 46 L 122 14 L 146 14 L 114 60 L 148 106 L 124 106 L 102 74 L 80 106 L 56 106 L 90 60 Z"></path>
+  </g>
+</svg>
