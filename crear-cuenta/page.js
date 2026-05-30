@@ -145,37 +145,8 @@ function fillGroup(parent, title, items){
 fillGroup(equipoCol, 'Equipo', F_EQUIPO);
 fillGroup(equipoCol, 'Empresa', F_EMPRESA);
 
-/* ───────── FORM INTERACTIVITY ───────── */
-const toggleRow = document.getElementById('toggle-row');
-toggleRow.addEventListener('click', e => {
-  const t = e.target.closest('.toggle');
-  if (!t) return;
-  toggleRow.querySelectorAll('.toggle').forEach(x => x.classList.remove('active'));
-  t.classList.add('active');
-});
-
-const form = document.getElementById('signup-form');
-form.addEventListener('submit', e => {
-  e.preventDefault();
-  let valid = true;
-  [['nombre'],['apellido'],['email']].forEach(([id]) => {
-    const input = document.getElementById(id);
-    const field = input.closest('.field');
-    const ok = id === 'email'
-      ? /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(input.value.trim())
-      : input.value.trim().length > 0;
-    field.classList.toggle('invalid', !ok);
-    if (!ok) valid = false;
-  });
-  if (!valid) return;
-  form.style.display = 'none';
-  document.getElementById('form-success').classList.add('show');
-  if (window.lucide) lucide.createIcons();
-});
-form.addEventListener('input', e => {
-  const field = e.target.closest('.field');
-  if (field) field.classList.remove('invalid');
-});
+/* ───────── FORM ───────── */
+/* El formulario es un iframe embebido de Nexus (backend real). No requiere JS. */
 
 /* ───────── COUNTDOWN ───────── */
 const target = Date.now() + (200*24*60 + 30) * 60 * 1000;
