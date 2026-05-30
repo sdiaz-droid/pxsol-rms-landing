@@ -402,67 +402,13 @@ a{color:inherit;text-decoration:none;}
         </div>
       </div>
 
-      <!-- FORM CARD -->
-      <div class="form-card">
-        <form id="signup-form" novalidate>
-          <div class="form-row">
-            <div class="field">
-              <label for="nombre">Nombre</label>
-              <input type="text" id="nombre" name="nombre" autocomplete="given-name" />
-            </div>
-            <div class="field">
-              <label for="apellido">Apellido</label>
-              <input type="text" id="apellido" name="apellido" autocomplete="family-name" />
-            </div>
-          </div>
-
-          <p class="toggle-q">¿Trabajas en un Hotel o establecimiento turístico?</p>
-          <div class="toggle-row" id="toggle-row">
-            <div class="toggle" data-val="hotelero">
-              <span class="tic"><i data-lucide="search" class="lucide"></i></span>
-              <span>Si, soy hotelero</span>
-            </div>
-            <div class="toggle active" data-val="curioso">
-              <span class="tic"><i data-lucide="user" class="lucide"></i></span>
-              <span>No, soy curioso o estudiante</span>
-            </div>
-          </div>
-
-          <div class="field" style="margin-bottom:24px;">
-            <label for="email">Tu email</label>
-            <input type="email" id="email" name="email" autocomplete="email" />
-          </div>
-
-          <div class="field" style="margin-bottom:28px;">
-            <label>Número de teléfono</label>
-            <div class="phone-row">
-              <div class="select-wrap country">
-                <select id="country">
-                  <option>Argentina</option>
-                  <option>Uruguay</option>
-                  <option>Chile</option>
-                  <option>Brasil</option>
-                  <option>México</option>
-                  <option>Colombia</option>
-                  <option>Perú</option>
-                  <option>España</option>
-                </select>
-                <i data-lucide="chevron-down" class="lucide"></i>
-              </div>
-              <div class="num">
-                <input type="tel" id="phone" value="+54" />
-              </div>
-            </div>
-          </div>
-
-          <button type="submit" class="btn-submit">Solicitar una demo gratuita</button>
-        </form>
-
-        <div class="form-success" id="form-success">
-          <div class="ok"><i data-lucide="check" class="lucide"></i></div>
-          <h3>¡Gracias!</h3>
-          <p>Recibimos tu solicitud. Nuestro equipo se pondrá en contacto con vos a la brevedad.</p>
-        </div>
+      <!-- FORM CARD — formulario Nexus (backend real) -->
+      <div class="form-card form-card--embed">
+        <iframe
+          src="https://nexus.getpxsol.com/f/cmpsjleo10003qb01o7upn0c7"
+          title="Crear cuenta — Solicitar una demo gratuita"
+          loading="lazy"
+          width="100%" height="600" frameborder="0"></iframe>
       </div>
     </div>
   </section>
