@@ -148,19 +148,26 @@ fillGroup(equipoCol, 'Empresa', F_EMPRESA);
 /* ───────── FORM ───────── */
 /* El formulario es un iframe embebido de Nexus (backend real). No requiere JS. */
 
-/* ───────── COUNTDOWN ───────── */
-const target = Date.now() + (200*24*60 + 30) * 60 * 1000;
+/* ───────── COUNTDOWN (FOMO perpetuo) ─────────
+   Arranca siempre en 3 días, 10 h, 11 min en cada carga y baja segundo a
+   segundo. Al llegar a cero se reinicia solo, así nunca "termina". */
+const OFFSET_MS = ((3 * 24 + 10) * 60 + 11) * 60 * 1000; // 3d 10h 11m
+let target = Date.now() + OFFSET_MS;
+const pad = n => String(n).padStart(2, '0');
 function tick(){
-  let diff = Math.max(0, target - Date.now());
-  const d = Math.floor(diff / 86400000); diff -= d*86400000;
-  const h = Math.floor(diff / 3600000); diff -= h*3600000;
-  const m = Math.floor(diff / 60000);
+  let diff = target - Date.now();
+  if (diff <= 0){ target = Date.now() + OFFSET_MS; diff = OFFSET_MS; }
+  const d = Math.floor(diff / 86400000); diff -= d * 86400000;
+  const h = Math.floor(diff / 3600000);  diff -= h * 3600000;
+  const m = Math.floor(diff / 60000);    diff -= m * 60000;
+  const s = Math.floor(diff / 1000);
   document.getElementById('cd-d').textContent = d;
-  document.getElementById('cd-h').textContent = h;
-  document.getElementById('cd-m').textContent = m;
+  document.getElementById('cd-h').textContent = pad(h);
+  document.getElementById('cd-m').textContent = pad(m);
+  document.getElementById('cd-s').textContent = pad(s);
 }
 tick();
-setInterval(tick, 30000);
+setInterval(tick, 1000);
 
 /* ───────── ICONS ───────── */
 if (window.lucide) lucide.createIcons();
