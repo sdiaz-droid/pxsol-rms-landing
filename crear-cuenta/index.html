@@ -234,8 +234,10 @@ a{color:inherit;text-decoration:none;}
 }
 .prod-col{display:flex; flex-direction:column; gap:24px; flex:1; min-width:0;}
 .prod-card{
-  position:relative; height:157px; border-radius:10px; overflow:hidden;
-  padding:24px; display:flex; flex-direction:column; justify-content:flex-end;
+  position:relative; min-height:157px; border-radius:10px; overflow:hidden;
+  /* padding-top reserva la zona del chip (24+48px): los títulos largos
+     expanden la card hacia abajo en vez de pisarse con el ícono */
+  padding:80px 24px 24px; display:flex; flex-direction:column; justify-content:flex-end;
   color:#fff; cursor:pointer; transition:transform .25s cubic-bezier(.22,.61,.36,1), box-shadow .25s;
 }
 .prod-card::before{content:""; position:absolute; inset:0; background:rgba(0,0,0,.55); z-index:0;}

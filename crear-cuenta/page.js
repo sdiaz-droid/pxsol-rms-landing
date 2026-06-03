@@ -4,7 +4,7 @@ const PRODUCTS = [
   [
     { t:"Motor de reservas", s:"+ Reservas directas", img:"card-motor.jpg", icon:"calendar-search", c:"#CDA7CB", d:"Nuestro motor de reservas está diseñado para incrementar tus reservas directas hasta en un 20 %, eliminando costos innecesarios en comisiones y reduciendo la dependencia de las OTA." },
     { t:"PMS", s:"+ Property Management System", img:"card-pms.png", icon:"building-2", c:"#2A6FDB", d:"El PMS de Pxsol es la solución todo en uno para administrar tu hotel de manera eficiente." },
-    { t:"App Conversaciones (WhatsApp, etc.)", s:"+ Conversaciones", img:"card-app.png", icon:"message-circle", c:"#4AB253", d:"Aplica Inteligencia Artificial a la comunicación en el hotel. Integra todos tus canales de chat: Sitio web, WhatsApp, Instagram, Google y más, en una sola aplicación." },
+    { t:"Asistente Virtual 24/7", s:"+ Tu hotel responde a toda hora", img:"card-app.png", icon:"message-circle", c:"#1FAD66", d:"El Asistente Virtual 24/7 atiende a tus huéspedes en el chat de tu web, WhatsApp, Instagram, Google y más. Responde consultas de disponibilidad, tarifas y políticas con datos reales de tu PMS, y cada conversación llega a un solo inbox donde tu equipo tiene el control." },
     { t:"Gestor de reputación online", s:"Gestiona tus reseñas", img:"card-gro.png", icon:"message-square-text", c:"#F1C200", d:"El Módulo de Reputación Online es una herramienta integral que te permite gestionar, analizar y mejorar las opiniones de tus huéspedes a través de diversas plataformas." },
   ],
   // Columna 2
@@ -123,7 +123,7 @@ faqList.addEventListener('click', e => {
 });
 
 /* ───────── FOOTER LINK COLUMNS ───────── */
-const F_PRODUCTOS = ["Motor de reservas","Channel Manager","CRM & Email Marketing","PMS","Página web","Pxsol ADS","Gestor de Reputación Online","App Conversaciones","Pxsol B2B","Sistema de Distribución Global","POS Punto de venta","ERP Control de Costos","Chatbot con IA","Huésped + Guest App"];
+const F_PRODUCTOS = ["Motor de reservas","Channel Manager","CRM & Email Marketing","PMS","Página web","Pxsol ADS","Gestor de Reputación Online","Asistente Virtual 24/7","Pxsol B2B","Sistema de Distribución Global","POS Punto de venta","ERP Control de Costos","Chatbot con IA","Huésped + Guest App"];
 const F_RECURSOS = ["Hotel Summit 2024","Programa de referidos","Clientes","Blog Hotelero","Eventos y Capacitaciones Gratuitas para Hoteles","Pxsol Universidades","Demos grabadas","Developers (API)","E-books y guías","Iniciativa Plantar un Árbol","Capacitaciones para Asociaciones Hoteleras","¿Cómo aumentar tu ocupación?","Spotlight | Actualizaciones de Sistema"];
 const F_EQUIPO = ["Contáctanos","¿Quiénes somos?","Trabaja en Pxsol"];
 const F_EMPRESA = ["Términos y condiciones del servicio","Políticas de privacidad"];
