@@ -217,9 +217,8 @@ leadForm.addEventListener('submit', async e => {
       }),
     });
     if (res.ok){
-      leadForm.style.display = 'none';
-      document.getElementById('form-success').classList.add('show');
-      if (window.lucide) lucide.createIcons();
+      /* Éxito → página de agradecimiento con calendario (preserva la query/UTMs) */
+      window.location.href = '../cuenta-creada-con-exito/' + window.location.search;
     } else {
       showFormError('No pudimos enviar tus datos. Probá de nuevo en unos segundos.');
       btnSubmit.disabled = false;
