@@ -1,0 +1,15 @@
+<!DOCTYPE html><html><head><script src="utm-persist.js"></script></head><body>
+<a id="t1" href="crear-cuenta/">interno</a>
+<a id="t2" href="https://nexus.getpxsol.com/reuniones/cynthia-maciel-presentacion-pxsol">nexus</a>
+<a id="t3" href="https://google.com/x">externo</a>
+<a id="t4" href="https://www.pxsol.com/precios?utm_source=propio">con utm propio</a>
+<div id="out"></div>
+<script>
+document.addEventListener('click', e => e.preventDefault()); // evitar navegación real
+['t1','t2','t3','t4'].forEach(id=>{
+  const a=document.getElementById(id);
+  a.dispatchEvent(new MouseEvent('click',{bubbles:true,cancelable:true}));
+  document.getElementById('out').innerHTML += '<p>'+id+': '+a.href+'</p>';
+});
+document.getElementById('out').innerHTML += '<p>stored: '+localStorage.getItem('pxsol_utms')+'</p>';
+</script></body></html>

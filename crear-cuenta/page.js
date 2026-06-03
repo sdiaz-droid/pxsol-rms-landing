@@ -200,7 +200,8 @@ leadForm.addEventListener('submit', async e => {
 
   if (otaVal) data.utilizas_alguna_ota_en_tu_alojamiento = otaVal;
 
-  const qs = new URLSearchParams(location.search);
+  /* UTMs vigentes: URL primero, localStorage (utm-persist.js) como fallback */
+  const utms = window.pxsolUtms ? window.pxsolUtms() : {};
   btnSubmit.disabled = true;
   btnSubmit.textContent = 'Enviando…';
   try {
@@ -210,9 +211,9 @@ leadForm.addEventListener('submit', async e => {
       body: JSON.stringify({
         slug: 'lead-landing-rms',
         data,
-        utmSource:   qs.get('utm_source')   || undefined,
-        utmMedium:   qs.get('utm_medium')   || undefined,
-        utmCampaign: qs.get('utm_campaign') || undefined,
+        utmSource:   utms.utm_source   || undefined,
+        utmMedium:   utms.utm_medium   || undefined,
+        utmCampaign: utms.utm_campaign || undefined,
       }),
     });
     if (res.ok){

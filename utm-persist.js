@@ -32,8 +32,8 @@
     if (!raw || raw.charAt(0) === '#' || /^(mailto:|tel:|javascript:)/i.test(raw)) return;
     var url;
     try { url = new URL(a.href, location.href); } catch (e) { return; }
-    /* solo dominios propios */
-    if (!/(^|\.)pxsol\.com$|(^|\.)getpxsol\.com$/.test(url.hostname)) return;
+    /* solo dominios propios (localhost para testing local) */
+    if (!/(^|\.)pxsol\.com$|(^|\.)getpxsol\.com$|^localhost$/.test(url.hostname)) return;
     /* si el link ya trae sus propios UTMs, se respetan */
     if (url.searchParams.has('utm_source')) return;
     UTM_KEYS.forEach(function (k) {
