@@ -145,8 +145,91 @@ function fillGroup(parent, title, items){
 fillGroup(equipoCol, 'Equipo', F_EQUIPO);
 fillGroup(equipoCol, 'Empresa', F_EMPRESA);
 
-/* ───────── FORM ───────── */
-/* El formulario es un iframe embebido de Nexus (backend real). No requiere JS. */
+/* ───────── FORM (nativo → backend Nexus) ─────────
+   Postea a /api/web-forms/submit, proxeado por vercel.json al backend real
+   de Nexus (nexus.getpxsol.com). Slug del form: lead-landing-rms.
+   Los `name` de los inputs replican 1:1 los field names de Nexus. */
+const leadForm   = document.getElementById('lead-form');
+const formError  = document.getElementById('form-error');
+const btnSubmit  = document.getElementById('btn-submit');
+let otaVal = '';
+
+document.querySelectorAll('.ota-pill').forEach(pill => {
+  pill.addEventListener('click', () => {
+    document.querySelectorAll('.ota-pill').forEach(p => p.classList.remove('active'));
+    pill.classList.add('active');
+    otaVal = pill.dataset.val;
+  });
+});
+
+const sanitizePhone = v => v.replace(/[\s\-().]/g, '');
+function showFormError(msg, fieldName){
+  formError.textContent = msg;
+  formError.classList.add('show');
+  if (fieldName){
+    const f = leadForm.elements[fieldName]?.closest('.field');
+    if (f) f.classList.add('invalid');
+  }
+}
+
+leadForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  formError.classList.remove('show');
+  leadForm.querySelectorAll('.field').forEach(f => f.classList.remove('invalid'));
+
+  const data = {
+    tu_nombre_completo:               leadForm.elements.tu_nombre_completo.value.trim(),
+    nombre_de_tu_alojamiento:         leadForm.elements.nombre_de_tu_alojamiento.value.trim(),
+    email:                            leadForm.elements.email.value.trim(),
+    telefono_te_escribiremos_por_ahi: sanitizePhone(leadForm.elements.telefono_te_escribiremos_por_ahi.value),
+  };
+
+  const required = [
+    ['tu_nombre_completo', 'Tu nombre completo'],
+    ['nombre_de_tu_alojamiento', 'Nombre de tu alojamiento'],
+    ['email', 'Email'],
+    ['telefono_te_escribiremos_por_ahi', 'WhatsApp'],
+  ];
+  for (const [name, label] of required){
+    if (!data[name]) return showFormError(`Completá el campo "${label}".`, name);
+  }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(data.email))
+    return showFormError('Revisá el formato del email.', 'email');
+  if (!/^\+?\d{10,15}$/.test(data.telefono_te_escribiremos_por_ahi))
+    return showFormError('El WhatsApp necesita formato internacional: + código de país + número, sin espacios. Ej: +5492615550000', 'telefono_te_escribiremos_por_ahi');
+
+  if (otaVal) data.utilizas_alguna_ota_en_tu_alojamiento = otaVal;
+
+  const qs = new URLSearchParams(location.search);
+  btnSubmit.disabled = true;
+  btnSubmit.textContent = 'Enviando…';
+  try {
+    const res = await fetch('/api/web-forms/submit', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        slug: 'lead-landing-rms',
+        data,
+        utmSource:   qs.get('utm_source')   || undefined,
+        utmMedium:   qs.get('utm_medium')   || undefined,
+        utmCampaign: qs.get('utm_campaign') || undefined,
+      }),
+    });
+    if (res.ok){
+      leadForm.style.display = 'none';
+      document.getElementById('form-success').classList.add('show');
+      if (window.lucide) lucide.createIcons();
+    } else {
+      showFormError('No pudimos enviar tus datos. Probá de nuevo en unos segundos.');
+      btnSubmit.disabled = false;
+      btnSubmit.textContent = 'Crear mi cuenta';
+    }
+  } catch {
+    showFormError('Error de red. Verificá tu conexión.');
+    btnSubmit.disabled = false;
+    btnSubmit.textContent = 'Crear mi cuenta';
+  }
+});
 
 /* ───────── COUNTDOWN (FOMO perpetuo) ─────────
    Arranca siempre en 3 días, 10 h, 11 min en cada carga y baja segundo a

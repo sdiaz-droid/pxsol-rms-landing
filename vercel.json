@@ -1,4 +1,10 @@
 {
   "version": 2,
-  "name": "pxsol-rms-landing"
+  "name": "pxsol-rms-landing",
+  "rewrites": [
+    {
+      "source": "/api/web-forms/submit",
+      "destination": "https://nexus.getpxsol.com/api/web-forms/submit"
+    }
+  ]
 }

@@ -143,11 +143,9 @@ a{color:inherit;text-decoration:none;}
   padding:32px;
   margin-top:0;
 }
-.form-card--embed{padding:12px;}
-.form-card--embed iframe{
-  display:block; width:100%; border:none;
-  min-height:600px; border-radius:14px; background:#fff;
-}
+.form-head{margin:0 0 24px;}
+.form-head h2{font-size:26px; font-weight:600; letter-spacing:-.01em; color:var(--pxs-ink); margin:0 0 6px;}
+.form-head p{font-size:15px; color:var(--ink-500); margin:0;}
 .form-row{display:flex; gap:16px;}
 .field{display:flex; flex-direction:column; gap:8px; margin-bottom:20px; flex:1;}
 .field label{font-size:18px; color:var(--ink-700); font-weight:400;}
@@ -162,7 +160,28 @@ a{color:inherit;text-decoration:none;}
   border-color:var(--pxs-red); box-shadow:0 0 0 3px rgba(210,10,17,.08);
 }
 .field.invalid input{border-color:var(--pxs-red); box-shadow:0 0 0 3px rgba(210,10,17,.12);}
-.toggle-q{font-size:18px; color:var(--ink-700); margin:0 0 8px;}
+.toggle-q{font-size:16px; color:var(--ink-700); margin:0 0 10px;}
+.ota-row{display:flex; gap:12px; margin-bottom:22px;}
+.ota-pill{
+  flex:1; cursor:pointer; font-family:var(--font); font-size:16px; color:var(--pxs-ink);
+  background:#fff; border:1px solid #D9DEE5; border-radius:100px; padding:12px;
+  text-align:center; transition:border-color .16s, background .16s, box-shadow .16s, transform .12s cubic-bezier(.23,1,.32,1);
+}
+@media (hover:hover) and (pointer:fine){ .ota-pill:hover{border-color:#b8c0cc;} }
+.ota-pill:active{transform:scale(.97);}
+.ota-pill.active{
+  border-color:var(--pxs-red); background:rgba(210,10,17,.05);
+  box-shadow:0 0 0 3px rgba(210,10,17,.08); font-weight:600;
+}
+.field .hint{font-size:13px; color:var(--ink-400);}
+.form-error{
+  display:none; font-size:14px; line-height:1.45; color:var(--pxs-red-600);
+  background:rgba(210,10,17,.06); border:1px solid rgba(210,10,17,.22);
+  border-radius:10px; padding:10px 14px; margin-bottom:16px;
+}
+.form-error.show{display:block;}
+.btn-submit:disabled{opacity:.65; cursor:wait; transform:none; box-shadow:none;}
+.fine-print{font-size:13px; color:var(--ink-400); text-align:center; margin:14px 0 0;}
 .toggle-row{display:flex; gap:16px; margin-bottom:20px;}
 .toggle{
   flex:1; cursor:pointer; background:#fff;
@@ -408,13 +427,46 @@ a{color:inherit;text-decoration:none;}
         </div>
       </div>
 
-      <!-- FORM CARD — formulario Nexus (backend real) -->
-      <div class="form-card form-card--embed">
-        <iframe
-          src="https://nexus.getpxsol.com/f/cmpsjleo10003qb01o7upn0c7"
-          title="Crear cuenta — Solicitar una demo gratuita"
-          loading="lazy"
-          width="100%" height="600" frameborder="0"></iframe>
+      <!-- FORM CARD — form nativo, postea al backend de Nexus vía proxy same-origin -->
+      <div class="form-card">
+        <form id="lead-form" novalidate>
+          <div class="form-head">
+            <h2>Creá tu cuenta gratis</h2>
+            <p>15 días de prueba · Sin tarjeta de crédito</p>
+          </div>
+          <div class="field">
+            <label for="f-nombre">Tu nombre completo</label>
+            <input id="f-nombre" name="tu_nombre_completo" type="text" placeholder="Ej: María González" autocomplete="name" required />
+          </div>
+          <div class="field">
+            <label for="f-alojamiento">Nombre de tu alojamiento</label>
+            <input id="f-alojamiento" name="nombre_de_tu_alojamiento" type="text" placeholder="Ej: Hotel Costa Serena" autocomplete="organization" required />
+          </div>
+          <div class="form-row">
+            <div class="field">
+              <label for="f-email">Email</label>
+              <input id="f-email" name="email" type="email" placeholder="vos@tuhotel.com" autocomplete="email" required />
+            </div>
+            <div class="field">
+              <label for="f-telefono">WhatsApp</label>
+              <input id="f-telefono" name="telefono_te_escribiremos_por_ahi" type="tel" placeholder="+54 9 261 555 0000" autocomplete="tel" required />
+              <span class="hint">Te escribimos por ahí — con código de país</span>
+            </div>
+          </div>
+          <p class="toggle-q">¿Usás alguna OTA (Booking, Expedia…)?</p>
+          <div class="ota-row" id="ota-row">
+            <button type="button" class="ota-pill" data-val="si">Sí</button>
+            <button type="button" class="ota-pill" data-val="">Todavía no</button>
+          </div>
+          <div class="form-error" id="form-error" role="alert"></div>
+          <button class="btn-submit" id="btn-submit" type="submit">Crear mi cuenta</button>
+          <p class="fine-print">Nuestro equipo te contacta en menos de 24 hs hábiles.</p>
+        </form>
+        <div class="form-success" id="form-success">
+          <div class="ok"><i data-lucide="check" class="lucide"></i></div>
+          <h3>¡Listo! Recibimos tus datos</h3>
+          <p>Te escribimos por WhatsApp para activar tu demo gratuita.</p>
+        </div>
       </div>
     </div>
   </section>
