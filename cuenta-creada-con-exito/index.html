@@ -3,260 +3,193 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Pxsol — ¡Cuenta creada con éxito!</title>
+<title>Pxsol — ¡Gracias!</title>
 <meta name="robots" content="noindex" />
 <link rel="shortcut icon" href="../favicon.ico" />
 <link rel="icon" href="../favicon.ico" sizes="any" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
 <style>
 :root{
   --pxs-red:#D20A11; --pxs-red-600:#B40911;
-  --pxs-yellow:#F1C200; --pxs-yellow-200:rgba(241,194,0,.20);
-  --pxs-ink:#000017; --ink-700:#262728; --ink-500:#666;
+  --pxs-yellow:#F1C200;
+  --pxs-ink:#000017; --ink-700:#262728; --ink-500:#74777A;
   --ink-400:#999; --ink-300:#D1D1D1; --paper:#fff; --paper-2:#F7F7F7;
-  --success:#2ECC71; --success-bg:#E6F8EE;
-  --wa:#25D366; --wa-600:#1EBE5A;
+  --sky:#E7F1FA;
   --font:"Work Sans","Helvetica Neue",Arial,sans-serif;
-  --radius-card:20px;
+  --font-ui:"Inter",var(--font);
 }
 *{box-sizing:border-box;}
 html,body{margin:0;padding:0;}
 body{
   font-family:var(--font);
   background:var(--paper-2);
-  color:var(--pxs-ink);
+  color:var(--ink-700);
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
-.page{width:1440px; max-width:100%; margin:0 auto; padding:24px 0 0;}
+.page{width:1440px; max-width:100%; margin:0 auto; padding:0 0 0;}
 a{color:inherit; text-decoration:none;}
 .lucide{stroke-width:1.6;}
 
-/* ───────── HERO / CONFIRMACIÓN ───────── */
-.hero{
-  position:relative;
-  margin:0 24px;
-  border-radius:var(--radius-card);
-  overflow:hidden;
-  isolation:isolate;
-}
-.hero::before{
-  content:"";
-  position:absolute; inset:0;
-  background:linear-gradient(rgba(0,0,23,.78),rgba(0,0,23,.78)), url(assets/hero-bg.png) center/cover no-repeat;
-  z-index:-1;
-}
-.hero-inner{
-  min-height:420px;
-  display:flex; flex-direction:column; align-items:center; justify-content:center;
-  text-align:center;
-  padding:72px 24px 64px;
-}
-.check-badge{
-  width:84px; height:84px; border-radius:50%;
-  background:rgba(46,204,113,.16);
-  border:1.5px solid rgba(46,204,113,.5);
-  display:flex; align-items:center; justify-content:center;
-  margin-bottom:26px;
-  animation:pop .5s cubic-bezier(.22,1.2,.36,1) both;
-}
-.check-badge .lucide{width:42px; height:42px; color:var(--success); stroke-width:2.4;}
-@keyframes pop{from{transform:scale(.4); opacity:0;} to{transform:scale(1); opacity:1;}}
-.eyebrow{
-  display:inline-flex; align-items:center; gap:8px;
-  font-size:14px; font-weight:600; letter-spacing:.04em; text-transform:uppercase;
-  color:var(--pxs-yellow); margin-bottom:14px;
-}
-.hero h1{
-  font-size:clamp(34px,5vw,54px); font-weight:700; line-height:1.04;
-  letter-spacing:-.02em; color:#fff; margin:0 0 18px; max-width:14ch;
-  text-wrap:balance;
-}
-.hero h1 .accent{color:#fff;}
-.hero p.lead{
-  font-size:clamp(17px,2vw,21px); font-weight:400; color:rgba(255,255,255,.82);
-  margin:0 auto 34px; max-width:54ch; line-height:1.45;
-}
-.hero-actions{display:flex; flex-wrap:wrap; gap:14px; justify-content:center;}
 .btn{
   border:none; cursor:pointer; font-family:var(--font);
-  font-weight:600; font-size:16px; border-radius:100px;
-  display:inline-flex; align-items:center; justify-content:center; gap:9px;
-  padding:15px 30px;
+  font-weight:500; font-size:16px; border-radius:100px;
+  display:inline-flex; align-items:center; justify-content:center; gap:8px;
   transition:transform .2s cubic-bezier(.22,.61,.36,1), box-shadow .2s, background .2s;
 }
 .btn:active{transform:scale(.97);}
-.btn .lucide{width:20px; height:20px;}
-.btn-primary{background:#fff; color:var(--pxs-ink);}
-.btn-primary:hover{box-shadow:0 8px 22px rgba(0,0,0,.3); transform:translateY(-1px);}
-.btn-wa{background:var(--wa); color:#fff;}
-.btn-wa:hover{background:var(--wa-600); box-shadow:0 8px 22px rgba(37,211,102,.4); transform:translateY(-1px);}
 
-/* ───────── PASOS / next steps strip ───────── */
-.steps{
-  display:flex; gap:18px; flex-wrap:wrap;
-  margin:20px 24px 0;
+/* ───────── HERO ───────── */
+.hero{
+  display:flex; gap:32px; align-items:stretch;
+  padding:58px 135px;
 }
-.step{
-  flex:1 1 0; min-width:240px;
-  background:var(--paper); border:1px solid #ECECEC; border-radius:var(--radius-card);
-  padding:26px 26px 24px;
-  display:flex; flex-direction:column; gap:10px;
+.hero-left{flex:0 0 457px; display:flex; flex-direction:column;}
+.gracias-h1{
+  font-weight:500; font-size:52px; line-height:62px; letter-spacing:-.02em;
+  color:var(--ink-700); margin:0 0 24px;
 }
-.step .n{
-  width:34px; height:34px; border-radius:10px;
-  background:rgba(210,10,17,.08); color:var(--pxs-red);
-  display:flex; align-items:center; justify-content:center;
-  font-weight:700; font-size:15px;
+.gracias-body{font-size:16px; line-height:1.5; color:var(--ink-700); margin:0 0 14px;}
+.gracias-body b{font-weight:700;}
+.btn-explore{
+  align-self:flex-start; margin-top:14px;
+  background:var(--pxs-ink); color:#fff; padding:13px 28px;
 }
-.step h3{font-size:17px; font-weight:600; margin:6px 0 0;}
-.step p{font-size:15px; color:var(--ink-500); margin:0; line-height:1.45;}
+.btn-explore:hover{background:#1a1a30; box-shadow:0 6px 18px rgba(0,0,23,.25); transform:scale(1.02);}
 
-/* ───────── AGENDA / CALENDARIO (sección destacada) ───────── */
-.agenda{
-  margin:64px 24px 0;
-  background:var(--paper); border-radius:var(--radius-card);
-  border:1px solid #ECECEC;
-  overflow:hidden;
-  display:grid;
-  grid-template-columns:minmax(300px,400px) 1fr;
+.founder{position:relative; margin-top:56px;}
+.founder-head{display:flex; align-items:center; gap:20px; position:relative; z-index:2;}
+.founder-avatar{
+  width:108px;height:108px;border-radius:50%;
+  background:url(assets/founder.png) center/cover; flex:none;
+  box-shadow:0 4px 14px rgba(0,0,23,.18);
 }
-.agenda-aside{
-  padding:48px 44px;
-  background:linear-gradient(165deg,#0B0B1E 0%,#1A1638 100%);
-  color:#fff;
-  display:flex; flex-direction:column;
+.founder-name{font-size:16px; line-height:1.4; color:var(--ink-700);}
+.founder-name b{font-weight:600;}
+.founder-quote{
+  margin-top:-30px; padding:48px 40px 28px;
+  border-radius:20px;
+  background:linear-gradient(135deg, #F8E9EB 0%, #F1D7DA 100%);
+  font-size:16px; line-height:1.45; color:var(--ink-700);
 }
-.agenda-aside .tag{
-  display:inline-flex; align-items:center; gap:7px; align-self:flex-start;
-  background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14);
-  border-radius:100px; padding:7px 14px; font-size:13px; font-weight:600;
-  letter-spacing:.03em; margin-bottom:22px;
-}
-.agenda-aside .tag .lucide{width:15px; height:15px; color:var(--pxs-yellow);}
-.agenda-aside h2{
-  font-size:clamp(26px,3vw,34px); font-weight:700; line-height:1.08;
-  letter-spacing:-.02em; margin:0 0 16px; text-wrap:balance;
-}
-.agenda-aside p{font-size:16px; line-height:1.55; color:rgba(255,255,255,.78); margin:0 0 26px;}
-.agenda-list{list-style:none; padding:0; margin:0 0 28px; display:flex; flex-direction:column; gap:14px;}
-.agenda-list li{display:flex; align-items:flex-start; gap:11px; font-size:15px; color:rgba(255,255,255,.9);}
-.agenda-list .lucide{width:19px; height:19px; color:var(--success); flex:none; margin-top:1px;}
-.agenda-meta{
-  margin-top:auto; padding-top:22px; border-top:1px solid rgba(255,255,255,.12);
-  display:flex; align-items:center; gap:14px;
-}
-.agenda-meta .dot{
-  width:46px; height:46px; border-radius:12px; flex:none;
-  background:rgba(241,194,0,.16); color:var(--pxs-yellow);
-  display:flex; align-items:center; justify-content:center;
-}
-.agenda-meta .dot .lucide{width:22px; height:22px;}
-.agenda-meta b{display:block; font-size:15px; font-weight:600;}
-.agenda-meta span{font-size:13px; color:rgba(255,255,255,.6);}
+.founder-quote b{font-weight:700;}
 
-.agenda-cal{
-  padding:48px 44px; display:flex; flex-direction:column;
-  align-items:center; justify-content:center; text-align:center;
-  background:
-    radial-gradient(120% 120% at 100% 0%, rgba(210,10,17,.05) 0%, transparent 55%),
-    var(--paper);
+/* booking widget */
+.booking{
+  flex:1; min-width:0; border-radius:20px;
+  background:linear-gradient(160deg, #FCF1F2 0%, #FBF6F6 60%, #FAF8F8 100%);
+  display:flex; gap:36px; padding:40px;
 }
-.cal-visual{
-  width:96px; height:96px; border-radius:24px;
-  background:linear-gradient(160deg,#FFE9EA 0%,#FFF6F6 100%);
-  border:1px solid rgba(210,10,17,.12);
-  display:flex; align-items:center; justify-content:center;
-  margin-bottom:26px;
-  box-shadow:0 14px 36px -12px rgba(210,10,17,.28);
+.bk-col{flex:0 0 296px; min-width:0; display:flex; flex-direction:column;}
+.bk-h{font-weight:700; font-size:24px; line-height:1.4; color:var(--ink-700); margin:0 0 14px;}
+.bk-sub{font-size:16px; line-height:1.4; color:var(--ink-700); margin:0 0 28px;}
+.bk-month{display:flex; align-items:center; gap:10px; margin-bottom:2px;}
+.bk-month span{font-weight:500; font-size:30px; line-height:38px; color:#060707;}
+.bk-month .lucide{width:24px;height:24px; color:var(--ink-700); cursor:pointer;}
+.bk-pick{font-family:var(--font-ui); font-size:14px; color:var(--ink-500); margin:0 0 18px; letter-spacing:-.15px;}
+.cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; width:100%;}
+.cal-dow{
+  height:42px; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-ui); font-size:14px; color:var(--ink-500); font-weight:500;
 }
-.cal-visual .lucide{width:46px; height:46px; color:var(--pxs-red);}
-.agenda-cal h3{font-size:24px; font-weight:700; letter-spacing:-.01em; margin:0 0 12px;}
-.agenda-cal p{font-size:16px; color:var(--ink-500); line-height:1.55; margin:0 0 30px; max-width:42ch;}
-.btn-cal{
-  background:var(--pxs-red); color:#fff; font-size:17px; padding:17px 34px;
+.cal-day{
+  height:42px; display:flex; align-items:center; justify-content:center;
+  font-family:var(--font-ui); font-size:15px; color:var(--ink-700);
+  border-radius:50%; cursor:pointer; user-select:none;
+  transition:background .15s, color .15s;
 }
-.btn-cal:hover{background:var(--pxs-red-600); box-shadow:0 10px 26px rgba(210,10,17,.32); transform:translateY(-1px);}
-.cal-note{
-  display:inline-flex; align-items:center; gap:7px;
-  margin-top:18px; font-size:14px; color:var(--ink-500);
+.cal-day:hover{background:rgba(210,10,17,.08);}
+.cal-day.muted{color:var(--ink-300); cursor:default;}
+.cal-day.muted:hover{background:none;}
+.cal-day.selected{position:relative; color:var(--pxs-red); font-weight:600;}
+.cal-day.selected::after{content:""; position:absolute; inset:3px; border:1.5px solid var(--pxs-red); border-radius:50%;}
+.btn-agendar{
+  width:100%; margin-top:28px;
+  border:none; border-radius:100px; cursor:pointer;
+  font-family:var(--font); font-weight:500; font-size:16px; color:#fff;
+  padding:14px; background:linear-gradient(90deg,#C24A6E 0%,#D20A11 100%);
+  transition:transform .2s, box-shadow .2s;
 }
-.cal-note .lucide{width:16px; height:16px; color:var(--success);}
+.btn-agendar:hover{transform:scale(1.02); box-shadow:0 8px 22px rgba(210,10,17,.28);}
+.btn-agendar:active{transform:scale(.98);}
 
-/* ───────── WHATSAPP + NEWSLETTER ───────── */
-.dual{
-  display:grid; grid-template-columns:1fr 1fr; gap:24px;
-  margin:24px 24px 0;
+.bk-col.right{flex:1; min-width:0; display:flex; flex-direction:column; padding-top:50px;}
+.dur-toggle{display:inline-flex; border:1px solid var(--ink-300); border-radius:8px; overflow:hidden; margin-bottom:30px; align-self:flex-start;}
+.dur-toggle button{
+  font-family:var(--font); font-size:15px; color:var(--ink-500);
+  background:transparent; border:none; cursor:pointer; padding:9px 18px;
+  transition:background .2s,color .2s;
 }
-.card{
-  background:var(--paper); border:1px solid #ECECEC; border-radius:var(--radius-card);
-  padding:40px 40px 38px;
+.dur-toggle button.active{background:#fff; color:var(--ink-700); font-weight:500; box-shadow:0 1px 3px rgba(0,0,23,.1);}
+.slots-wrap{position:relative; display:flex; gap:8px; flex:1;}
+.slots{display:flex; flex-direction:column; gap:10px; flex:1; max-height:314px; overflow-y:auto; padding-right:4px;}
+.slots::-webkit-scrollbar{width:7px;}
+.slots::-webkit-scrollbar-thumb{background:var(--ink-500); border-radius:50px;}
+.slot{
+  border:1px solid var(--ink-300); border-radius:8px; background:rgba(255,255,255,.5);
+  padding:11px; text-align:center; font-size:16px; color:var(--ink-700); cursor:pointer;
+  transition:border-color .15s, background .15s, color .15s;
 }
-.card.wa{
-  background:linear-gradient(160deg,#0E2C1B 0%,#0A3D24 100%); color:#fff; border:none;
-  display:flex; flex-direction:column;
-}
-.card.wa .ic{
-  width:54px; height:54px; border-radius:14px;
-  background:rgba(37,211,102,.18); color:var(--wa);
-  display:flex; align-items:center; justify-content:center; margin-bottom:20px;
-}
-.card.wa .ic .lucide{width:28px; height:28px;}
-.card.wa h2{font-size:24px; font-weight:700; letter-spacing:-.01em; margin:0 0 10px;}
-.card.wa p{font-size:16px; color:rgba(255,255,255,.8); line-height:1.5; margin:0 0 26px;}
-.card.wa .btn-wa{align-self:flex-start; margin-top:auto;}
-.card.wa .num{font-size:14px; color:rgba(255,255,255,.6); margin-top:16px;}
+.slot:hover{border-color:var(--pxs-red);}
+.slot.selected{border-color:var(--pxs-red); background:var(--pxs-red); color:#fff; font-weight:500;}
 
-.card.news h2{font-size:24px; font-weight:700; letter-spacing:-.01em; margin:0 0 8px;}
-.card.news .sub{font-size:16px; color:var(--ink-500); line-height:1.5; margin:0 0 22px;}
-.news-frame{
-  width:100%; min-height:600px; border:none; border-radius:12px;
+/* ───────── HELP BANNER ───────── */
+.help-wrap{padding:60px 135px 0;}
+.help{
+  background:var(--pxs-ink); border-radius:20px;
+  display:flex; align-items:center; justify-content:space-between; gap:32px;
+  padding:31px 48px 31px 40px;
+}
+.help h2{font-weight:500; font-size:24px; line-height:34px; color:#fff; margin:0;}
+.btn-wa{background:var(--pxs-red); color:#fff; padding:13px 24px;}
+.btn-wa:hover{background:var(--pxs-red-600); box-shadow:0 6px 18px rgba(210,10,17,.28); transform:scale(1.02);}
+.btn-wa .lucide{width:20px;height:20px;}
+
+/* ───────── NEWSLETTER + ARTICULOS ───────── */
+.nl-wrap{padding:60px 135px;}
+.nl-row{display:flex; gap:20px; align-items:stretch;}
+.newsletter{
+  flex:0 0 574px; background:#fff; border-radius:20px;
+  box-shadow:-2px -2px 12px rgba(1,14,61,.1), 0 10px 30px rgba(0,0,23,.05);
+  padding:40px;
+}
+.newsletter h2{font-weight:500; font-size:30px; line-height:38px; color:var(--ink-700); margin:0 0 8px;}
+.newsletter h2 .accent{color:var(--pxs-red);}
+.newsletter .lead{font-size:18px; color:var(--pxs-ink); margin:0 0 24px;}
+.nl-frame{
+  width:100%; min-height:560px; border:none; border-radius:12px; display:block;
 }
 
-/* ───────── FOOTER ───────── */
-.footer{
-  margin:64px 24px 24px;
-  background:var(--pxs-ink); color:#fff;
-  border-radius:var(--radius-card);
-  padding:54px 64px 0;
+.articles{
+  flex:1; min-width:0; background:var(--sky); border-radius:20px;
+  padding:46px 40px; display:flex; flex-direction:column; align-items:center; gap:34px; overflow:hidden;
 }
-.f-top{display:flex; justify-content:space-between; flex-wrap:wrap; gap:30px; padding-bottom:40px;}
-.f-brand .logo{font-weight:800; font-size:26px; letter-spacing:-.02em; color:#fff; display:inline-flex; line-height:1;}
-.f-brand .logo .x{color:var(--pxs-red);}
-.f-brand p{font-size:15px; color:rgba(255,255,255,.6); margin:14px 0 18px;}
-.f-social{display:flex; gap:8px;}
-.f-social a{
-  width:42px; height:42px; border-radius:10px;
-  background:rgba(255,255,255,.06);
-  display:flex; align-items:center; justify-content:center;
-  transition:background .2s;
+.articles h3{font-weight:500; font-size:24px; line-height:34px; color:var(--pxs-ink); margin:0; text-align:center;}
+.art-viewport{width:384px; max-width:100%; overflow:hidden;}
+.art-track{display:flex; gap:20px; transition:transform .4s cubic-bezier(.22,.61,.36,1);}
+.art-card{
+  flex:0 0 384px; background:#fff; border-radius:20px;
+  box-shadow:-2px -2px 12px rgba(1,14,61,.1); overflow:hidden;
 }
-.f-social a:hover{background:rgba(255,255,255,.14);}
-.f-social .lucide{width:20px; height:20px;}
-.f-contact{display:flex; flex-direction:column; gap:10px; font-size:15px; color:rgba(255,255,255,.78);}
-.f-contact a{display:inline-flex; align-items:center; gap:9px;}
-.f-contact a:hover{color:#fff;}
-.f-contact .lucide{width:18px; height:18px; color:var(--pxs-yellow);}
-.f-bottom{
-  border-top:1px solid rgba(255,255,255,.16);
-  padding:22px 0; text-align:center;
-}
-.f-bottom p{font-size:14px; color:rgba(255,255,255,.5); margin:0;}
+.art-img{height:172px; background-size:cover; background-position:center;}
+.art-meta{display:flex; align-items:center; justify-content:space-between; padding:18px 24px 24px; gap:12px;}
+.art-meta .l{display:flex; align-items:center; gap:6px; font-size:16px; color:var(--ink-500);}
+.art-meta .l .lucide{width:20px;height:20px;}
+.art-meta .r{display:flex; align-items:center; gap:8px; font-size:16px; color:var(--ink-500);}
+.art-meta .r .dot{width:20px;height:20px;border-radius:50%;background:linear-gradient(135deg,#E7F1FA,#F1D7DA);}
+.dots{display:flex; gap:12px; align-items:center;}
+.dots .dot{width:12px;height:12px;border-radius:50%;border:1px solid var(--ink-500); cursor:pointer; transition:background .2s;}
+.dots .dot.active{background:var(--ink-500);}
 
-/* ───────── RESPONSIVE ───────── */
-@media (max-width:980px){
-  .agenda{grid-template-columns:1fr;}
-  .agenda-aside{padding:36px 30px;}
-  .agenda-cal{padding:40px 30px;}
-  .agenda-meta{margin-top:30px;}
-  .dual{grid-template-columns:1fr;}
-}
-@media (max-width:600px){
-  .hero-inner{padding:54px 18px 48px;}
-  .card{padding:30px 24px;}
-  .footer{padding:40px 28px 0;}
+@media (max-width:1100px){
+  .hero{flex-direction:column; padding:40px 24px;}
+  .hero-left{flex:none;}
+  .booking{flex-direction:column;}
+  .help-wrap,.nl-wrap{padding:40px 24px;}
+  .nl-row{flex-direction:column;}
+  .newsletter{flex:none;}
 }
 @media (prefers-reduced-motion:reduce){
   *{animation:none !important; transition:none !important;}
@@ -266,117 +199,87 @@ a{color:inherit; text-decoration:none;}
 <body>
 <div class="page">
 
-  <!-- ════════ HERO / CONFIRMACIÓN ════════ -->
-  <section class="hero">
-    <div class="hero-inner">
-      <div class="check-badge"><i data-lucide="check" class="lucide"></i></div>
-      <span class="eyebrow"><i data-lucide="sparkles" class="lucide" style="width:15px;height:15px;"></i> Tu cuenta ya está creada</span>
-      <h1>¡Bienvenido a Pxsol!</h1>
-      <p class="lead">Recibimos tus datos. El siguiente paso es el más importante: agendá una reunión con un especialista y empezá a ver resultados en tu alojamiento desde la primera semana.</p>
-      <div class="hero-actions">
-        <a href="#agenda" class="btn btn-primary"><i data-lucide="calendar-check" class="lucide"></i> Agendar mi reunión</a>
-        <a href="https://wa.me/5492612130380?text=Hola!%20Acabo%20de%20crear%20mi%20cuenta%20en%20Pxsol%20y%20quiero%20coordinar%20una%20reuni%C3%B3n." target="_blank" rel="noopener" class="btn btn-wa"><i data-lucide="message-circle" class="lucide"></i> Escribinos por WhatsApp</a>
+  <!-- ════════ HERO ════════ -->
+  <section class="hero" data-screen-label="Hero / Gracias">
+    <div class="hero-left">
+      <h1 class="gracias-h1">¡Gracias!</h1>
+      <p class="gracias-body">En unos minutos, <b>recibirás un correo electrónico de confirmación y una invitación para agendar una reunión</b> con uno de nuestros asesores de hoteles.</p>
+      <p class="gracias-body">Ellos te ayudarán a crear tu cuenta y a descubrir cómo Pxsol puede facilitarte la gestión hotelera y aumentar tus reservas.</p>
+      <a class="btn btn-explore" href="https://www.pxsol.com" target="_blank" rel="noopener">Sigue explorando Pxsol</a>
+
+      <div class="founder">
+        <div class="founder-head">
+          <div class="founder-avatar"></div>
+          <p class="founder-name"><b>Gastón Guillermet</b><br />Founder de Pxsol</p>
+        </div>
+        <div class="founder-quote">En esta <b>sesión de 15 minutos</b> analizamos juntos tu operación y te mostramos cómo Pxsol puede ayudarte a sumar reservas directas y ordenar la gestión diaria de tu hotel.</div>
       </div>
     </div>
-  </section>
 
-  <!-- ════════ PRÓXIMOS PASOS ════════ -->
-  <section class="steps">
-    <div class="step">
-      <div class="n">1</div>
-      <h3>Agendá tu reunión</h3>
-      <p>Elegí el día y horario que mejor te quede. Son 20 minutos, online y sin compromiso.</p>
-    </div>
-    <div class="step">
-      <div class="n">2</div>
-      <h3>Conocé tu plataforma</h3>
-      <p>Te mostramos Pxsol funcionando con el caso real de tu tipo de alojamiento.</p>
-    </div>
-    <div class="step">
-      <div class="n">3</div>
-      <h3>Empezá a vender más</h3>
-      <p>Configuramos tu motor de reservas y tu PMS para sumar reservas directas.</p>
-    </div>
-  </section>
+    <!-- BOOKING WIDGET -->
+    <div class="booking">
+      <div class="bk-col">
+        <h2 class="bk-h">Sesión de evaluación</h2>
+        <p class="bk-sub">Agendá una evaluación personalizada con un especialista en ventas</p>
+        <div class="bk-month">
+          <span>Junio 2026</span>
+          <i data-lucide="chevron-right" class="lucide"></i>
+        </div>
+        <p class="bk-pick">Seleccione una fecha</p>
+        <div class="cal-grid" id="cal-grid"></div>
+        <button class="btn-agendar" id="btn-agendar">Agendar sesión</button>
+      </div>
 
-  <!-- ════════ AGENDA / CALENDARIO ════════ -->
-  <section class="agenda" id="agenda">
-    <div class="agenda-aside">
-      <span class="tag"><i data-lucide="video" class="lucide"></i> Reunión online · 20 min</span>
-      <h2>Agendá una reunión con un especialista de Pxsol</h2>
-      <p>En 20 minutos te mostramos, sobre tu propio caso, cómo aumentar la ocupación y las reservas directas de tu alojamiento con Pxsol. Sin tecnicismos y sin compromiso.</p>
-      <ul class="agenda-list">
-        <li><i data-lucide="check-circle-2" class="lucide"></i> Diagnóstico de tu operación actual y dónde estás perdiendo reservas.</li>
-        <li><i data-lucide="check-circle-2" class="lucide"></i> Demo en vivo del PMS y el Motor de Reservas adaptada a tu hotel.</li>
-        <li><i data-lucide="check-circle-2" class="lucide"></i> Plan claro para arrancar tus 15 días de prueba aprovechándolos al máximo.</li>
-      </ul>
-      <div class="agenda-meta">
-        <div class="dot"><i data-lucide="headset" class="lucide"></i></div>
-        <div>
-          <b>Te atiende el equipo de Pxsol</b>
-          <span>Especialistas en gestión hotelera</span>
+      <div class="bk-col right">
+        <h2 class="bk-h" style="font-size:18px;margin-bottom:16px;">¿Cuánto tiempo necesitás?</h2>
+        <div class="dur-toggle" id="dur-toggle">
+          <button data-dur="30">30 minutos</button>
+          <button data-dur="15" class="active">15 minutos</button>
+        </div>
+        <h2 class="bk-h" style="font-size:18px;margin-bottom:8px;">¿A qué hora puedes?</h2>
+        <p class="bk-sub" style="margin-bottom:18px;">Mostrando los horarios para el <b>19 de junio de 2026</b></p>
+        <div class="slots-wrap">
+          <div class="slots" id="slots"></div>
         </div>
       </div>
     </div>
-    <div class="agenda-cal">
-      <div class="cal-visual"><i data-lucide="calendar-days" class="lucide"></i></div>
-      <h3>Elegí el día y la hora</h3>
-      <p>Abrí el calendario, seleccioná el horario que mejor te quede y confirmá. Recibís la invitación por mail en el momento.</p>
-      <a href="https://nexus.getpxsol.com/reuniones/cynthia-maciel-presentacion-pxsol" target="_blank" rel="noopener" class="btn btn-cal"><i data-lucide="calendar-check" class="lucide"></i> Abrir calendario y agendar</a>
-      <span class="cal-note"><i data-lucide="clock" class="lucide"></i> Con disponibilidad esta misma semana</span>
-    </div>
   </section>
 
-  <!-- ════════ WHATSAPP + NEWSLETTER ════════ -->
-  <section class="dual">
-    <div class="card wa">
-      <div class="ic"><i data-lucide="message-circle" class="lucide"></i></div>
-      <h2>¿Preferís hablar ahora?</h2>
-      <p>Escribinos por WhatsApp y un especialista te responde al instante para resolver tus dudas y coordinar la puesta en marcha.</p>
-      <a href="https://wa.me/5492612130380?text=Hola!%20Acabo%20de%20crear%20mi%20cuenta%20en%20Pxsol%20y%20quiero%20coordinar%20una%20reuni%C3%B3n." target="_blank" rel="noopener" class="btn btn-wa"><i data-lucide="message-circle" class="lucide"></i> Abrir WhatsApp</a>
-      <p class="num">+54 9 261 213-0380</p>
+  <!-- ════════ HELP BANNER ════════ -->
+  <div class="help-wrap">
+    <div class="help" data-screen-label="Banner ayuda">
+      <h2>¿Necesitas ayuda ahora?</h2>
+      <a class="btn btn-wa" href="https://wa.me/5492612130380?text=Hola!%20Acabo%20de%20crear%20mi%20cuenta%20en%20Pxsol%20y%20necesito%20ayuda." target="_blank" rel="noopener">Contactanos por Whatsapp <i data-lucide="message-circle" class="lucide"></i></a>
     </div>
-    <div class="card news">
-      <h2>Suscribite a nuestro newsletter</h2>
-      <p class="sub">Tendencias de revenue, ocupación y marketing hotelero, directo a tu correo. Sin spam.</p>
-      <iframe
-        class="news-frame"
-        src="https://nexus.getpxsol.com/f/cmpyji7gw04cfl901lonvm12j"
-        title="Suscribite al newsletter de Pxsol"
-        loading="lazy"
-        frameborder="0"></iframe>
-    </div>
-  </section>
+  </div>
 
-  <!-- ════════ FOOTER ════════ -->
-  <footer class="footer">
-    <div class="f-top">
-      <div class="f-brand">
-        <a href="https://www.pxsol.com" class="logo">P<span class="x">X</span>SOL</a>
-        <p>Software para hoteles all-in-one</p>
-        <div class="f-social">
-          <a href="#" aria-label="LinkedIn"><i data-lucide="linkedin" class="lucide"></i></a>
-          <a href="#" aria-label="YouTube"><i data-lucide="youtube" class="lucide"></i></a>
-          <a href="#" aria-label="Facebook"><i data-lucide="facebook" class="lucide"></i></a>
-          <a href="#" aria-label="Instagram"><i data-lucide="instagram" class="lucide"></i></a>
+  <!-- ════════ NEWSLETTER + ARTICULOS ════════ -->
+  <div class="nl-wrap">
+    <div class="nl-row" data-screen-label="Newsletter y artículos">
+      <div class="newsletter">
+        <h2><span class="accent">Suscríbete</span> a nuestro Newsletter</h2>
+        <p class="lead">¡Recibe las últimas novedades del mundo hotelero!</p>
+        <iframe
+          class="nl-frame"
+          src="https://nexus.getpxsol.com/f/cmpyji7gw04cfl901lonvm12j"
+          title="Suscribite al newsletter de Pxsol"
+          loading="lazy"
+          frameborder="0"></iframe>
+      </div>
+
+      <div class="articles" data-screen-label="Artículos destacados">
+        <h3>Artículos destacados</h3>
+        <div class="art-viewport">
+          <div class="art-track" id="art-track"></div>
         </div>
-      </div>
-      <div class="f-contact">
-        <a href="https://wa.me/5492612130380" target="_blank" rel="noopener"><i data-lucide="message-circle" class="lucide"></i> +54 9 261 213-0380</a>
-        <a href="mailto:sdiaz@pxsol.com"><i data-lucide="mail" class="lucide"></i> sdiaz@pxsol.com</a>
-        <a href="https://www.pxsol.com" target="_blank" rel="noopener"><i data-lucide="globe" class="lucide"></i> www.pxsol.com</a>
+        <div class="dots" id="art-dots"></div>
       </div>
     </div>
-    <div class="f-bottom">
-      <p>Todos los derechos reservados © PXSOL | Política de Privacidad | Al utilizar este sitio web, acepta el uso de cookies.</p>
-    </div>
-  </footer>
+  </div>
 
 </div>
 
 <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
-<script>
-  if (window.lucide) lucide.createIcons();
-</script>
+<script src="thankyou.js"></script>
 </body>
 </html>
