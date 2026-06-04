@@ -168,32 +168,13 @@ a{color:inherit; text-decoration:none;}
       </div>
     </div>
 
-    <!-- BOOKING WIDGET -->
+    <!-- BOOKING WIDGET — calendario real de Nexus (frame-ancestors permite *.pxsol.com) -->
     <div class="booking">
-      <div class="bk-col">
-        <h2 class="bk-h">Sesión de evaluación</h2>
-        <p class="bk-sub">Agendá una evaluación personalizada con un especialista en ventas</p>
-        <div class="bk-month">
-          <span>Junio 2026</span>
-          <i data-lucide="chevron-right" class="lucide"></i>
-        </div>
-        <p class="bk-pick">Seleccione una fecha</p>
-        <div class="cal-grid" id="cal-grid"></div>
-        <button class="btn-agendar" id="btn-agendar">Agendar sesión</button>
-      </div>
-
-      <div class="bk-col right">
-        <h2 class="bk-h" style="font-size:18px;margin-bottom:16px;">¿Cuánto tiempo necesitás?</h2>
-        <div class="dur-toggle" id="dur-toggle">
-          <button data-dur="30">30 minutos</button>
-          <button data-dur="15" class="active">15 minutos</button>
-        </div>
-        <h2 class="bk-h" style="font-size:18px;margin-bottom:8px;">¿A qué hora puedes?</h2>
-        <p class="bk-sub" style="margin-bottom:18px;">Mostrando los horarios para el <b>19 de junio de 2026</b></p>
-        <div class="slots-wrap">
-          <div class="slots" id="slots"></div>
-        </div>
-      </div>
+      <iframe
+        class="booking-frame"
+        src="https://nexus.getpxsol.com/reuniones/cynthia-maciel-presentacion-pxsol"
+        title="Agendá tu sesión de evaluación con Pxsol"
+        loading="eager"></iframe>
     </div>
   </section>
 
