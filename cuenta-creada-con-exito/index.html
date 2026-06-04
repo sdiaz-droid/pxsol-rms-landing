@@ -76,64 +76,16 @@ a{color:inherit; text-decoration:none;}
 }
 .founder-quote b{font-weight:700;}
 
-/* booking widget */
+/* booking widget — calendario real de Nexus embebido en la card del diseño */
 .booking{
   flex:1; min-width:0; border-radius:20px;
   background:linear-gradient(160deg, #FCF1F2 0%, #FBF6F6 60%, #FAF8F8 100%);
-  display:flex; gap:36px; padding:40px;
+  display:flex; padding:16px;
 }
-.bk-col{flex:0 0 296px; min-width:0; display:flex; flex-direction:column;}
-.bk-h{font-weight:700; font-size:24px; line-height:1.4; color:var(--ink-700); margin:0 0 14px;}
-.bk-sub{font-size:16px; line-height:1.4; color:var(--ink-700); margin:0 0 28px;}
-.bk-month{display:flex; align-items:center; gap:10px; margin-bottom:2px;}
-.bk-month span{font-weight:500; font-size:30px; line-height:38px; color:#060707;}
-.bk-month .lucide{width:24px;height:24px; color:var(--ink-700); cursor:pointer;}
-.bk-pick{font-family:var(--font-ui); font-size:14px; color:var(--ink-500); margin:0 0 18px; letter-spacing:-.15px;}
-.cal-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:2px; width:100%;}
-.cal-dow{
-  height:42px; display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-ui); font-size:14px; color:var(--ink-500); font-weight:500;
+.booking-frame{
+  width:100%; min-height:720px; flex:1;
+  border:none; border-radius:14px; background:transparent;
 }
-.cal-day{
-  height:42px; display:flex; align-items:center; justify-content:center;
-  font-family:var(--font-ui); font-size:15px; color:var(--ink-700);
-  border-radius:50%; cursor:pointer; user-select:none;
-  transition:background .15s, color .15s;
-}
-.cal-day:hover{background:rgba(210,10,17,.08);}
-.cal-day.muted{color:var(--ink-300); cursor:default;}
-.cal-day.muted:hover{background:none;}
-.cal-day.selected{position:relative; color:var(--pxs-red); font-weight:600;}
-.cal-day.selected::after{content:""; position:absolute; inset:3px; border:1.5px solid var(--pxs-red); border-radius:50%;}
-.btn-agendar{
-  width:100%; margin-top:28px;
-  border:none; border-radius:100px; cursor:pointer;
-  font-family:var(--font); font-weight:500; font-size:16px; color:#fff;
-  padding:14px; background:linear-gradient(90deg,#C24A6E 0%,#D20A11 100%);
-  transition:transform .2s, box-shadow .2s;
-}
-.btn-agendar:hover{transform:scale(1.02); box-shadow:0 8px 22px rgba(210,10,17,.28);}
-.btn-agendar:active{transform:scale(.98);}
-
-.bk-col.right{flex:1; min-width:0; display:flex; flex-direction:column; padding-top:50px;}
-.dur-toggle{display:inline-flex; border:1px solid var(--ink-300); border-radius:8px; overflow:hidden; margin-bottom:30px; align-self:flex-start;}
-.dur-toggle button{
-  font-family:var(--font); font-size:15px; color:var(--ink-500);
-  background:transparent; border:none; cursor:pointer; padding:9px 18px;
-  transition:background .2s,color .2s;
-}
-.dur-toggle button.active{background:#fff; color:var(--ink-700); font-weight:500; box-shadow:0 1px 3px rgba(0,0,23,.1);}
-.slots-wrap{position:relative; display:flex; gap:8px; flex:1;}
-.slots{display:flex; flex-direction:column; gap:10px; flex:1; max-height:314px; overflow-y:auto; padding-right:4px;}
-.slots::-webkit-scrollbar{width:7px;}
-.slots::-webkit-scrollbar-thumb{background:var(--ink-500); border-radius:50px;}
-.slot{
-  border:1px solid var(--ink-300); border-radius:8px; background:rgba(255,255,255,.5);
-  padding:11px; text-align:center; font-size:16px; color:var(--ink-700); cursor:pointer;
-  transition:border-color .15s, background .15s, color .15s;
-}
-.slot:hover{border-color:var(--pxs-red);}
-.slot.selected{border-color:var(--pxs-red); background:var(--pxs-red); color:#fff; font-weight:500;}
 
 /* ───────── HELP BANNER ───────── */
 .help-wrap{padding:60px 135px 0;}
